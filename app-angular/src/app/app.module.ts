@@ -21,7 +21,7 @@ import {APP_BASE_HREF} from '@angular/common';
         HttpModule,
         AppRoutingModule
     ],
-    providers: [MenuService, {provide: APP_BASE_HREF, useValue : '/adm' }],
+    providers: [MenuService, {provide: APP_BASE_HREF, useValue : '/' }],
     bootstrap: [AppMainComponent]
 })
 export class AppModule {

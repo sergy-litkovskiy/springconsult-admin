@@ -7,9 +7,9 @@ import {Component} from '@angular/core';
     // styleUrls: ['app.menu.css']
 })
 export class AppMainComponent {
-    loadedFeature = 'menu-list';
-
-    onNavigate(feature: string) {
-        this.loadedFeature = feature;
-    }
+    // loadedFeature = 'menu-list';
+    //
+    // onNavigate(feature: string) {
+    //     this.loadedFeature = feature;
+    // }
 }

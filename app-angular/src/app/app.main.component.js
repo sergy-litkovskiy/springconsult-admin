@@ -9,11 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppMainComponent = (function () {
     function AppMainComponent() {
-        this.loadedFeature = 'menu-list';
     }
-    AppMainComponent.prototype.onNavigate = function (feature) {
-        this.loadedFeature = feature;
-    };
     return AppMainComponent;
 }());
 AppMainComponent = __decorate([

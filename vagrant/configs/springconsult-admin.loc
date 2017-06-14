@@ -1,7 +1,7 @@
 <VirtualHost 192.168.50.77>
     DocumentRoot /var/www/springconsult-admin.loc
     ServerName springconsult-admin.loc
-    ErrorLog "/private/var/log/apache2/springconsult-admin.loc-error_log"
+    ErrorLog "/var/log/apache2/springconsult-admin.loc-error_log"
     DirectoryIndex index.php
 	<Directory "/var/www/springconsult-admin.loc">
         Options FollowSymLinks Multiviews Indexes

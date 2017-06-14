@@ -32,7 +32,7 @@ AppModule = __decorate([
             http_1.HttpModule,
             app_routing_module_1.AppRoutingModule
         ],
-        providers: [menu_service_1.MenuService, { provide: common_1.APP_BASE_HREF, useValue: '/adm' }],
+        providers: [menu_service_1.MenuService, { provide: common_1.APP_BASE_HREF, useValue: '/' }],
         bootstrap: [app_main_component_1.AppMainComponent]
     })
 ], AppModule);
