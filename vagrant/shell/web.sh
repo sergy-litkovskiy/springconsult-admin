@@ -1,14 +1,14 @@
 #!/bin/sh
 
-SOURCE_PATH=/var/www/springconsult.loc
+SOURCE_PATH=/var/www/springconsult_admin.loc
 
 apt-get -y update
 apt-get -y install git vim rsync curl
 
 echo "Installing Apache2..."
 apt-get install -y apache2
-cp ${SOURCE_PATH}/bin/vagrant/configs/springconsult.loc /etc/apache2/sites-available/springconsult.loc.conf
-ln -s /etc/apache2/sites-available/springconsult.loc.conf /etc/apache2/sites-enabled/
+cp ${SOURCE_PATH}/bin/vagrant/configs/springconsul_admint.loc /etc/apache2/sites-available/springconsult_admin.loc.conf
+ln -s /etc/apache2/sites-available/springconsult_admin.loc.conf /etc/apache2/sites-enabled/
 apt-get install -y apache2-mpm-itk
 service apache2 restart
 
