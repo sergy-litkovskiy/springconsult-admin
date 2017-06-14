@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -359,7 +359,7 @@ class CI_Input {
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
 	 * @return	void
 	 */
-	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
 	{
 		if (is_array($name))
 		{
@@ -388,15 +388,13 @@ class CI_Input {
 			$path = config_item('cookie_path');
 		}
 
-		if ($secure === FALSE && config_item('cookie_secure') === TRUE)
-		{
-			$secure = config_item('cookie_secure');
-		}
+		$secure = ($secure === NULL && config_item('cookie_secure') !== NULL)
+			? (bool) config_item('cookie_secure')
+			: (bool) $secure;
 
-		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
-		{
-			$httponly = config_item('cookie_httponly');
-		}
+		$httponly = ($httponly === NULL && config_item('cookie_httponly') !== NULL)
+			? (bool) config_item('cookie_httponly')
+			: (bool) $httponly;
 
 		if ( ! is_numeric($expire))
 		{
@@ -653,7 +651,7 @@ class CI_Input {
 		// Sanitize PHP_SELF
 		$_SERVER['PHP_SELF'] = strip_tags($_SERVER['PHP_SELF']);
 
-		log_message('info', 'Global POST, GET and COOKIE data sanitized');
+		log_message('debug', 'Global POST, GET and COOKIE data sanitized');
 	}
 
 	// --------------------------------------------------------------------
@@ -836,6 +834,21 @@ class CI_Input {
 	public function is_ajax_request()
 	{
 		return ( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Is CLI request?
+	 *
+	 * Test to see if a request was made from the command line.
+	 *
+	 * @deprecated	3.0.0	Use is_cli() instead
+	 * @return	bool
+	 */
+	public function is_cli_request()
+	{
+		return is_cli();
 	}
 
 	// --------------------------------------------------------------------

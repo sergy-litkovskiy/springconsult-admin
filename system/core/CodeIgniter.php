@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	const CI_VERSION = '3.2.0-dev';
+	const CI_VERSION = '3.1.4';
 
 /*
  * ------------------------------------------------------
@@ -67,7 +67,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		require_once(APPPATH.'config/'.ENVIRONMENT.'/constants.php');
 	}
 
-	require_once(APPPATH.'config/constants.php');
+	if (file_exists(APPPATH.'config/constants.php'))
+	{
+		require_once(APPPATH.'config/constants.php');
+	}
 
 /*
  * ------------------------------------------------------
@@ -145,7 +148,7 @@ if ( ! is_php('5.4'))
  * The subclass prefix allows CI to know if a core class is
  * being extended via a library in the local application
  * "libraries" folder. Since CI allows config items to be
- * overridden via data set in the menu index.php file,
+ * overridden via data set in the main index.php file,
  * before proceeding we need to know if a subclass_prefix
  * override exists. If so, we will set this value now,
  * before any classes are loaded
@@ -298,7 +301,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
-	$URI =& load_class('URI', 'core', $CFG);
+	$URI =& load_class('URI', 'core');
 
 /*
  * ------------------------------------------------------
