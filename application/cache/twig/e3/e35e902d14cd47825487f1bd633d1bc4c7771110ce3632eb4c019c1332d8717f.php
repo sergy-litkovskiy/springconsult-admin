@@ -1,6 +1,6 @@
 <?php
 
-/* /layout.html.twig */
+/* layout.html.twig */
 class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ada015c extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
@@ -126,7 +126,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                         <a href=\"";
         // line 51
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
-        echo "\" class=\"logo\"><b>Admin</b>SPRINGCONSULTING</a>
+        echo "\" class=\"logo\">SPRINGCONSULTING</a>
                         <nav class=\"navbar navbar-static-top\" role=\"navigation\">
                         </nav>
                     </header>
@@ -251,7 +251,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
 
     public function getTemplateName()
     {
-        return "/layout.html.twig";
+        return "layout.html.twig";
     }
 
     public function getDebugInfo()
@@ -319,7 +319,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                 {% block header %}
                     <header class=\"main-header\">
                         <!-- Logo -->
-                        <a href=\"{{ getCurrentDomain() }}\" class=\"logo\"><b>Admin</b>SPRINGCONSULTING</a>
+                        <a href=\"{{ getCurrentDomain() }}\" class=\"logo\">SPRINGCONSULTING</a>
                         <nav class=\"navbar navbar-static-top\" role=\"navigation\">
                         </nav>
                     </header>
@@ -382,6 +382,6 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
         </body>
 </html>
 
-", "/layout.html.twig", "/var/www/springconsult-admin.loc/application/views/layout.html.twig");
+", "layout.html.twig", "/var/www/springconsult-admin.loc/application/views/layout.html.twig");
     }
 }

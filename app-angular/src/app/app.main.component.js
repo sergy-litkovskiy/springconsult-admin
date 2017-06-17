@@ -9,15 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppMainComponent = (function () {
     function AppMainComponent() {
+        this.loadedFeature = 'menu-list';
     }
+    AppMainComponent.prototype.onNavigate = function (feature) {
+        this.loadedFeature = feature;
+    };
     return AppMainComponent;
 }());
 AppMainComponent = __decorate([
     core_1.Component({
         selector: 'adm-panel',
-        templateUrl: '/app-angular/src/app/app.main.component.html'
-        // ,
-        // styleUrls: ['app.menu.css']
+        // templateUrl: './app.main.component.html'
+        template: "\n        <aside class=\"main-sidebar\">\n            <section class=\"sidebar\">\n                <ul class=\"sidebar-menu\">\n                    <li>\n                        <a routerLink=\"/menu-list\" routerLinkActive=\"active\">\n                            <span>Site menu</span>\n                        </a>\n                    </li>\n                    <li>\n                        <a routerLink=\"/articles\">\n                            <span>Articles</span>\n                        </a>\n                    </li>\n                </ul>\n            </section>\n        </aside>\n        <div class=\"content-wrapper\">\n            <section class=\"content\">\n                <div class=\"row\">\n                    <router-outlet></router-outlet>\n                </div>\n            </section>\n        </div>\n    "
     })
 ], AppMainComponent);
 exports.AppMainComponent = AppMainComponent;

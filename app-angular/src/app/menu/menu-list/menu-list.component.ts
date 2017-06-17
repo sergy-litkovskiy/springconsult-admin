@@ -5,12 +5,31 @@ import {MenuService} from "../menu.service";
 
 @Component({
     selector: 'menu-list',
-    templateUrl: '/app-angular/src/app/menu/menu-list.component.html'
-    // styleUrls: ['app.menu.css']
+    // templateUrl: './menu-list.component.html',
+    template: `
+        <div>
+            <ngx-datatable
+                    [rows]="rows"
+                    [columns]="columns">
+            </ngx-datatable>
+        </div>
+    `,
+    styleUrls: ['/app-angular/src/style.css'],
+    providers: [MenuService]
 })
 
 export class AppMenuComponent implements OnInit {
     menuItemList: MenuItem[];
+    rows = [
+        { name: 'Austin', gender: 'Male', company: 'Swimlane' },
+        { name: 'Dany', gender: 'Male', company: 'KFC' },
+        { name: 'Molly', gender: 'Female', company: 'Burger King' },
+    ];
+    columns = [
+        { prop: 'name' },
+        { name: 'Gender' },
+        { name: 'Company' }
+    ];
 
     constructor(
         private menuService: MenuService,

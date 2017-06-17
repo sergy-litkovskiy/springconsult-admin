@@ -17,6 +17,16 @@ var AppMenuComponent = (function () {
         this.menuService = menuService;
         this.router = router;
         this.route = route;
+        this.rows = [
+            { name: 'Austin', gender: 'Male', company: 'Swimlane' },
+            { name: 'Dany', gender: 'Male', company: 'KFC' },
+            { name: 'Molly', gender: 'Female', company: 'Burger King' },
+        ];
+        this.columns = [
+            { prop: 'name' },
+            { name: 'Gender' },
+            { name: 'Company' }
+        ];
     }
     AppMenuComponent.prototype.ngOnInit = function () {
         this.menuItemList = this.menuService.getMenuItemList();
@@ -29,8 +39,10 @@ var AppMenuComponent = (function () {
 AppMenuComponent = __decorate([
     core_1.Component({
         selector: 'menu-list',
-        templateUrl: '/app-angular/src/app/menu/menu-list.component.html'
-        // styleUrls: ['app.menu.css']
+        // templateUrl: './menu-list.component.html',
+        template: "\n        <div>\n            <ngx-datatable\n                    [rows]=\"rows\"\n                    [columns]=\"columns\">\n            </ngx-datatable>\n        </div>\n    ",
+        styleUrls: ['/app-angular/src/style.css'],
+        providers: [menu_service_1.MenuService]
     }),
     __metadata("design:paramtypes", [menu_service_1.MenuService,
         router_1.Router,
