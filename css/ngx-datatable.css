@@ -1,0 +1,4 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../app-angular/node_modules/@swimlane/ngx-datatable/release/index.css';
+@import '../app-angular/node_modules/@swimlane/ngx-datatable/release/themes/material.css';
+@import '../app-angular/node_modules/@swimlane/ngx-datatable/release/assets/icons.css';

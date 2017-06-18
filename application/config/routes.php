@@ -53,5 +53,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'index';
 $route['404_override']       = 'errorController/index';
 
-//$route['adm'] = "app-angular/index";
+$route['menu-list'] = "index";
 

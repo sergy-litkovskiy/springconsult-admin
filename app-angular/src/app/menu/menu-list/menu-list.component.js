@@ -40,8 +40,7 @@ AppMenuComponent = __decorate([
     core_1.Component({
         selector: 'menu-list',
         // templateUrl: './menu-list.component.html',
-        template: "\n        <div>\n            <ngx-datatable\n                    [rows]=\"rows\"\n                    [columns]=\"columns\">\n            </ngx-datatable>\n        </div>\n    ",
-        styleUrls: ['/app-angular/src/style.css'],
+        template: "\n        <div>\n            <ngx-datatable\n                class=\"material ngx-datatable fixed-header fixed-row scroll-vertical scroll-horz\"\n                [rows]=\"rows\"\n                [columns]=\"columns\"\n                [columnMode]=\"'force'\"\n                [headerHeight]=\"50\"\n                [footerHeight]=\"50\"\n                [rowHeight]=\"'auto'\"\n                [sortType]=\"'multi'\"\n                [limit]=\"10\">\n            </ngx-datatable>\n        </div>\n    ",
         providers: [menu_service_1.MenuService]
     }),
     __metadata("design:paramtypes", [menu_service_1.MenuService,

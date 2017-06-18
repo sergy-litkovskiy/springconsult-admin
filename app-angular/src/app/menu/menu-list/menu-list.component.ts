@@ -9,12 +9,18 @@ import {MenuService} from "../menu.service";
     template: `
         <div>
             <ngx-datatable
-                    [rows]="rows"
-                    [columns]="columns">
+                class="material ngx-datatable fixed-header fixed-row scroll-vertical scroll-horz"
+                [rows]="rows"
+                [columns]="columns"
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                [rowHeight]="'auto'"
+                [sortType]="'multi'"
+                [limit]="10">
             </ngx-datatable>
         </div>
     `,
-    styleUrls: ['/app-angular/src/style.css'],
     providers: [MenuService]
 })
 
