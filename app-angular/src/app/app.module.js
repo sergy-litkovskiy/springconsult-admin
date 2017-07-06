@@ -15,6 +15,7 @@ var app_routing_module_1 = require("./app.routing.module");
 var app_main_component_1 = require("./app.main.component");
 var menu_list_component_1 = require("./menu/menu-list/menu-list.component");
 var menu_service_1 = require("./menu/menu.service");
+var article_list_component_1 = require("./blog/article-list/article-list.component");
 var common_1 = require("@angular/common");
 var AppModule = (function () {
     function AppModule() {
@@ -25,7 +26,8 @@ AppModule = __decorate([
     core_1.NgModule({
         declarations: [
             app_main_component_1.AppMainComponent,
-            menu_list_component_1.AppMenuComponent
+            menu_list_component_1.AppMenuComponent,
+            article_list_component_1.AppArticleComponent
         ],
         imports: [
             platform_browser_1.BrowserModule,

@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
                         </a>
                     </li>
                     <li>
-                        <a routerLink="/articles">
+                        <a routerLink="/article-list">
                             <span>Articles</span>
                         </a>
                     </li>

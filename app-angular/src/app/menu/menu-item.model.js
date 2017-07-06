@@ -9,4 +9,4 @@ var MenuItem = (function () {
     return MenuItem;
 }());
 exports.MenuItem = MenuItem;
-//# sourceMappingURL=menu-item.model.js.map
+//# sourceMappingURL=article-item.model.js.map

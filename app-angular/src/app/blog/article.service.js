@@ -10,26 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var menu_item_model_1 = require("./menu-item.model");
-var MenuService = (function () {
-    function MenuService() {
-        this.menuItemSelected = new core_1.EventEmitter();
-        this.menuItemList = [
-            new menu_item_model_1.MenuItem('Tasty Schnitzel', 'A super-tasty Schnitzel - just awesome!', 'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG'),
-            new menu_item_model_1.MenuItem('Big Fat Burger', 'What else you need to say?', 'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg')
+var article_item_model_1 = require("./article-item.model");
+var ArticleService = (function () {
+    function ArticleService() {
+        this.articleItemSelected = new core_1.EventEmitter();
+        this.articleItemList = [
+            new article_item_model_1.ArticleItem(1, 'Article1', 'Some metadescription for article1', 'Some metakeywords for article1', true, ['Blog']),
+            new article_item_model_1.ArticleItem(2, 'Article2', 'Some metadescription for article2', 'Some metakeywords for article2', false, ['Blog', 'Books', 'Job searching'])
         ];
     }
-    MenuService.prototype.getMenuItemList = function () {
-        return this.menuItemList.slice();
+    ArticleService.prototype.getArticleItemList = function () {
+        return this.articleItemList.slice();
     };
-    MenuService.prototype.getMenuItem = function (index) {
-        return this.menuItemList[index];
+    ArticleService.prototype.getArticleItem = function (index) {
+        return this.articleItemList[index];
     };
-    return MenuService;
+    return ArticleService;
 }());
-MenuService = __decorate([
+ArticleService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [])
-], MenuService);
-exports.MenuService = MenuService;
+], ArticleService);
+exports.ArticleService = ArticleService;
 //# sourceMappingURL=article.service.js.map

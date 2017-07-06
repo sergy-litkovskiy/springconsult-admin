@@ -8,13 +8,15 @@ import {AppRoutingModule} from './app.routing.module';
 import {AppMainComponent} from './app.main.component';
 import {AppMenuComponent} from './menu/menu-list/menu-list.component';
 import {MenuService} from './menu/menu.service';
+import {AppArticleComponent} from "./blog/article-list/article-list.component";
 
 import {APP_BASE_HREF} from '@angular/common';
 
 @NgModule({
     declarations: [
         AppMainComponent,
-        AppMenuComponent
+        AppMenuComponent,
+        AppArticleComponent
     ],
     imports: [
         BrowserModule,
