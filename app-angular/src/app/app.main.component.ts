@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 
 @Component({
     selector: 'adm-panel',
-    // templateUrl: './app.main.component.html'
     template: `
         <aside class="main-sidebar">
             <section class="sidebar">

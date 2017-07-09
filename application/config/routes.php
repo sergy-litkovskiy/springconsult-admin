@@ -54,4 +54,5 @@ $route['default_controller'] = 'index';
 $route['404_override']       = 'errorController/index';
 
 $route['menu-list'] = "index";
+$route['article-list'] = "blog/getList";
 

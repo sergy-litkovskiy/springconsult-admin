@@ -32,4 +32,4 @@ MenuService = __decorate([
     __metadata("design:paramtypes", [])
 ], MenuService);
 exports.MenuService = MenuService;
-//# sourceMappingURL=article.service.js.map
+//# sourceMappingURL=menu.service.js.map

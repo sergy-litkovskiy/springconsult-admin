@@ -17,9 +17,12 @@ var AppArticleComponent = (function () {
         this.articleService = articleService;
         this.router = router;
         this.route = route;
+        this.articleItemList = [];
     }
     AppArticleComponent.prototype.ngOnInit = function () {
-        this.articleItemList = this.articleService.getArticleItemList();
+        var _this = this;
+        this.articleService.getArticleItemList()
+            .subscribe(function (articleList) { return _this.articleItemList = articleList; }, function (error) { return console.log(error); });
         this.actionButtonClassName = "btn btn-";
     };
     AppArticleComponent.prototype.onNewMenuItem = function () {
@@ -43,6 +46,9 @@ var AppArticleComponent = (function () {
     AppArticleComponent.prototype.onDeleteClick = function (row) {
         console.log("onDeleteClick", row);
         //todo: delete item by service
+    };
+    AppArticleComponent.prototype.ngOnDestroy = function () {
+        // this.articleItemList.unsubscribe();
     };
     return AppArticleComponent;
 }());

@@ -66,18 +66,21 @@ import {ArticleService} from "../article.service";
 })
 
 export class AppArticleComponent implements OnInit {
-    articleItemList: ArticleItem[];
+    articleItemList: ArticleItem[] = [];
     actionButtonClassName: string;
 
-    constructor(
-        private articleService: ArticleService,
-        private router: Router,
-        private route: ActivatedRoute
-    ) {
+    constructor(private articleService: ArticleService,
+                private router: Router,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.articleItemList = this.articleService.getArticleItemList();
+        this.articleService.getArticleItemList()
+            .subscribe(
+                (articleList: ArticleItem[]) => this.articleItemList = articleList,
+                (error) => console.log(error)
+            );
+
         this.actionButtonClassName = "btn btn-";
     }
 
@@ -107,5 +110,9 @@ console.log("onEditClick", row);
     onDeleteClick(row: any): void {
 console.log("onDeleteClick", row);
 //todo: delete item by service
+    }
+
+    ngOnDestroy() {
+        // this.articleItemList.unsubscribe();
     }
 }

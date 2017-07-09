@@ -20,12 +20,6 @@ class Crud extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function addInTable($data, $table)
-    {
-        $this->db->insert($table, $data);
-        return $this->db->insert_id();
-    }
-
     public function update($id, $data)
     {
         $this->db->where($this->idkey, $id);
@@ -56,15 +50,6 @@ class Crud extends CI_Model
         return true;
     }
 
-    public function delFromTable($id, $table)
-    {
-        $this->db->where($this->idkey, $id);
-        if (!$this->db->delete($table)) {
-            return false;
-        }
-        return true;
-    }
-
     public function deleteByParams($params)
     {
         $this->db->where($params);
@@ -82,20 +67,6 @@ class Crud extends CI_Model
         $query = $this->db->get($this->table, $limit, $offset);
 
         return $query->result_array();
-    }
-
-    public function getFromTableByParams($params, $table)
-    {
-        $this->table = $table;
-
-        return $this->getListByParams($params);
-    }
-
-    public function getListFromTable($table)
-    {
-        $this->table = $table;
-
-        return $this->getList();
     }
 
     public function getOneByParams($params)
@@ -154,29 +125,29 @@ class Crud extends CI_Model
         return $query->num_rows();
     }
 
-    public function getArrWhere($table, $params, $limit, $orderBy = false)
-    {
-        $orderBy  = $orderBy ? " ORDER BY " . $orderBy : false;
-        $sqlLimit = $limit ? " LIMIT " . $limit : false;
-        $sqlWhere = count($params) ? $this->_makeSqlWhereFromParams($params) : null;
+//    public function getArrWhere($table, $params, $limit, $orderBy = false)
+//    {
+//        $orderBy  = $orderBy ? " ORDER BY " . $orderBy : false;
+//        $sqlLimit = $limit ? " LIMIT " . $limit : false;
+//        $sqlWhere = count($params) ? $this->_makeSqlWhereFromParams($params) : null;
+//
+//        $query = $this->db->query("SELECT * FROM " . $table . $sqlWhere . $orderBy . $sqlLimit);
+//        return $query->result_array();
+//    }
 
-        $query = $this->db->query("SELECT * FROM " . $table . $sqlWhere . $orderBy . $sqlLimit);
-        return $query->result_array();
-    }
 
-
-    private function _makeSqlWhereFromParams(array $params)
-    {
-        $sqlWhere    = " WHERE";
-        $paramsCount = count($params);
-        $count       = 1;
-
-        foreach ($params as $col => $val) {
-            $sqlAnd = ($count < $paramsCount) ? "AND" : null;
-            $sqlWhere .= " " . $col . " = '" . $val . "' " . $sqlAnd;
-            $count++;
-        }
-
-        return $sqlWhere;
-    }
+//    private function _makeSqlWhereFromParams(array $params)
+//    {
+//        $sqlWhere    = " WHERE";
+//        $paramsCount = count($params);
+//        $count       = 1;
+//
+//        foreach ($params as $col => $val) {
+//            $sqlAnd = ($count < $paramsCount) ? "AND" : null;
+//            $sqlWhere .= " " . $col . " = '" . $val . "' " . $sqlAnd;
+//            $count++;
+//        }
+//
+//        return $sqlWhere;
+//    }
 }

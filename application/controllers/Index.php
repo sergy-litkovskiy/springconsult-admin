@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Index extends CI_Controller
+class Index extends MY_Controller
 {
     /** @var  Index_model */
     public $index_model;

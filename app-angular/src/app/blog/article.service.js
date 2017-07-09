@@ -10,26 +10,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var Observable_1 = require("rxjs/Observable");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/catch");
 var article_item_model_1 = require("./article-item.model");
 var ArticleService = (function () {
-    function ArticleService() {
+    function ArticleService(http) {
+        this.http = http;
+        this.articleListUrl = '/article-list'; // URL to web API
+        this.articleUpdateUrl = '/article-update'; // URL to web API
         this.articleItemSelected = new core_1.EventEmitter();
-        this.articleItemList = [
-            new article_item_model_1.ArticleItem(1, 'Article1', 'Some metadescription for article1', 'Some metakeywords for article1', true, ['Blog']),
-            new article_item_model_1.ArticleItem(2, 'Article2', 'Some metadescription for article2', 'Some metakeywords for article2', false, ['Blog', 'Books', 'Job searching'])
-        ];
+        this.articleItemList = [];
     }
     ArticleService.prototype.getArticleItemList = function () {
-        return this.articleItemList.slice();
+        var _this = this;
+        return this.http.get(this.articleListUrl)
+            .map(function (response) {
+            var articleDataList = response.json();
+            for (var _i = 0, articleDataList_1 = articleDataList; _i < articleDataList_1.length; _i++) {
+                var articleData = articleDataList_1[_i];
+                var articleItem = new article_item_model_1.ArticleItem(articleData);
+                _this.articleItemList.push(articleItem);
+            }
+            return _this.articleItemList;
+        })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.toString());
+        });
     };
     ArticleService.prototype.getArticleItem = function (index) {
         return this.articleItemList[index];
+    };
+    ArticleService.prototype.updateArticle = function (articleItem) {
+        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        return this.http.put(this.articleUpdateUrl, articleItem, { headers: headers });
     };
     return ArticleService;
 }());
 ArticleService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [http_1.Http])
 ], ArticleService);
 exports.ArticleService = ArticleService;
 //# sourceMappingURL=article.service.js.map
