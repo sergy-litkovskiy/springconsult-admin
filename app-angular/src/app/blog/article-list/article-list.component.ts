@@ -8,16 +8,16 @@ import {ArticleService} from "../article.service";
     template: `
         <div>
             <ngx-datatable
-                    class="material ngx-datatable fixed-header fixed-row scroll-vertical scroll-horz"
+                    class="material ngx-datatable fixed-header fixed-row"
                     [rows]="articleItemList"
                     [columnMode]="'force'"
-                    [headerHeight]="50"
-                    [footerHeight]="50"
+                    [headerHeight]="30"
+                    [footerHeight]="30"
                     [rowHeight]="'auto'"
                     [sortType]="'multi'"
                     [limit]="10"
             >
-                <ngx-datatable-column name="ID" [width]="50">
+                <ngx-datatable-column name="ID" [width]="10">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         {{row.id}}
                     </ng-template>
@@ -34,7 +34,7 @@ import {ArticleService} from "../article.service";
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Meta Description">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{row.metaDescription}}
+                        {{row.metaDescription | slice:0:70}}...
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Actions">
