@@ -1,13 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
+import {DatatableComponent} from "@swimlane/ngx-datatable";
 
 @Component({
     selector: 'menu-list',
     template: `
         <div>
+            <div class="input-group">
+                <input name="q" class="form-control" placeholder="Search..." type="text"
+                       (keyup)='searchArticle($event)'>
+            </div>
             <ngx-datatable
+                    #articleListTable
                     class="material ngx-datatable fixed-header fixed-row"
                     [rows]="articleItemList"
                     [columnMode]="'force'"
@@ -68,6 +74,9 @@ import {ArticleService} from "../article.service";
 export class AppArticleComponent implements OnInit {
     articleItemList: ArticleItem[] = [];
     actionButtonClassName: string;
+    tempArticleList: ArticleItem[] = [];
+
+    @ViewChild(DatatableComponent) articleListTable: DatatableComponent;
 
     constructor(private articleService: ArticleService,
                 private router: Router,
@@ -77,7 +86,10 @@ export class AppArticleComponent implements OnInit {
     ngOnInit() {
         this.articleService.getArticleItemList()
             .subscribe(
-                (articleList: ArticleItem[]) => this.articleItemList = articleList,
+                (articleList: ArticleItem[]) => {
+                    this.articleItemList = articleList;
+                    this.tempArticleList = [...articleList];
+                },
                 (error) => console.log(error)
             );
 
@@ -110,6 +122,18 @@ console.log("onEditClick", row);
     onDeleteClick(row: any): void {
 console.log("onDeleteClick", row);
 //todo: delete item by service
+    }
+
+    searchArticle(event: any) {
+        const val = event.target.value.toLowerCase();
+
+        // filter our data
+        this.articleItemList = this.tempArticleList.filter(function (articleItem) {
+            return articleItem.title.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+
+        // Whenever the filter changes, always go back to the first page
+        this.articleListTable.offset = 0;
     }
 
     ngOnDestroy() {

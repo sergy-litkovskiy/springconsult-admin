@@ -11,7 +11,7 @@ class Blog extends MY_Controller
 
     public function getList()
     {
-        $articleList = $this->blog_model->getList();
+        $articleList = $this->blog_model->getListByParams([], ['orderDirection' => 'DESC']);
 
         $articleList = $this->extendWithAssignedMenu($articleList);
 
