@@ -14,12 +14,13 @@ var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
+require("rxjs/add/observable/throw");
 var article_item_model_1 = require("./article-item.model");
 var ArticleService = (function () {
     function ArticleService(http) {
         this.http = http;
-        this.articleListUrl = '/article-list'; // URL to web API
-        this.articleUpdateUrl = '/article-update'; // URL to web API
+        this.articleListUrl = '/article/list'; // URL to web API
+        this.articleUpdateUrl = '/article/update'; // URL to web API
         this.articleItemSelected = new core_1.EventEmitter();
         this.articleItemList = [];
     }
@@ -44,7 +45,14 @@ var ArticleService = (function () {
     };
     ArticleService.prototype.updateArticle = function (articleItem) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        return this.http.put(this.articleUpdateUrl, articleItem, { headers: headers });
+        return this.http
+            .put(this.articleUpdateUrl, articleItem, { headers: headers })
+            .map(function (response) {
+            return response.json();
+        })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.statusText);
+        });
     };
     return ArticleService;
 }());

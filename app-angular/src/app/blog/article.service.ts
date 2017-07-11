@@ -1,15 +1,16 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
+import {Http, Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import 'rxjs/add/observable/throw';
 
 import {ArticleItem} from "./article-item.model";
 
 @Injectable()
 export class ArticleService {
-    private articleListUrl = '/article-list';  // URL to web API
-    private articleUpdateUrl = '/article-update';  // URL to web API
+    private articleListUrl = '/article/list';  // URL to web API
+    private articleUpdateUrl = '/article/update';  // URL to web API
 
     articleItemSelected = new EventEmitter<ArticleItem>();
 
@@ -45,8 +46,17 @@ export class ArticleService {
     updateArticle(articleItem: ArticleItem) {
         const headers = new Headers({'Content-Type': 'application/json'});
 
-        return this.http.put(this.articleUpdateUrl,
-            articleItem,
-            {headers: headers});
+        return this.http
+            .put(this.articleUpdateUrl, articleItem, {headers: headers})
+            .map(
+                (response: Response) => {
+                    return response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw(error.statusText);
+                }
+            );
     }
 }

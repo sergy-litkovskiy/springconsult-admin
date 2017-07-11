@@ -9,16 +9,15 @@ import {DatatableComponent} from "@swimlane/ngx-datatable";
     template: `
         <div>
             <div class="input-group">
-                <input name="q" class="form-control" placeholder="Search..." type="text"
-                       (keyup)='searchArticle($event)'>
+                <input class="form-control" placeholder="Search..." type="text" (keyup)='searchArticle($event)'>
             </div>
             <ngx-datatable
                     #articleListTable
                     class="material ngx-datatable fixed-header fixed-row"
                     [rows]="articleItemList"
                     [columnMode]="'force'"
-                    [headerHeight]="30"
-                    [footerHeight]="30"
+                    [headerHeight]="40"
+                    [footerHeight]="40"
                     [rowHeight]="'auto'"
                     [sortType]="'multi'"
                     [limit]="10"
@@ -112,7 +111,16 @@ export class AppArticleComponent implements OnInit {
 
     onStatusChangeClick(row: any): void {
         row.status = !row.status;
-        //todo: change status by service
+
+        this.articleService.updateArticle(row)
+            .subscribe(
+                (response: any) => console.log('response', response),
+                (error) => {
+console.log('onStatusChangeClick error', error);
+//todo: show error message
+                    row.status = !row.status;
+                }
+            );
     }
 
     onEditClick(row: any): void {

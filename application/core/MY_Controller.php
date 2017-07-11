@@ -51,9 +51,12 @@ abstract class MY_Controller extends CI_Controller
     protected $baseResult = [];
 
     protected $entityName;
+    protected $contentTypeJson;
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->contentTypeJson = 'application/json';
     }
 }
