@@ -94,15 +94,17 @@ export class AppArticleComponent implements OnInit {
                     this.articleItemList = articleList;
                     this.tempArticleList = [...articleList];
                 },
-                (error) => console.log(error)
+                (error) => {
+                    showErrorPopup(error);
+                }
             );
 
         this.actionButtonClassName = "btn btn-";
     }
 
-    onNewMenuItem() {
-        this.router.navigate(['menu-new'], {relativeTo: this.route});
-    }
+    // onNewMenuItem() {
+    //     this.router.navigate(['menu-new'], {relativeTo: this.route});
+    // }
 
     getButtonClassForStatusOn(row: any): string {
         let currentStatus = row.status ? "success disabled" : "default";
@@ -119,18 +121,9 @@ export class AppArticleComponent implements OnInit {
 
         this.articleService.updateArticle(row)
             .subscribe(
-                (response: any) => console.log('onStatusChangeClick - response', response),
+                (response: any) => console.log('response', response),
                 (error) => {
-                    this.popup.open(NguiMessagePopupComponent, {
-                        classNames: 'small',
-                        title: 'ERROR',
-                        message: error,
-                        buttons: {
-                            CLOSE: () => {
-                                this.popup.close();
-                            }
-                        }
-                    });
+                    showErrorPopup(error);
 
                     row.status = !row.status;
                 }
@@ -156,16 +149,7 @@ export class AppArticleComponent implements OnInit {
                                 this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
                             },
                             (error) => {
-                                this.popup.open(NguiMessagePopupComponent, {
-                                    classNames: 'small',
-                                    title: 'ERROR',
-                                    message: error,
-                                    buttons: {
-                                        CLOSE: () => {
-                                            this.popup.close();
-                                        }
-                                    }
-                                });
+                                showErrorPopup(error);
                             }
                         );
                 },
@@ -188,5 +172,18 @@ export class AppArticleComponent implements OnInit {
 
     ngOnDestroy() {
         // this.articleItemList.unsubscribe();
+    }
+
+    showErrorPopup(error: string) {
+        this.popup.open(NguiMessagePopupComponent, {
+            classNames: 'small',
+            title: 'ERROR',
+            message: error,
+            buttons: {
+                CLOSE: () => {
+                    this.popup.close();
+                }
+            }
+        });
     }
 }

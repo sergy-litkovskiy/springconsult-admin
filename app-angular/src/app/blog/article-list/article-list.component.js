@@ -28,12 +28,14 @@ var AppArticleComponent = (function () {
             .subscribe(function (articleList) {
             _this.articleItemList = articleList;
             _this.tempArticleList = articleList.slice();
-        }, function (error) { return console.log(error); });
+        }, function (error) {
+            showErrorPopup(error);
+        });
         this.actionButtonClassName = "btn btn-";
     };
-    AppArticleComponent.prototype.onNewMenuItem = function () {
-        this.router.navigate(['menu-new'], { relativeTo: this.route });
-    };
+    // onNewMenuItem() {
+    //     this.router.navigate(['menu-new'], {relativeTo: this.route});
+    // }
     AppArticleComponent.prototype.getButtonClassForStatusOn = function (row) {
         var currentStatus = row.status ? "success disabled" : "default";
         return this.actionButtonClassName + currentStatus;
@@ -43,20 +45,10 @@ var AppArticleComponent = (function () {
         return this.actionButtonClassName + currentStatus;
     };
     AppArticleComponent.prototype.onStatusChangeClick = function (row) {
-        var _this = this;
         row.status = !row.status;
         this.articleService.updateArticle(row)
-            .subscribe(function (response) { return console.log('onStatusChangeClick - response', response); }, function (error) {
-            _this.popup.open(popup_1.NguiMessagePopupComponent, {
-                classNames: 'small',
-                title: 'ERROR',
-                message: error,
-                buttons: {
-                    CLOSE: function () {
-                        _this.popup.close();
-                    }
-                }
-            });
+            .subscribe(function (response) { return console.log('response', response); }, function (error) {
+            showErrorPopup(error);
             row.status = !row.status;
         });
     };
@@ -76,16 +68,7 @@ var AppArticleComponent = (function () {
                         .subscribe(function (response) {
                         _this.articleItemList = _this.articleItemList.filter(function (obj) { return obj !== articleItem; });
                     }, function (error) {
-                        _this.popup.open(popup_1.NguiMessagePopupComponent, {
-                            classNames: 'small',
-                            title: 'ERROR',
-                            message: error,
-                            buttons: {
-                                CLOSE: function () {
-                                    _this.popup.close();
-                                }
-                            }
-                        });
+                        showErrorPopup(error);
                     });
                 },
                 CANCEL: function () { return _this.popup.close(); }
@@ -103,6 +86,19 @@ var AppArticleComponent = (function () {
     };
     AppArticleComponent.prototype.ngOnDestroy = function () {
         // this.articleItemList.unsubscribe();
+    };
+    AppArticleComponent.prototype.showErrorPopup = function (error) {
+        var _this = this;
+        this.popup.open(popup_1.NguiMessagePopupComponent, {
+            classNames: 'small',
+            title: 'ERROR',
+            message: error,
+            buttons: {
+                CLOSE: function () {
+                    _this.popup.close();
+                }
+            }
+        });
     };
     return AppArticleComponent;
 }());
