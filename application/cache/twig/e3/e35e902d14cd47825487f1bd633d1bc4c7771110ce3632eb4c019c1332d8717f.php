@@ -31,24 +31,24 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
             ";
         // line 9
         $this->displayBlock('head', $context, $blocks);
-        // line 46
+        // line 49
         echo "        </head>
         <body class=\"skin-green\">
             <div class=\"wrapper\">
                 ";
-        // line 49
+        // line 52
         $this->displayBlock('header', $context, $blocks);
-        // line 57
+        // line 60
         echo "
                 ";
-        // line 58
-        $this->displayBlock('content', $context, $blocks);
         // line 61
+        $this->displayBlock('content', $context, $blocks);
+        // line 64
         echo "
                 ";
-        // line 62
+        // line 65
         $this->displayBlock('footer', $context, $blocks);
-        // line 113
+        // line 116
         echo "            </div>
         </body>
 </html>
@@ -107,6 +107,15 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "css/skins/skin-green.min.css\" rel=\"stylesheet\" type=\"text/css\" />
 
+                <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+        // line 36
+        echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
+        echo "app-angular/node_modules/primeng/resources/themes/omega/theme.css\" />
+                <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+        // line 37
+        echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
+        echo "app-angular/node_modules/primeng/resources/primeng.min.css\" />
+
                 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
                 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
                 <!--[if lt IE 9]>
@@ -115,20 +124,20 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                 <![endif]-->
 
                 ";
-        // line 44
+        // line 47
         echo "                ";
-        // line 45
+        // line 48
         echo "            ";
     }
 
-    // line 49
+    // line 52
     public function block_header($context, array $blocks = array())
     {
-        // line 50
+        // line 53
         echo "                    <header class=\"main-header\">
                         <!-- Logo -->
                         <a href=\"";
-        // line 52
+        // line 55
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "\" class=\"logo\">SPRINGCONSULTING</a>
                         <nav class=\"navbar navbar-static-top\" role=\"navigation\">
@@ -137,111 +146,111 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                 ";
     }
 
-    // line 58
+    // line 61
     public function block_content($context, array $blocks = array())
     {
-        // line 59
+        // line 62
         echo "                    <adm-panel></adm-panel>
                 ";
     }
 
-    // line 62
+    // line 65
     public function block_footer($context, array $blocks = array())
     {
-        // line 63
+        // line 66
         echo "                    <div class=\"main-footer\">
                         <strong>Copyright © 2010-2017 <a href=\"http://springconsult.com.ua\">Springconsult</a></strong>
                     </div>
                     <!-- jQuery 2.1.3 -->
                     <script src=\"";
-        // line 67
+        // line 70
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/jQuery/jQuery-2.1.3.min.js\"></script>
                     <!-- Bootstrap 3.3.2 JS -->
                     <script src=\"";
-        // line 69
+        // line 72
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/bootstrap/bootstrap.min.js\" type=\"text/javascript\"></script>
                     <!-- FastClick -->
                     <script src='";
-        // line 71
+        // line 74
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/fastclick/fastclick.min.js'></script>
                     <!-- AdminLTE App -->
                     <script src=\"";
-        // line 73
+        // line 76
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "/js/admin/app.js\" type=\"text/javascript\"></script>
                     <!-- Sparkline -->
                     <script src=\"";
-        // line 75
+        // line 78
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/sparkline/jquery.sparkline.min.js\" type=\"text/javascript\"></script>
                     <!-- jvectormap -->
                     <script src=\"";
-        // line 77
+        // line 80
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js\" type=\"text/javascript\"></script>
                     <script src=\"";
-        // line 78
+        // line 81
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js\" type=\"text/javascript\"></script>
                     <!-- daterangepicker -->
                     <script src=\"";
-        // line 80
+        // line 83
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/daterangepicker/daterangepicker.js\" type=\"text/javascript\"></script>
                     <!-- datepicker -->
                     <script src=\"";
-        // line 82
+        // line 85
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/datepicker/bootstrap-datepicker.js\" type=\"text/javascript\"></script>
                     <!-- iCheck -->
                     <script src=\"";
-        // line 84
+        // line 87
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/iCheck/icheck.min.js\" type=\"text/javascript\"></script>
                     <!-- SlimScroll 1.3.0 -->
                     <script src=\"";
-        // line 86
+        // line 89
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/slimScroll/jquery.slimscroll.min.js\" type=\"text/javascript\"></script>
                     <!-- ChartJS 1.0.1 -->
                     <script src=\"";
-        // line 88
+        // line 91
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     ";
-        // line 92
+        // line 95
         echo "
                     ";
-        // line 94
+        // line 97
         echo "                    ";
-        // line 95
+        // line 98
         echo "
                     <!-- Polyfills -->
                     <script src=\"";
-        // line 97
+        // line 100
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/core-js/client/shim.js\"></script>
 
                     <script src=\"";
-        // line 99
+        // line 102
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/zone.js/dist/zone.min.js\"></script>
                     <script src=\"";
-        // line 100
+        // line 103
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/reflect-metadata/Reflect.js\"></script>
 
                     <script src=\"";
-        // line 102
+        // line 105
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/systemjs/dist/system.js\"></script>
                     <script src=\"";
-        // line 103
+        // line 106
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/src/systemjs.config.js\"></script>
 
@@ -262,7 +271,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
 
     public function getDebugInfo()
     {
-        return array (  245 => 103,  241 => 102,  236 => 100,  232 => 99,  227 => 97,  223 => 95,  221 => 94,  218 => 92,  212 => 88,  207 => 86,  202 => 84,  197 => 82,  192 => 80,  187 => 78,  183 => 77,  178 => 75,  173 => 73,  168 => 71,  163 => 69,  158 => 67,  152 => 63,  149 => 62,  144 => 59,  141 => 58,  132 => 52,  128 => 50,  125 => 49,  121 => 45,  119 => 44,  107 => 34,  101 => 31,  96 => 30,  91 => 27,  86 => 25,  81 => 23,  71 => 16,  63 => 10,  60 => 9,  52 => 113,  50 => 62,  47 => 61,  45 => 58,  42 => 57,  40 => 49,  35 => 46,  33 => 9,  23 => 1,);
+        return array (  254 => 106,  250 => 105,  245 => 103,  241 => 102,  236 => 100,  232 => 98,  230 => 97,  227 => 95,  221 => 91,  216 => 89,  211 => 87,  206 => 85,  201 => 83,  196 => 81,  192 => 80,  187 => 78,  182 => 76,  177 => 74,  172 => 72,  167 => 70,  161 => 66,  158 => 65,  153 => 62,  150 => 61,  141 => 55,  137 => 53,  134 => 52,  130 => 48,  128 => 47,  116 => 37,  112 => 36,  107 => 34,  101 => 31,  96 => 30,  91 => 27,  86 => 25,  81 => 23,  71 => 16,  63 => 10,  60 => 9,  52 => 116,  50 => 65,  47 => 64,  45 => 61,  42 => 60,  40 => 52,  35 => 49,  33 => 9,  23 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -309,6 +318,9 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                 <!-- AdminLTE Skins. Choose a skin from the css/skins
                      folder instead of downloading all of them to reduce the load. -->
                 <link href=\"{{ getCurrentDomain() }}css/skins/skin-green.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+
+                <link rel=\"stylesheet\" type=\"text/css\" href=\"{{ getCurrentDomain() }}app-angular/node_modules/primeng/resources/themes/omega/theme.css\" />
+                <link rel=\"stylesheet\" type=\"text/css\" href=\"{{ getCurrentDomain() }}app-angular/node_modules/primeng/resources/primeng.min.css\" />
 
                 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
                 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

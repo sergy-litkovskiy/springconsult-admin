@@ -19,14 +19,15 @@ var article_item_model_1 = require("./article-item.model");
 var ArticleService = (function () {
     function ArticleService(http) {
         this.http = http;
-        this.articleListUrl = '/article/list'; // URL to web API
-        this.articleUpdateUrl = '/article/update'; // URL to web API
+        this.urlToGetList = '/article/list';
+        this.urlToUpdate = '/article/update';
+        this.urlToDelete = '/article/delete';
         this.articleItemSelected = new core_1.EventEmitter();
         this.articleItemList = [];
     }
     ArticleService.prototype.getArticleItemList = function () {
         var _this = this;
-        return this.http.get(this.articleListUrl)
+        return this.http.get(this.urlToGetList)
             .map(function (response) {
             var articleDataList = response.json();
             for (var _i = 0, articleDataList_1 = articleDataList; _i < articleDataList_1.length; _i++) {
@@ -46,7 +47,17 @@ var ArticleService = (function () {
     ArticleService.prototype.updateArticle = function (articleItem) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         return this.http
-            .put(this.articleUpdateUrl, articleItem, { headers: headers })
+            .put(this.urlToUpdate, articleItem, { headers: headers })
+            .map(function (response) {
+            return response.json();
+        })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.statusText);
+        });
+    };
+    ArticleService.prototype.deleteArticle = function (articleItem) {
+        return this.http
+            .delete(this.urlToDelete + '/' + articleItem.id)
             .map(function (response) {
             return response.json();
         })

@@ -16,6 +16,10 @@ var app_main_component_1 = require("./app.main.component");
 var menu_list_component_1 = require("./menu/menu-list/menu-list.component");
 var menu_service_1 = require("./menu/menu.service");
 var article_list_component_1 = require("./blog/article-list/article-list.component");
+var popup_1 = require("@ngui/popup");
+// import {ConfirmDialogModule} from 'primeng/components/confirmdialog/confirmdialog';
+// import { ModalModule } from 'angular2-modal';
+// import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 var common_1 = require("@angular/common");
 var AppModule = (function () {
     function AppModule() {
@@ -34,7 +38,12 @@ AppModule = __decorate([
             forms_1.FormsModule,
             http_1.HttpModule,
             app_routing_module_1.AppRoutingModule,
-            ngx_datatable_1.NgxDatatableModule
+            ngx_datatable_1.NgxDatatableModule,
+            popup_1.NguiPopupModule
+            // ,
+            // ConfirmDialogModule
+            // ModalModule.forRoot(),
+            // BootstrapModalModule
         ],
         providers: [menu_service_1.MenuService, { provide: common_1.APP_BASE_HREF, useValue: '/' }],
         bootstrap: [app_main_component_1.AppMainComponent]

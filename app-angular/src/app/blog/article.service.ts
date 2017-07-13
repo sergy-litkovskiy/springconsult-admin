@@ -9,8 +9,9 @@ import {ArticleItem} from "./article-item.model";
 
 @Injectable()
 export class ArticleService {
-    private articleListUrl = '/article/list';  // URL to web API
-    private articleUpdateUrl = '/article/update';  // URL to web API
+    private urlToGetList = '/article/list';
+    private urlToUpdate = '/article/update';
+    private urlToDelete = '/article/delete';
 
     articleItemSelected = new EventEmitter<ArticleItem>();
 
@@ -19,7 +20,7 @@ export class ArticleService {
     constructor(private http: Http) {}
 
     getArticleItemList() {
-        return this.http.get(this.articleListUrl)
+        return this.http.get(this.urlToGetList)
             .map(
                 (response: Response) => {
                     let articleDataList = response.json();
@@ -47,7 +48,22 @@ export class ArticleService {
         const headers = new Headers({'Content-Type': 'application/json'});
 
         return this.http
-            .put(this.articleUpdateUrl, articleItem, {headers: headers})
+            .put(this.urlToUpdate, articleItem, {headers: headers})
+            .map(
+                (response: Response) => {
+                    return response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw(error.statusText);
+                }
+            );
+    }
+
+    deleteArticle(articleItem: ArticleItem) {
+        return this.http
+            .delete(this.urlToDelete + '/' + articleItem.id)
             .map(
                 (response: Response) => {
                     return response.json();

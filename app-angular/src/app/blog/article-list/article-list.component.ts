@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {DatatableComponent} from "@swimlane/ngx-datatable";
+import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 
 @Component({
     selector: 'menu-list',
@@ -66,6 +67,8 @@ import {DatatableComponent} from "@swimlane/ngx-datatable";
                 </ngx-datatable-column>
             </ngx-datatable>
         </div>
+
+        <ngui-popup #popup></ngui-popup>
     `,
     providers: [ArticleService]
 })
@@ -76,11 +79,13 @@ export class AppArticleComponent implements OnInit {
     tempArticleList: ArticleItem[] = [];
 
     @ViewChild(DatatableComponent) articleListTable: DatatableComponent;
+    @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
-    constructor(private articleService: ArticleService,
-                private router: Router,
-                private route: ActivatedRoute) {
-    }
+    constructor(
+        private articleService: ArticleService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) {}
 
     ngOnInit() {
         this.articleService.getArticleItemList()
@@ -114,22 +119,59 @@ export class AppArticleComponent implements OnInit {
 
         this.articleService.updateArticle(row)
             .subscribe(
-                (response: any) => console.log('response', response),
+                (response: any) => console.log('onStatusChangeClick - response', response),
                 (error) => {
-console.log('onStatusChangeClick error', error);
-//todo: show error message
+                    this.popup.open(NguiMessagePopupComponent, {
+                        classNames: 'small',
+                        title: 'ERROR',
+                        message: error,
+                        buttons: {
+                            CLOSE: () => {
+                                this.popup.close();
+                            }
+                        }
+                    });
+
                     row.status = !row.status;
                 }
             );
     }
 
     onEditClick(row: any): void {
-console.log("onEditClick", row);
+        console.log("onEditClick", row);
     }
 
-    onDeleteClick(row: any): void {
-console.log("onDeleteClick", row);
-//todo: delete item by service
+    onDeleteClick(articleItem: ArticleItem): void {
+        this.popup.open(NguiMessagePopupComponent, {
+            classNames: 'small',
+            title: articleItem.title,
+            message: 'Are you sure you want to DELETE the article?',
+            buttons: {
+                OK: () => {
+                    this.popup.close();
+
+                    this.articleService.deleteArticle(articleItem)
+                        .subscribe(
+                            (response: any) => {
+                                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+                            },
+                            (error) => {
+                                this.popup.open(NguiMessagePopupComponent, {
+                                    classNames: 'small',
+                                    title: 'ERROR',
+                                    message: error,
+                                    buttons: {
+                                        CLOSE: () => {
+                                            this.popup.close();
+                                        }
+                                    }
+                                });
+                            }
+                        );
+                },
+                CANCEL: () => this.popup.close();
+            }
+        });
     }
 
     searchArticle(event: any) {

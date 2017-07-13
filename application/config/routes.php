@@ -60,5 +60,5 @@ $route['article-delete'] = "index";
 
 $route['article/list'] = "blog/getList";
 $route['article/update'] = "blog/updateArticle";
-$route['article/delete'] = "blog/deleteArticle";
+$route['article/delete/(:num)'] = "blog/deleteArticle/$1";
 
