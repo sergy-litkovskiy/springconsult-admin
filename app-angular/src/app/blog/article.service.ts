@@ -75,4 +75,15 @@ export class ArticleService {
                 }
             );
     }
+
+    getArticleById(id: number): any {
+        if (this.articleItemList.length < 1) {
+            this.getArticleItemList();
+        }
+
+        return this.articleItemList.filter(function (articleItem) {
+console.log('getArticleById - articleItem', articleItem);
+            return articleItem.id == id ? articleItem : null;
+        });
+    }
 }

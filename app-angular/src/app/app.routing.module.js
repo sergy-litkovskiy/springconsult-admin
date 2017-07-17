@@ -10,10 +10,12 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var menu_list_component_1 = require("./menu/menu-list/menu-list.component");
 var article_list_component_1 = require("./blog/article-list/article-list.component");
+var article_item_component_1 = require("./blog/article-item/article-item.component");
 var routes = [
     { path: '', redirectTo: '/menu-list', pathMatch: 'full' },
     { path: 'menu-list', component: menu_list_component_1.AppMenuComponent },
-    { path: 'article-list', component: article_list_component_1.AppArticleComponent },
+    { path: 'article-list', component: article_list_component_1.AppArticleListComponent },
+    { path: 'article-item/:id', component: article_item_component_1.AppArticleItemComponent },
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

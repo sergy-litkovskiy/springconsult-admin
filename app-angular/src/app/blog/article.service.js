@@ -65,6 +65,15 @@ var ArticleService = (function () {
             return Observable_1.Observable.throw(error.statusText);
         });
     };
+    ArticleService.prototype.getArticleById = function (id) {
+        if (this.articleItemList.length < 1) {
+            this.getArticleItemList();
+        }
+        return this.articleItemList.filter(function (articleItem) {
+            console.log('getArticleById - articleItem', articleItem);
+            return articleItem.id == id ? articleItem : null;
+        });
+    };
     return ArticleService;
 }());
 ArticleService = __decorate([

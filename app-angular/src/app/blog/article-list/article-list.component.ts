@@ -4,6 +4,7 @@ import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {DatatableComponent} from "@swimlane/ngx-datatable";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'menu-list',
@@ -46,9 +47,12 @@ import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
                 <ngx-datatable-column name="Actions">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-warning" (click)="onEditClick(row)">
-                                <i class="glyphicon glyphicon-pencil"></i>
-                            </button>
+                            <!--<button type="button" class="btn btn-warning" (click)="onEditClick(row)">-->
+                                <!--<i class="glyphicon glyphicon-pencil"></i>-->
+                            <!--</button>-->
+                            <a routerLink="/menu-item" class="btn btn-warning">
+                                <span>Site menu</span>
+                            </a>
                             <button type="button" class="btn btn-danger" (click)="onDeleteClick(row)">
                                 <i class="glyphicon glyphicon-remove"></i>
                             </button>
@@ -73,10 +77,11 @@ import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
     providers: [ArticleService]
 })
 
-export class AppArticleComponent implements OnInit {
+export class AppArticleListComponent implements OnInit {
     articleItemList: ArticleItem[] = [];
     actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
+    private articleListSubscription: Subscription;
 
     @ViewChild(DatatableComponent) articleListTable: DatatableComponent;
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
@@ -87,19 +92,36 @@ export class AppArticleComponent implements OnInit {
         private route: ActivatedRoute
     ) {}
 
+    showErrorPopup(error: string) {
+        this.popup.open(NguiMessagePopupComponent, {
+            classNames: 'small',
+            title: 'ERROR',
+            message: error,
+            buttons: {
+                CLOSE: () => {
+                    this.popup.close();
+                }
+            }
+        });
+    }
+
     ngOnInit() {
-        this.articleService.getArticleItemList()
+        this.articleListSubscription = this.articleService.getArticleItemList()
             .subscribe(
                 (articleList: ArticleItem[]) => {
                     this.articleItemList = articleList;
                     this.tempArticleList = [...articleList];
                 },
                 (error) => {
-                    showErrorPopup(error);
+                    this.showErrorPopup(error);
                 }
             );
 
         this.actionButtonClassName = "btn btn-";
+    }
+
+    ngOnDestroy() {
+        this.articleListSubscription.unsubscribe();
     }
 
     // onNewMenuItem() {
@@ -123,7 +145,7 @@ export class AppArticleComponent implements OnInit {
             .subscribe(
                 (response: any) => console.log('response', response),
                 (error) => {
-                    showErrorPopup(error);
+                    this.showErrorPopup(error);
 
                     row.status = !row.status;
                 }
@@ -132,6 +154,7 @@ export class AppArticleComponent implements OnInit {
 
     onEditClick(row: any): void {
         console.log("onEditClick", row);
+        // this.router.navigate(['article-edit/:id'], {relativeTo: this.route});
     }
 
     onDeleteClick(articleItem: ArticleItem): void {
@@ -149,11 +172,13 @@ export class AppArticleComponent implements OnInit {
                                 this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
                             },
                             (error) => {
-                                showErrorPopup(error);
+                                this.showErrorPopup(error);
                             }
                         );
                 },
-                CANCEL: () => this.popup.close();
+                CANCEL: () => {
+                    this.popup.close();
+                }
             }
         });
     }
@@ -170,20 +195,4 @@ export class AppArticleComponent implements OnInit {
         this.articleListTable.offset = 0;
     }
 
-    ngOnDestroy() {
-        // this.articleItemList.unsubscribe();
-    }
-
-    showErrorPopup(error: string) {
-        this.popup.open(NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: 'ERROR',
-            message: error,
-            buttons: {
-                CLOSE: () => {
-                    this.popup.close();
-                }
-            }
-        });
-    }
 }
