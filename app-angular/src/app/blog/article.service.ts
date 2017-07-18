@@ -76,14 +76,20 @@ export class ArticleService {
             );
     }
 
-    getArticleById(id: number): any {
+    getArticleById(id: number): ArticleItem|null {
         if (this.articleItemList.length < 1) {
             this.getArticleItemList();
         }
 
-        return this.articleItemList.filter(function (articleItem) {
+        let filteredArticleList: ArticleItem[];
+
+        filteredArticleList = this.articleItemList.filter(function (articleItem: ArticleItem) {
 console.log('getArticleById - articleItem', articleItem);
-            return articleItem.id == id ? articleItem : null;
+            if(articleItem.id === id) {
+                return articleItem;
+            }
         });
+
+        return filteredArticleList[0];
     }
 }

@@ -69,10 +69,14 @@ var ArticleService = (function () {
         if (this.articleItemList.length < 1) {
             this.getArticleItemList();
         }
-        return this.articleItemList.filter(function (articleItem) {
+        var filteredArticleList;
+        filteredArticleList = this.articleItemList.filter(function (articleItem) {
             console.log('getArticleById - articleItem', articleItem);
-            return articleItem.id == id ? articleItem : null;
+            if (articleItem.id === id) {
+                return articleItem;
+            }
         });
+        return filteredArticleList[0];
     };
     return ArticleService;
 }());

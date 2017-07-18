@@ -7,7 +7,7 @@ import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    selector: 'menu-list',
+    selector: 'article-list',
     template: `
         <div>
             <div class="input-group">
@@ -49,9 +49,9 @@ import { Subscription } from 'rxjs/Subscription';
                         <div class="btn-group">
                             <!--<button type="button" class="btn btn-warning" (click)="onEditClick(row)">-->
                                 <!--<i class="glyphicon glyphicon-pencil"></i>-->
-                            <!--</button>-->
-                            <a routerLink="/menu-item" class="btn btn-warning">
-                                <span>Site menu</span>
+                            <!--</button>                            -->
+                            <a routerLink="/article-edit/{{ row.id }}" class="btn btn-warning">
+                                <i class="glyphicon glyphicon-pencil"></i>
                             </a>
                             <button type="button" class="btn btn-danger" (click)="onDeleteClick(row)">
                                 <i class="glyphicon glyphicon-remove"></i>
@@ -152,9 +152,9 @@ export class AppArticleListComponent implements OnInit {
             );
     }
 
-    onEditClick(row: any): void {
-        console.log("onEditClick", row);
-        // this.router.navigate(['article-edit/:id'], {relativeTo: this.route});
+    onEditClick(articleItem: ArticleItem): void {
+console.log("onEditClick", articleItem);
+        this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
     }
 
     onDeleteClick(articleItem: ArticleItem): void {

@@ -14,20 +14,21 @@ export class ArticleItem {
     public time: string;
     public assignedMenuList: any;
 
-    constructor(articleData: any[]) {
-        this.id = articleData['id'];
-        this.title = articleData['title'];
-        this.image = articleData['image'];
-        this.metaDescription = articleData['meta_description'];
-        this.metaKeywords = articleData['meta_keywords'];
-        this.text = articleData['text'];
-        this.description = articleData['description'];
-        this.slug = articleData['slug'];
-        this.status = (articleData['status'] == 1);
-        this.isSentMail = articleData['is_sent_mail'];
-        this.numSequence = articleData['num_sequence'];
-        this.date = articleData['date'];
-        this.time = articleData['time'];
-        this.assignedMenuList = articleData['assignedMenuList'];
+    constructor(articleData: object) {
+console.log('articleData', articleData);
+        this.id = articleData['id'] !== undefined ? articleData['id'] : null;
+        this.title = articleData['title'] !== undefined ? articleData['title'] : null;
+        this.image = articleData['image'] !== undefined ? articleData['image'] : null;
+        this.metaDescription = articleData['meta_description'] !== undefined ? articleData['meta_description'] : null;
+        this.metaKeywords = articleData['meta_keywords'] !== undefined ? articleData['meta_keywords'] : null;
+        this.text = articleData['text'] !== undefined ? articleData['text'] : null;
+        this.description = articleData['description'] !== undefined ? articleData['description'] : null;
+        this.slug = articleData['slug'] !== undefined ? articleData['slug'] : null;
+        this.status = (articleData['status'] == 1) !== undefined ? articleData['status'] : null;
+        this.isSentMail = articleData['is_sent_mail'] !== undefined ? articleData['is_sent_mail'] : null;
+        this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
+        this.date = articleData['date'] !== undefined ? articleData['date'] : null;
+        this.time = articleData['time'] !== undefined ? articleData['time'] : null;
+        this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
     }
 }
