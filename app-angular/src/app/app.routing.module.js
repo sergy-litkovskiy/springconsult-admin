@@ -15,7 +15,7 @@ var routes = [
     { path: '', redirectTo: '/menu-list', pathMatch: 'full' },
     { path: 'menu-list', component: menu_list_component_1.AppMenuComponent },
     { path: 'article-list', component: article_list_component_1.AppArticleListComponent },
-    { path: 'article-item/:id', component: article_item_component_1.AppArticleItemComponent },
+    { path: 'article-edit/:id', component: article_item_component_1.AppArticleItemComponent }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

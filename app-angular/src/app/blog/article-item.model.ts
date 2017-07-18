@@ -15,7 +15,7 @@ export class ArticleItem {
     public assignedMenuList: any;
 
     constructor(articleData: object) {
-console.log('articleData', articleData);
+console.log('ArticleItem - articleData', articleData);
         this.id = articleData['id'] !== undefined ? articleData['id'] : null;
         this.title = articleData['title'] !== undefined ? articleData['title'] : null;
         this.image = articleData['image'] !== undefined ? articleData['image'] : null;

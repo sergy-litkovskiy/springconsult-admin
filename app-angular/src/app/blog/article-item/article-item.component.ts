@@ -14,9 +14,9 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
                     <div class="row">
                         <div class="col-xs-12">
                             <button
-                                    type="submit"
-                                    class="btn btn-success"
-                                    [disabled]="!articleForm.valid">Save</button>
+                                type="submit"
+                                class="btn btn-success"
+                                [disabled]="!articleForm.valid">Save</button>
                             <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
                         </div>
                     </div>
@@ -139,43 +139,6 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
                             formControlName="numSequence"
                             class="form-control">
                     </div>
-                    <div class="row">
-                        <!--<div class="col-xs-12" formArrayName="ingredients">-->
-                            <!--<div-->
-                                    <!--class="row"-->
-                                    <!--*ngFor="let ingredientCtrl of recipeForm.get('ingredients').controls; let i = index"-->
-                                    <!--[formGroupName]="i"-->
-                                    <!--style="margin-top: 10px;">-->
-                                <!--<div class="col-xs-8">-->
-                                    <!--<input-->
-                                            <!--type="text"-->
-                                            <!--class="form-control"-->
-                                            <!--formControlName="name">-->
-                                <!--</div>-->
-                                <!--<div class="col-xs-2">-->
-                                    <!--<input-->
-                                            <!--type="number"-->
-                                            <!--class="form-control"-->
-                                            <!--formControlName="amount">-->
-                                <!--</div>-->
-                                <!--<div class="col-xs-2">-->
-                                    <!--<button-->
-                                            <!--type="button"-->
-                                            <!--class="btn btn-danger"-->
-                                            <!--(click)="onDeleteIngredient(i)">X</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<hr>-->
-                            <!--<div class="row">-->
-                                <!--<div class="col-xs-12">-->
-                                    <!--<button-->
-                                            <!--type="button"-->
-                                            <!--class="btn btn-success"-->
-                                            <!--(click)="onAddIngredient()">Add Ingredient</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    </div>
                 </form>
             </div>
         </div>
@@ -255,25 +218,26 @@ console.log('ngOnInit for item editing');
 
     private initForm() {
         let assignedMenuList = new FormArray([]);
-
+console.log('initForm - this.editMode', this.editMode);
         if (this.editMode) {
-            this.articleItem = this.articleService.getArticleById(this.articleId);
-
-            if (!this.articleItem) {
-                this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
-
-                return false;
-            }
-
-            if (this.articleItem.assignedMenuList.size > 0) {
-                for (let assignedMenu of this.articleItem.assignedMenuList) {
-                    assignedMenuList.push(
-                        new FormGroup({
-                            // 'name': new FormControl(assignedMenu.name, Validators.required)
-                        })
-                    );
-                }
-            }
+this.articleItem = new ArticleItem({});
+            // this.articleItem = this.articleService.getArticleById(this.articleId);
+            //
+            // if (!this.articleItem) {
+            //     this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
+            //
+            //     return false;
+            // }
+            //
+            // if (this.articleItem.assignedMenuList.size > 0) {
+            //     for (let assignedMenu of this.articleItem.assignedMenuList) {
+            //         assignedMenuList.push(
+            //             new FormGroup({
+            //                 // 'name': new FormControl(assignedMenu.name, Validators.required)
+            //             })
+            //         );
+            //     }
+            // }
         } else {
             this.articleItem = new ArticleItem({});
         }
@@ -290,6 +254,7 @@ console.log('ngOnInit for item editing');
             'image': new FormControl(this.articleItem.image),
             'slug': new FormControl(this.articleItem.slug, Validators.required),
             'status': new FormControl(this.articleItem.status, Validators.required),
+            'isSentMail': new FormControl(this.articleItem.isSentMail),
             'numSequence': new FormControl(this.articleItem.numSequence),
             'assignedMenuList': assignedMenuList
         });
