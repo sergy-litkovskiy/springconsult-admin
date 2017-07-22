@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var ArticleItem = (function () {
     function ArticleItem(articleData) {
-        console.log('ArticleItem - articleData', articleData);
+        // console.log('ArticleItem - articleData', articleData);
         this.id = articleData['id'] !== undefined ? articleData['id'] : null;
         this.title = articleData['title'] !== undefined ? articleData['title'] : null;
         this.image = articleData['image'] !== undefined ? articleData['image'] : null;

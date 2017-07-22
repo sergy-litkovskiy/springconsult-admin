@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Output, ViewChild, EventEmitter, Input} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
@@ -47,12 +47,12 @@ import { Subscription } from 'rxjs/Subscription';
                 <ngx-datatable-column name="Actions">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div class="btn-group">
-                            <!--<button type="button" class="btn btn-warning" (click)="onEditClick(row)">-->
-                                <!--<i class="glyphicon glyphicon-pencil"></i>-->
-                            <!--</button>                            -->
-                            <a routerLink="/article-edit/{{ row.id }}" class="btn btn-warning">
+                            <button type="button" class="btn btn-warning" (click)="onEditClick(row)">
                                 <i class="glyphicon glyphicon-pencil"></i>
-                            </a>
+                            </button>                            
+                            <!--<a routerLink="/article-edit/{{ row.id }}" class="btn btn-warning">-->
+                                <!--<i class="glyphicon glyphicon-pencil"></i>-->
+                            <!--</a>-->
                             <button type="button" class="btn btn-danger" (click)="onDeleteClick(row)">
                                 <i class="glyphicon glyphicon-remove"></i>
                             </button>
@@ -73,12 +73,11 @@ import { Subscription } from 'rxjs/Subscription';
         </div>
 
         <ngui-popup #popup></ngui-popup>
-    `,
-    providers: [ArticleService]
+    `
 })
 
 export class AppArticleListComponent implements OnInit {
-    articleItemList: ArticleItem[] = [];
+    articleItemList: ArticleItem[];
     actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
     private articleListSubscription: Subscription;
@@ -121,7 +120,8 @@ export class AppArticleListComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        this.articleListSubscription.unsubscribe();
+console.log('article LIST - ON DESTROY');
+        // this.articleListSubscription.unsubscribe();
     }
 
     // onNewMenuItem() {
@@ -154,6 +154,7 @@ export class AppArticleListComponent implements OnInit {
 
     onEditClick(articleItem: ArticleItem): void {
 console.log("onEditClick", articleItem);
+        this.articleService.selectedArticleItem.emit(articleItem);
         this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
     }
 

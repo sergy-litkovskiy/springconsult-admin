@@ -18,7 +18,9 @@ var article_list_component_1 = require("./blog/article-list/article-list.compone
 var article_item_component_1 = require("./blog/article-item/article-item.component");
 var popup_1 = require("@ngui/popup");
 var forms_1 = require("@angular/forms");
+var ng_pick_datetime_1 = require("ng-pick-datetime");
 var common_1 = require("@angular/common");
+var article_service_1 = require("./blog/article.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -40,9 +42,17 @@ AppModule = __decorate([
             ngx_datatable_1.NgxDatatableModule,
             popup_1.NguiPopupModule,
             forms_1.FormsModule,
-            forms_1.ReactiveFormsModule
+            forms_1.ReactiveFormsModule,
+            ng_pick_datetime_1.DateTimePickerModule
         ],
-        providers: [menu_service_1.MenuService, { provide: common_1.APP_BASE_HREF, useValue: '/' }],
+        providers: [
+            menu_service_1.MenuService,
+            article_service_1.ArticleService,
+            {
+                provide: common_1.APP_BASE_HREF,
+                useValue: '/'
+            }
+        ],
         bootstrap: [app_main_component_1.AppMainComponent]
     })
 ], AppModule);

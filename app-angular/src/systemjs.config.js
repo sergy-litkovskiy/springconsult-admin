@@ -33,7 +33,9 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       '@swimlane/ngx-datatable': 'npm:@swimlane/ngx-datatable/release/index.js',
-      '@ngui/popup': 'npm:@ngui/popup/dist/popup.umd.js'
+      '@ngui/popup': 'npm:@ngui/popup/dist/popup.umd.js',
+      'ng-pick-datetime': 'npm:ng-pick-datetime',
+      'moment': 'npm:moment',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -49,7 +51,17 @@
       },
       rxjs: {
         defaultExtension: 'js'
-      }
+      },
+      // the picker
+      'ng-pick-datetime': {
+          main: 'picker.bundle.js',
+          defaultExtension: 'js'
+      },
+      // momentJS
+      'moment': {
+          main: 'moment.js',
+          defaultExtension: 'js'
+      },
     }
   });
 })(this);
