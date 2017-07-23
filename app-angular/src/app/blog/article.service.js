@@ -22,7 +22,6 @@ var ArticleService = (function () {
         this.urlToGetList = '/article/list';
         this.urlToUpdate = '/article/update';
         this.urlToDelete = '/article/delete';
-        this.selectedArticleItem = new core_1.EventEmitter();
         this.articleItemList = [];
     }
     ArticleService.prototype.getArticleItemList = function () {
@@ -67,7 +66,6 @@ var ArticleService = (function () {
     };
     ArticleService.prototype.getArticleById = function (id) {
         var _this = this;
-        console.log('!!!!getArticleById - articleItemList', this.articleItemList);
         if (this.articleItemList.length < 1) {
             this.getArticleItemList()
                 .subscribe(function (articleList) {
@@ -78,11 +76,11 @@ var ArticleService = (function () {
         }
         var filteredArticleList;
         filteredArticleList = this.articleItemList.filter(function (articleItem) {
-            console.log('!!!!getArticleById - articleItem', articleItem);
-            if (articleItem.id === id) {
+            if (+articleItem.id === id) {
                 return articleItem;
             }
         });
+        console.log('filteredArticleList', filteredArticleList);
         return filteredArticleList[0];
     };
     return ArticleService;

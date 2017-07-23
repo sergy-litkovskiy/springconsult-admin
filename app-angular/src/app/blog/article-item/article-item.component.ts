@@ -36,16 +36,16 @@ import { DateTimePickerModule } from 'ng-pick-datetime';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <label for="date">Date</label>
+                                            <label for="createdAt">Date</label>
                                             <input
                                                     type="text"
-                                                    id="date"
-                                                    formControlName="date"
+                                                    id="createdAt"
+                                                    formControlName="createdAt"
                                                     class="form-control"
                                                     dateTimePicker
                                                     [returnObject]="'string'"
                                                     [viewFormat]="'YYYY-MM-DD HH:mm'"
-                                                    [value]="momentValue | date: 'short'"
+                                                    [value]="createdAt | date: 'y-MM-dd HH:mm'"
                                                     [mode]="'dropdown'"
                                                     [autoClose]="true"
                                                     (onChange)="onDatePickerChange($event)"
@@ -147,13 +147,12 @@ import { DateTimePickerModule } from 'ng-pick-datetime';
 export class AppArticleItemComponent implements OnInit {
     articleItemList: ArticleItem[] = [];
     articleItem: ArticleItem;
-    selectedArticleItem: ArticleItem;
     editMode = false;
     articleId: number;
     articleForm: FormGroup;
 
     dateTimePicker: DateTimePickerModule;
-    momentValue: any;
+    createdAt: any;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
@@ -166,16 +165,6 @@ export class AppArticleItemComponent implements OnInit {
     }
 
     ngOnInit() {
-console.log('ngOnInit for item editing');
-
-        this.articleService.selectedArticleItem
-            .subscribe(
-                (articleItem: ArticleItem) => {
-console.log('article-item.component subscribe - articleItem', articleItem);
-                    this.selectedArticleItem = articleItem;
-                }
-            );
-
         this.route.params
             .subscribe(
                 (params: Params) => {
@@ -184,8 +173,6 @@ console.log('article-item.component subscribe - articleItem', articleItem);
                     this.initForm();
                 }
             );
-
-console.log('this.selectedarticleItem', this.selectedArticleItem);
     }
 
     onSubmit() {
@@ -219,8 +206,7 @@ console.log('this.selectedarticleItem', this.selectedArticleItem);
     }
 
     public onDatePickerChange(moment: any): any {
-        this.momentValue = moment;
-console.log('moment', moment);
+        this.createdAt = moment;
     }
 
     showErrorPopup(error: string) {
@@ -239,16 +225,19 @@ console.log('moment', moment);
     private initForm() {
         let assignedMenuList = new FormArray([]);
 console.log('initForm - this.editMode', this.editMode);
-        if (this.editMode) {
-this.articleItem = new ArticleItem({});
-            this.articleItem = this.articleService.getArticleById(this.articleId);
 
-            // if (!this.articleItem) {
-            //     this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
-            //
-            //     return false;
-            // }
-            //
+        this.articleItem = new ArticleItem({});
+
+        if (this.editMode) {
+            this.articleItem = this.articleService.getArticleById(this.articleId);
+console.log('initForm - this.articleItem', this.articleItem);
+
+            if (!this.articleItem) {
+                this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
+
+                return false;
+            }
+
             // if (this.articleItem.assignedMenuList.size > 0) {
             //     for (let assignedMenu of this.articleItem.assignedMenuList) {
             //         assignedMenuList.push(
@@ -258,20 +247,20 @@ this.articleItem = new ArticleItem({});
             //         );
             //     }
             // }
-        } else {
-            this.articleItem = new ArticleItem({});
         }
+
+        this.createdAt = this.articleItem.date || Date.now();
 
         this.articleForm = new FormGroup({
             'id': new FormControl(this.articleItem.id, Validators.required),
-            'date': new FormControl(this.articleItem.date, Validators.required),
-            'time': new FormControl(this.articleItem.time, Validators.required),
+            'createdAt': new FormControl(this.articleItem.date, Validators.required),
             'title': new FormControl(this.articleItem.title, Validators.required),
             'description': new FormControl(this.articleItem.description),
             'text': new FormControl(this.articleItem.text),
             'metaDescription': new FormControl(this.articleItem.metaDescription),
             'metaKeywords': new FormControl(this.articleItem.metaKeywords),
-            'image': new FormControl(this.articleItem.image),
+            // 'image': new FormControl(this.articleItem.image),
+            'image': new FormControl(null),
             'slug': new FormControl(this.articleItem.slug, Validators.required),
             'status': new FormControl(this.articleItem.status, Validators.required),
             'isSentMail': new FormControl(this.articleItem.isSentMail),

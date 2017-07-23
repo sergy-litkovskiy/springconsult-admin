@@ -15,7 +15,6 @@ var ArticleItem = (function () {
         this.isSentMail = articleData['is_sent_mail'] !== undefined ? articleData['is_sent_mail'] : null;
         this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
         this.date = articleData['date'] !== undefined ? articleData['date'] : null;
-        this.time = articleData['time'] !== undefined ? articleData['time'] : null;
         this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
     }
     return ArticleItem;

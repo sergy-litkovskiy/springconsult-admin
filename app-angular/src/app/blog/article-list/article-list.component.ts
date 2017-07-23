@@ -121,7 +121,7 @@ export class AppArticleListComponent implements OnInit {
 
     ngOnDestroy() {
 console.log('article LIST - ON DESTROY');
-        // this.articleListSubscription.unsubscribe();
+        this.articleListSubscription.unsubscribe();
     }
 
     // onNewMenuItem() {
@@ -153,8 +153,6 @@ console.log('article LIST - ON DESTROY');
     }
 
     onEditClick(articleItem: ArticleItem): void {
-console.log("onEditClick", articleItem);
-        this.articleService.selectedArticleItem.emit(articleItem);
         this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
     }
 

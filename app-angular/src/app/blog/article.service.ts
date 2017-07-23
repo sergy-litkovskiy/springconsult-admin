@@ -13,8 +13,6 @@ export class ArticleService {
     private urlToUpdate = '/article/update';
     private urlToDelete = '/article/delete';
 
-    selectedArticleItem = new EventEmitter<ArticleItem>();
-
     private articleItemList: ArticleItem[] = [];
 
     constructor(private http: Http) {}
@@ -77,7 +75,6 @@ export class ArticleService {
     }
 
     getArticleById(id: number): ArticleItem|null {
-console.log('!!!!getArticleById - articleItemList', this.articleItemList);
         if (this.articleItemList.length < 1) {
             this.getArticleItemList()
                 .subscribe(
@@ -93,12 +90,11 @@ console.log('!!!!getArticleById - articleItemList', this.articleItemList);
         let filteredArticleList: ArticleItem[];
 
         filteredArticleList = this.articleItemList.filter(function (articleItem: ArticleItem) {
-console.log('!!!!getArticleById - articleItem', articleItem);
-            if(articleItem.id === id) {
+            if(+articleItem.id === id) {
                 return articleItem;
             }
         });
-
+console.log('filteredArticleList', filteredArticleList);
         return filteredArticleList[0];
     }
 }

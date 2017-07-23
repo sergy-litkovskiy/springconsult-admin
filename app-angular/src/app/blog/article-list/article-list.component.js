@@ -47,7 +47,7 @@ var AppArticleListComponent = (function () {
     };
     AppArticleListComponent.prototype.ngOnDestroy = function () {
         console.log('article LIST - ON DESTROY');
-        // this.articleListSubscription.unsubscribe();
+        this.articleListSubscription.unsubscribe();
     };
     // onNewMenuItem() {
     //     this.router.navigate(['menu-new'], {relativeTo: this.route});
@@ -70,8 +70,6 @@ var AppArticleListComponent = (function () {
         });
     };
     AppArticleListComponent.prototype.onEditClick = function (articleItem) {
-        console.log("onEditClick", articleItem);
-        this.articleService.selectedArticleItem.emit(articleItem);
         this.router.navigate(['/article-edit', articleItem.id], { relativeTo: this.route });
     };
     AppArticleListComponent.prototype.onDeleteClick = function (articleItem) {
