@@ -5,9 +5,11 @@ import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import { DateTimePickerModule } from 'ng-pick-datetime';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 @Component({
     selector: 'article-item',
+    styles: ['.form-control.ckeditor { padding: 0; height: auto!important; }'],
     template: `
         <div class="content">
             <div class="row">
@@ -99,12 +101,17 @@ import { DateTimePickerModule } from 'ng-pick-datetime';
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Text</label>
-                                    <textarea
-                                            type="text"
-                                            id="text"
-                                            class="form-control"
-                                            formControlName="text"
-                                            rows="6"></textarea>
+                                    <ckeditor
+                                            id="ckeditorContent"
+                                            class="form-control ckeditor"
+                                            formControlName="ckeditorContent"
+                                            [readonly]="false"
+                                            (change)="onChange($event)"
+                                            (focus)="onFocus($event)"
+                                            (blur)="onBlur($event)"
+                                            debounce="500"
+                                    >
+                                    </ckeditor>
                                 </div>
                                 <div class="form-group">
                                     <input
@@ -150,6 +157,8 @@ export class AppArticleItemComponent implements OnInit {
     editMode = false;
     articleId: number;
     articleForm: FormGroup;
+    ckeditorContent: string;
+    CKEditorModule: CKEditorModule;
 
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
@@ -250,13 +259,14 @@ console.log('initForm - this.articleItem', this.articleItem);
         }
 
         this.createdAt = this.articleItem.date || Date.now();
+        this.ckeditorContent = this.articleItem.text;
 
         this.articleForm = new FormGroup({
             'id': new FormControl(this.articleItem.id, Validators.required),
             'createdAt': new FormControl(this.articleItem.date, Validators.required),
             'title': new FormControl(this.articleItem.title, Validators.required),
             'description': new FormControl(this.articleItem.description),
-            'text': new FormControl(this.articleItem.text),
+            'ckeditorContent': new FormControl(this.articleItem.text),
             'metaDescription': new FormControl(this.articleItem.metaDescription),
             'metaKeywords': new FormControl(this.articleItem.metaKeywords),
             // 'image': new FormControl(this.articleItem.image),

@@ -19,6 +19,7 @@ var article_item_component_1 = require("./blog/article-item/article-item.compone
 var popup_1 = require("@ngui/popup");
 var forms_1 = require("@angular/forms");
 var ng_pick_datetime_1 = require("ng-pick-datetime");
+var ng2_ckeditor_1 = require("ng2-ckeditor");
 var common_1 = require("@angular/common");
 var article_service_1 = require("./blog/article.service");
 var AppModule = (function () {
@@ -43,7 +44,8 @@ AppModule = __decorate([
             popup_1.NguiPopupModule,
             forms_1.FormsModule,
             forms_1.ReactiveFormsModule,
-            ng_pick_datetime_1.DateTimePickerModule
+            ng_pick_datetime_1.DateTimePickerModule,
+            ng2_ckeditor_1.CKEditorModule
         ],
         providers: [
             menu_service_1.MenuService,

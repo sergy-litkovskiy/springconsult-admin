@@ -48,7 +48,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                 ";
         // line 66
         $this->displayBlock('footer', $context, $blocks);
-        // line 117
+        // line 118
         echo "            </div>
         </body>
 </html>
@@ -225,36 +225,37 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
+                    <script src=\"https://cdn.ckeditor.com/4.5.11/full/ckeditor.js\"></script>
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     ";
-        // line 96
+        // line 97
         echo "
                     ";
-        // line 98
-        echo "                    ";
         // line 99
+        echo "                    ";
+        // line 100
         echo "
                     <!-- Polyfills -->
                     <script src=\"";
-        // line 101
+        // line 102
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/core-js/client/shim.js\"></script>
 
                     <script src=\"";
-        // line 103
+        // line 104
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/zone.js/dist/zone.min.js\"></script>
                     <script src=\"";
-        // line 104
+        // line 105
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/reflect-metadata/Reflect.js\"></script>
 
                     <script src=\"";
-        // line 106
+        // line 107
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/systemjs/dist/system.js\"></script>
                     <script src=\"";
-        // line 107
+        // line 108
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/src/systemjs.config.js\"></script>
 
@@ -275,7 +276,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
 
     public function getDebugInfo()
     {
-        return array (  258 => 107,  254 => 106,  249 => 104,  245 => 103,  240 => 101,  236 => 99,  234 => 98,  231 => 96,  225 => 92,  220 => 90,  215 => 88,  210 => 86,  205 => 84,  200 => 82,  196 => 81,  191 => 79,  186 => 77,  181 => 75,  176 => 73,  171 => 71,  165 => 67,  162 => 66,  157 => 63,  154 => 62,  145 => 56,  141 => 54,  138 => 53,  134 => 49,  132 => 48,  120 => 38,  116 => 37,  112 => 36,  107 => 34,  101 => 31,  96 => 30,  91 => 27,  86 => 25,  81 => 23,  71 => 16,  63 => 10,  60 => 9,  52 => 117,  50 => 66,  47 => 65,  45 => 62,  42 => 61,  40 => 53,  35 => 50,  33 => 9,  23 => 1,);
+        return array (  259 => 108,  255 => 107,  250 => 105,  246 => 104,  241 => 102,  237 => 100,  235 => 99,  232 => 97,  225 => 92,  220 => 90,  215 => 88,  210 => 86,  205 => 84,  200 => 82,  196 => 81,  191 => 79,  186 => 77,  181 => 75,  176 => 73,  171 => 71,  165 => 67,  162 => 66,  157 => 63,  154 => 62,  145 => 56,  141 => 54,  138 => 53,  134 => 49,  132 => 48,  120 => 38,  116 => 37,  112 => 36,  107 => 34,  101 => 31,  96 => 30,  91 => 27,  86 => 25,  81 => 23,  71 => 16,  63 => 10,  60 => 9,  52 => 118,  50 => 66,  47 => 65,  45 => 62,  42 => 61,  40 => 53,  35 => 50,  33 => 9,  23 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -381,6 +382,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                     <!-- ChartJS 1.0.1 -->
                     <script src=\"{{ getCurrentDomain() }}js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
+                    <script src=\"https://cdn.ckeditor.com/4.5.11/full/ckeditor.js\"></script>
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     {#<script src=\"dist/js/pages/dashboard2.js\" type=\"text/javascript\"></script>#}
 
