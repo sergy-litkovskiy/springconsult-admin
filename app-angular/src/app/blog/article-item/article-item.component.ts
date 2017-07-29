@@ -5,11 +5,13 @@ import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import { DateTimePickerModule } from 'ng-pick-datetime';
-import { FileUploader } from 'ng2-file-upload';
 
 @Component({
     selector: 'article-item',
-    styles: ['.form-control.ckeditor { padding: 0; height: auto!important; }'],
+    styles: [
+        '.form-control.ckeditor { padding: 0; height: auto!important; }',
+        '.preview-image-container {padding-top: 6px}'
+    ],
     template: `
         <div class="content">
             <div class="row">
@@ -28,6 +30,16 @@ import { FileUploader } from 'ng2-file-upload';
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <div class="form-group">
+                                            <label for="image">Image for preview (165 x 165)</label>
+                                            <input
+                                                    type="file"
+                                                    id="image"
+                                                    formControlName="image"
+                                                    class="form-control"
+                                                    (change)="imageUpload($event)"
+                                                    #image>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="slug">Slug</label>
                                             <input
                                                     type="text"
@@ -35,8 +47,6 @@ import { FileUploader } from 'ng2-file-upload';
                                                     formControlName="slug"
                                                     class="form-control">
                                         </div>
-                                    </div>
-                                    <div class="col-xs-3">
                                         <div class="form-group">
                                             <label for="createdAt">Date</label>
                                             <input
@@ -55,19 +65,7 @@ import { FileUploader } from 'ng2-file-upload';
                                         </div>
                                     </div>
                                     <div class="col-xs-3">
-                                        <div class="form-group">
-                                            <label for="image">Image for preview (165 x 165)</label>
-                                            <input
-                                                    type="file"
-                                                    id="image"
-                                                    formControlName="image"
-                                                    class="form-control"
-                                                    (change)="imageUpload($event)"
-                                                    #image>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <div class="form-group">
+                                        <div class="form-group preview-image-container">
                                             <img [src]="imagePath" class="img-responsive">
                                         </div>
                                     </div>
