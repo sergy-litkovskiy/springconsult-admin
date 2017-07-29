@@ -72,7 +72,8 @@ var Button = (function () {
             this._icon = val;
             if (this.initialized) {
                 var iconPosClass = (this.iconPos == 'right') ? 'ui-button-icon-right' : 'ui-button-icon-left';
-                this.domHandler.findSingle(this.el.nativeElement, '.fa').className = iconPosClass + ' ui-clifa fa-fw ' + this.icon;
+                this.domHandler.findSingle(this.el.nativeElement, '.fa').className =
+                    iconPosClass + ' ui-clickable fa fa-fw ' + this.icon;
             }
         },
         enumerable: true,

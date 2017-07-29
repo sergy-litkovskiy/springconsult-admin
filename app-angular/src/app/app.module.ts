@@ -13,6 +13,7 @@ import {NguiPopupModule} from '@ngui/popup';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DateTimePickerModule} from 'ng-pick-datetime';
 import { CKEditorModule } from 'ng2-ckeditor';
+// import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import {APP_BASE_HREF} from '@angular/common';
 import {ArticleService} from "./blog/article.service";
@@ -23,6 +24,9 @@ import {ArticleService} from "./blog/article.service";
         AppMenuComponent,
         AppArticleListComponent,
         AppArticleItemComponent
+        // ,
+        // FileSelectDirective,
+        // FileDropDirective
     ],
     imports: [
         BrowserModule,

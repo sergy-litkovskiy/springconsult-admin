@@ -49,10 +49,15 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     filterValueTarget: string;
     fromListType: number;
     toListType: number;
+    onListItemDroppoint: boolean;
+    listHighlightTarget: boolean;
+    listHighlightSource: boolean;
     constructor(el: ElementRef, domHandler: DomHandler, objectUtils: ObjectUtils);
     ngAfterContentInit(): void;
     ngAfterViewChecked(): void;
     onItemClick(event: any, item: any, selectedItems: any[]): void;
+    onSourceItemDblClick(): void;
+    onTargetItemDblClick(): void;
     onFilter(event: KeyboardEvent, data: any[], listType: number): void;
     activateFilter(data: any[], listType: number): void;
     isItemVisible(item: any, listType: number): boolean;
@@ -62,9 +67,9 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     moveTop(listElement: any, list: any, selectedItems: any, callback: any): void;
     moveDown(listElement: any, list: any, selectedItems: any, callback: any): void;
     moveBottom(listElement: any, list: any, selectedItems: any, callback: any): void;
-    moveRight(targetListElement: any): void;
+    moveRight(): void;
     moveAllRight(): void;
-    moveLeft(sourceListElement: any): void;
+    moveLeft(): void;
     moveAllLeft(): void;
     isSelected(item: any, selectedItems: any[]): boolean;
     findIndexInSelection(item: any, selectedItems: any[]): number;
@@ -74,10 +79,10 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     onDragLeave(event: DragEvent, listType: number): void;
     onDrop(event: DragEvent, index: number, listType: number): void;
     onDragEnd(event: DragEvent): void;
-    onEmptyListDrop(event: DragEvent, listType: number): void;
-    onEmptyListDragOver(event: DragEvent, listType: number): void;
+    onListDrop(event: DragEvent, listType: number): void;
     insert(fromIndex: any, fromList: any, toIndex: any, toList: any): void;
     onListMouseMove(event: MouseEvent, listType: number): void;
+    onListDragLeave(): void;
 }
 export declare class PickListModule {
 }

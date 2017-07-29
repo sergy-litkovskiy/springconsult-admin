@@ -5,7 +5,7 @@ import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import { DateTimePickerModule } from 'ng-pick-datetime';
-import { CKEditorModule } from 'ng2-ckeditor';
+import { FileUploader } from 'ng2-file-upload';
 
 @Component({
     selector: 'article-item',
@@ -56,19 +56,19 @@ import { CKEditorModule } from 'ng2-ckeditor';
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            <label for="image">Image for preview</label>
+                                            <label for="image">Image for preview (165 x 165)</label>
                                             <input
                                                     type="file"
                                                     id="image"
                                                     formControlName="image"
                                                     class="form-control"
+                                                    (change)="imageUpload($event)"
                                                     #image>
                                         </div>
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="form-group">
-                                            image preview block
-                                            <!--<img [src]="image.value" class="img-responsive">-->
+                                            <img [src]="imagePath" class="img-responsive">
                                         </div>
                                     </div>
                                 </div>
@@ -106,9 +106,6 @@ import { CKEditorModule } from 'ng2-ckeditor';
                                             class="form-control ckeditor"
                                             formControlName="ckeditorContent"
                                             [readonly]="false"
-                                            (change)="onChange($event)"
-                                            (focus)="onFocus($event)"
-                                            (blur)="onBlur($event)"
                                             debounce="500"
                                     >
                                     </ckeditor>
@@ -152,13 +149,13 @@ import { CKEditorModule } from 'ng2-ckeditor';
 })
 
 export class AppArticleItemComponent implements OnInit {
-    articleItemList: ArticleItem[] = [];
     articleItem: ArticleItem;
     editMode = false;
     articleId: number;
     articleForm: FormGroup;
     ckeditorContent: string;
-    CKEditorModule: CKEditorModule;
+    file: File;
+    imagePath: string;
 
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
@@ -184,8 +181,26 @@ export class AppArticleItemComponent implements OnInit {
             );
     }
 
+    imageUpload(event: EventTarget) {
+        let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
+        let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
+        let files: FileList = target.files;
+        this.file = files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = () => {
+            //Assign the result to variable for setting the src of image element
+            this.imagePath = reader.result;
+        }
+
+        reader.readAsDataURL(this.file);
+    }
+
     onSubmit() {
-        this.articleItem.title = this.articleForm.value['title'];
+console.log('onSubmit - this.articleForm.value', this.articleForm.value);
+console.log('onSubmit - this.articleForm.value', this.articleForm);
+        this.articleItem.id = this.articleForm.value.id;
+        this.articleItem.title = this.articleForm.value.title;
         if (this.editMode) {
             // this.articleService.updateArticle(this.articleId, this.recipeForm.value);
         } else {
@@ -211,7 +226,7 @@ export class AppArticleItemComponent implements OnInit {
     // }
 
     onCancel() {
-        this.router.navigate(['../'], {relativeTo: this.route});
+        this.router.navigate(['/article-edit', this.articleItem.id], {relativeTo: this.route});
     }
 
     public onDatePickerChange(moment: any): any {
@@ -260,6 +275,7 @@ console.log('initForm - this.articleItem', this.articleItem);
 
         this.createdAt = this.articleItem.date || Date.now();
         this.ckeditorContent = this.articleItem.text;
+        this.imagePath = '/img/blog/' + this.articleItem.image;
 
         this.articleForm = new FormGroup({
             'id': new FormControl(this.articleItem.id, Validators.required),
@@ -269,7 +285,6 @@ console.log('initForm - this.articleItem', this.articleItem);
             'ckeditorContent': new FormControl(this.articleItem.text),
             'metaDescription': new FormControl(this.articleItem.metaDescription),
             'metaKeywords': new FormControl(this.articleItem.metaKeywords),
-            // 'image': new FormControl(this.articleItem.image),
             'image': new FormControl(null),
             'slug': new FormControl(this.articleItem.slug, Validators.required),
             'status': new FormControl(this.articleItem.status, Validators.required),

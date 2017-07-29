@@ -225,7 +225,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
-                    <script src=\"https://cdn.ckeditor.com/4.5.11/full/ckeditor.js\"></script>
+                    <script src=\"https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js\"></script>
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     ";
         // line 97
@@ -382,7 +382,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                     <!-- ChartJS 1.0.1 -->
                     <script src=\"{{ getCurrentDomain() }}js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
-                    <script src=\"https://cdn.ckeditor.com/4.5.11/full/ckeditor.js\"></script>
+                    <script src=\"https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js\"></script>
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     {#<script src=\"dist/js/pages/dashboard2.js\" type=\"text/javascript\"></script>#}
 

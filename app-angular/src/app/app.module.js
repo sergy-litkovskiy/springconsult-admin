@@ -20,6 +20,7 @@ var popup_1 = require("@ngui/popup");
 var forms_1 = require("@angular/forms");
 var ng_pick_datetime_1 = require("ng-pick-datetime");
 var ng2_ckeditor_1 = require("ng2-ckeditor");
+// import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 var common_1 = require("@angular/common");
 var article_service_1 = require("./blog/article.service");
 var AppModule = (function () {
@@ -34,6 +35,9 @@ AppModule = __decorate([
             menu_list_component_1.AppMenuComponent,
             article_list_component_1.AppArticleListComponent,
             article_item_component_1.AppArticleItemComponent
+            // ,
+            // FileSelectDirective,
+            // FileDropDirective
         ],
         imports: [
             platform_browser_1.BrowserModule,

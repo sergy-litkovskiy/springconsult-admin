@@ -22,6 +22,7 @@ export declare class TemplateWrapper implements OnInit, OnDestroy {
 }
 export declare class Column implements AfterContentInit {
     field: string;
+    colId: string;
     sortField: string;
     header: string;
     footer: string;

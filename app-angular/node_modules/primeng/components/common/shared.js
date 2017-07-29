@@ -134,6 +134,10 @@ __decorate([
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)
+], Column.prototype, "colId", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
 ], Column.prototype, "sortField", void 0);
 __decorate([
     core_1.Input(),

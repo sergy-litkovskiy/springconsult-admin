@@ -144,7 +144,7 @@ var Spinner = (function () {
             val = val.split(this.thousandSeparator).join('');
         }
         if (val.trim() === '') {
-            value = this.min !== undefined ? this.min : null;
+            value = null;
         }
         else {
             if (this.precision) {
