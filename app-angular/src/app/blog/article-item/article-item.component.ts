@@ -154,6 +154,7 @@ export class AppArticleItemComponent implements OnInit {
     ckeditorContent: string;
     file: File;
     imagePath: string;
+    originalImageName: string;
 
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
@@ -189,24 +190,47 @@ export class AppArticleItemComponent implements OnInit {
         reader.onloadend = () => {
             //Assign the result to variable for setting the src of image element
             this.imagePath = reader.result;
-        }
+        };
+
+        this.originalImageName = this.file.name;
 
         reader.readAsDataURL(this.file);
     }
 
     onSubmit() {
-console.log('onSubmit - this.articleForm.value', this.articleForm.value);
-console.log('onSubmit - this.articleForm.value', this.articleForm);
-        this.articleItem.id = this.articleForm.value.id;
-        this.articleItem.title = this.articleForm.value.title;
+        this.fillArticleItem();
+console.log('onSubmit', this.articleItem);
         if (this.editMode) {
-            // this.articleService.updateArticle(this.articleId, this.recipeForm.value);
+            this.articleService.updateArticle(this.articleItem)
+                .subscribe(
+                    (response: any) => {
+                        this.articleItem.imageData = null;
+                        this.articleService.updateArticleItemInList(this.articleItem);
+                        this.redirectToArticleList();
+                    },
+                    (error) => {
+                        this.showErrorPopup(error);
+                    }
+                );
         } else {
-            // this.articleService.addArticle(this.recipeForm.value);
+            // this.articleService.addArticle(this.articleItem);
         }
-        this.onCancel();
     }
 
+    private fillArticleItem() {
+        this.articleItem.title = this.articleForm.value.title;
+
+        this.articleItem.title = this.articleForm.value.title;
+        this.articleItem.imageData = this.file != null ? this.imagePath : null;
+        this.articleItem.metaDescription = this.articleForm.value.metaDescription;
+        this.articleItem.metaKeywords = this.articleForm.value.metaKeywords;
+        this.articleItem.text = this.articleForm.value.ckeditorContent;
+        this.articleItem.description = this.articleForm.value.description;
+        this.articleItem.slug = this.articleForm.value.slug;
+        this.articleItem.date = this.articleForm.value.createdAt;
+        this.articleItem.image = this.file != null ? this.originalImageName : this.articleItem.image;
+        // this.articleItem.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
+    }
     // onAddIngredient() {
     //     (<FormArray>this.articleForm.get('ingredients')).push(
     //         new FormGroup({
@@ -225,6 +249,10 @@ console.log('onSubmit - this.articleForm.value', this.articleForm);
 
     onCancel() {
         this.router.navigate(['/article-edit', this.articleItem.id], {relativeTo: this.route});
+    }
+
+    redirectToArticleList() {
+        this.router.navigate(['/article-list'], {relativeTo: this.route});
     }
 
     public onDatePickerChange(moment: any): any {
@@ -246,13 +274,11 @@ console.log('onSubmit - this.articleForm.value', this.articleForm);
 
     private initForm() {
         let assignedMenuList = new FormArray([]);
-console.log('initForm - this.editMode', this.editMode);
 
         this.articleItem = new ArticleItem({});
 
         if (this.editMode) {
             this.articleItem = this.articleService.getArticleById(this.articleId);
-console.log('initForm - this.articleItem', this.articleItem);
 
             if (!this.articleItem) {
                 this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
@@ -272,8 +298,10 @@ console.log('initForm - this.articleItem', this.articleItem);
         }
 
         this.createdAt = this.articleItem.date || Date.now();
+        //set text for cleditor replacement
         this.ckeditorContent = this.articleItem.text;
-        this.imagePath = '/img/blog/' + this.articleItem.image;
+        //define image path for preview
+        this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
 
         this.articleForm = new FormGroup({
             'id': new FormControl(this.articleItem.id, Validators.required),

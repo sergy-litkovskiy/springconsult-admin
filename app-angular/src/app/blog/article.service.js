@@ -21,7 +21,9 @@ var ArticleService = (function () {
         this.http = http;
         this.urlToGetList = '/article/list';
         this.urlToUpdate = '/article/update';
+        this.urlToAdd = '/article/add';
         this.urlToDelete = '/article/delete';
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.articleItemList = [];
     }
     ArticleService.prototype.getArticleItemList = function () {
@@ -43,10 +45,23 @@ var ArticleService = (function () {
     ArticleService.prototype.getArticleItem = function (index) {
         return this.articleItemList[index];
     };
+    ArticleService.prototype.updateArticleItemInList = function (articleItem) {
+        var index = this.articleItemList.indexOf(articleItem);
+        this.articleItemList[index] = articleItem;
+    };
     ArticleService.prototype.updateArticle = function (articleItem) {
-        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         return this.http
-            .put(this.urlToUpdate, articleItem, { headers: headers })
+            .put(this.urlToUpdate, articleItem, { headers: this.headers })
+            .map(function (response) {
+            return response.json();
+        })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.statusText);
+        });
+    };
+    ArticleService.prototype.addArticle = function (articleItem) {
+        return this.http
+            .post(this.urlToAdd, articleItem, { headers: this.headers })
             .map(function (response) {
             return response.json();
         })

@@ -62,7 +62,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 $autoload['libraries'] = [
         'database',
         'form_validation',
-        'fileloader',
+        'fileLoader',
         'session',
         'common',
         'arrayHelper',

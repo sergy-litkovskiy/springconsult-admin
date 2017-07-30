@@ -6,7 +6,7 @@
  */
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Fileloader {
+class FileLoader {
 
     public static function loadFile($file, $uploadPath, $fileTmp)
     {
@@ -28,5 +28,15 @@ class Fileloader {
         Common::assertTrue($isMoveUploadedFile, 'The file '.$filename.' was not download.<br>Please, try again');
  
         return $filename;
- }
+    }
+
+    public static function uploadFileInBase64($fileName, $uploadPath, $fileInBase64)
+    {
+        $imageData = explode(',', $fileInBase64);
+        $content = base64_decode(ArrayHelper::arrayGet($imageData, 1));
+
+        $filePath = sprintf("%s/../..%s/%s", __DIR__, $uploadPath, $fileName);
+
+        return file_put_contents($filePath, $content);
+    }
 }

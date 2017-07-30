@@ -28,6 +28,19 @@ class Blog extends MY_Controller
             if (!$data = json_decode(file_get_contents('php://input'), true)) {
                 throw new LogicException('Request data is empty');
             }
+var_dump($data);exit();
+            if ($imageInBase64 = ArrayHelper::arrayGet($data, 'imageData')) {
+                //upload file to server
+                $result = FileLoader::uploadFileInBase64(
+                    ArrayHelper::arrayGet($data, 'image'),
+                    IMAGE_UPLOAD_PATH_BLOG,
+                    $imageInBase64
+                );
+
+                if (!$result) {
+                    throw new RuntimeException('Image for article was not uploaded');
+                }
+            }
 
             $articleData = $this->makeMainArticleData($data);
             $articleId = ArrayHelper::arrayGet($data, 'id');

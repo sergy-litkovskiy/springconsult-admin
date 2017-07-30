@@ -162,3 +162,5 @@ define('UNISENDERTESTLISTID', 1238223);
 define('DEFAULT_META_DESCRIPTION', 'SpringСonsulting - ваша возможность понять себя, реализовать свой потенциал, мечты, желания, цели! Профессиональная поддержка опытного коуча-консультанта и сопровождение в поисках ответов на жизненно важные вопросы, в поиске работы, в построении гармоничных отношений,  в достижении счастья и успеха');
 define('DEFAULT_META_KEYWORDS', '');
 define('DEFAULT_FB_IMAGE', 'spring_logo_fb.png');
+
+define('IMAGE_UPLOAD_PATH_BLOG', '/img/blog');

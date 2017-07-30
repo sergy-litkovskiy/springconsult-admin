@@ -44,20 +44,39 @@ var AppArticleItemComponent = (function () {
             //Assign the result to variable for setting the src of image element
             _this.imagePath = reader.result;
         };
+        this.originalImageName = this.file.name;
         reader.readAsDataURL(this.file);
     };
     AppArticleItemComponent.prototype.onSubmit = function () {
-        console.log('onSubmit - this.articleForm.value', this.articleForm.value);
-        console.log('onSubmit - this.articleForm.value', this.articleForm);
-        this.articleItem.id = this.articleForm.value.id;
-        this.articleItem.title = this.articleForm.value.title;
+        var _this = this;
+        this.fillArticleItem();
+        console.log('onSubmit', this.articleItem);
         if (this.editMode) {
-            // this.articleService.updateArticle(this.articleId, this.recipeForm.value);
+            this.articleService.updateArticle(this.articleItem)
+                .subscribe(function (response) {
+                _this.articleItem.imageData = null;
+                _this.articleService.updateArticleItemInList(_this.articleItem);
+                _this.redirectToArticleList();
+            }, function (error) {
+                _this.showErrorPopup(error);
+            });
         }
         else {
-            // this.articleService.addArticle(this.recipeForm.value);
+            // this.articleService.addArticle(this.articleItem);
         }
-        this.onCancel();
+    };
+    AppArticleItemComponent.prototype.fillArticleItem = function () {
+        this.articleItem.title = this.articleForm.value.title;
+        this.articleItem.title = this.articleForm.value.title;
+        this.articleItem.imageData = this.file != null ? this.imagePath : null;
+        this.articleItem.metaDescription = this.articleForm.value.metaDescription;
+        this.articleItem.metaKeywords = this.articleForm.value.metaKeywords;
+        this.articleItem.text = this.articleForm.value.ckeditorContent;
+        this.articleItem.description = this.articleForm.value.description;
+        this.articleItem.slug = this.articleForm.value.slug;
+        this.articleItem.date = this.articleForm.value.createdAt;
+        this.articleItem.image = this.file != null ? this.originalImageName : this.articleItem.image;
+        // this.articleItem.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
     };
     // onAddIngredient() {
     //     (<FormArray>this.articleForm.get('ingredients')).push(
@@ -75,6 +94,9 @@ var AppArticleItemComponent = (function () {
     // }
     AppArticleItemComponent.prototype.onCancel = function () {
         this.router.navigate(['/article-edit', this.articleItem.id], { relativeTo: this.route });
+    };
+    AppArticleItemComponent.prototype.redirectToArticleList = function () {
+        this.router.navigate(['/article-list'], { relativeTo: this.route });
     };
     AppArticleItemComponent.prototype.onDatePickerChange = function (moment) {
         this.createdAt = moment;
@@ -94,11 +116,9 @@ var AppArticleItemComponent = (function () {
     };
     AppArticleItemComponent.prototype.initForm = function () {
         var assignedMenuList = new forms_1.FormArray([]);
-        console.log('initForm - this.editMode', this.editMode);
         this.articleItem = new article_item_model_1.ArticleItem({});
         if (this.editMode) {
             this.articleItem = this.articleService.getArticleById(this.articleId);
-            console.log('initForm - this.articleItem', this.articleItem);
             if (!this.articleItem) {
                 this.showErrorPopup('Article item with ID ' + this.articleId + ' was not found');
                 return false;
@@ -114,8 +134,10 @@ var AppArticleItemComponent = (function () {
             // }
         }
         this.createdAt = this.articleItem.date || Date.now();
+        //set text for cleditor replacement
         this.ckeditorContent = this.articleItem.text;
-        this.imagePath = '/img/blog/' + this.articleItem.image;
+        //define image path for preview
+        this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
         this.articleForm = new forms_1.FormGroup({
             'id': new forms_1.FormControl(this.articleItem.id, forms_1.Validators.required),
             'createdAt': new forms_1.FormControl(this.articleItem.date, forms_1.Validators.required),

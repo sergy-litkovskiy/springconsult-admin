@@ -13,9 +13,9 @@ export class ArticleItem {
     public date: string;
     public time: string;
     public assignedMenuList: any;
+    public imageData: string;
 
     constructor(articleData: object) {
-// console.log('ArticleItem - articleData', articleData);
         this.id = articleData['id'] !== undefined ? articleData['id'] : null;
         this.title = articleData['title'] !== undefined ? articleData['title'] : null;
         this.image = articleData['image'] !== undefined ? articleData['image'] : null;
@@ -29,5 +29,6 @@ export class ArticleItem {
         this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
         this.date = articleData['date'] !== undefined ? articleData['date'] : null;
         this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
+        this.imageData = null;//use only for new uploaded image to pass base64 data into server
     }
 }

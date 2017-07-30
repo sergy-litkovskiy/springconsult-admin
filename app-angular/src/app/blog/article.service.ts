@@ -11,7 +11,9 @@ import {ArticleItem} from "./article-item.model";
 export class ArticleService {
     private urlToGetList = '/article/list';
     private urlToUpdate = '/article/update';
+    private urlToAdd = '/article/add';
     private urlToDelete = '/article/delete';
+    private headers = new Headers({'Content-Type': 'application/json'});
 
     private articleItemList: ArticleItem[] = [];
 
@@ -42,11 +44,14 @@ export class ArticleService {
         return this.articleItemList[index];
     }
 
-    updateArticle(articleItem: ArticleItem) {
-        const headers = new Headers({'Content-Type': 'application/json'});
+    updateArticleItemInList(articleItem: ArticleItem) {
+        let index = this.articleItemList.indexOf(articleItem);
+        this.articleItemList[index] = articleItem;
+    }
 
+    updateArticle(articleItem: ArticleItem) {
         return this.http
-            .put(this.urlToUpdate, articleItem, {headers: headers})
+            .put(this.urlToUpdate, articleItem, {headers: this.headers})
                 .map(
                     (response: Response) => {
                         return response.json();
@@ -57,6 +62,21 @@ export class ArticleService {
                         return Observable.throw(error.statusText);
                     }
                 );
+    }
+
+    addArticle(articleItem: ArticleItem) {
+        return this.http
+            .post(this.urlToAdd, articleItem, {headers: this.headers})
+            .map(
+                (response: Response) => {
+                    return response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw(error.statusText);
+                }
+            );
     }
 
     deleteArticle(articleItem: ArticleItem) {
