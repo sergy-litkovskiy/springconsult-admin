@@ -9,7 +9,8 @@ const routes: Routes = [
     {path: '', redirectTo: '/menu-list', pathMatch: 'full'},
     {path: 'menu-list', component: AppMenuComponent},
     {path: 'article-list', component: AppArticleListComponent},
-    {path: 'article-edit/:id', component: AppArticleItemComponent}
+    {path: 'article-edit/:id', component: AppArticleItemComponent},
+    {path: 'article-edit', component: AppArticleItemComponent}
 ];
 
 @NgModule({

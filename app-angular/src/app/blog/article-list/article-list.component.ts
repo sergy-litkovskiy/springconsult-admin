@@ -8,10 +8,13 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'article-list',
+    styles: [
+        '.search-panel {padding-bottom: 10px; padding-left: 10px}'
+    ],
     template: `
         <div>
-            <div class="input-group">
-                <input class="form-control" placeholder="Search..." type="text" (keyup)='searchArticle($event)'>
+            <div class="input-group col-md-3 search-panel">
+                <input class="form-control" placeholder="Search by title ..." type="text" (keyup)='searchArticle($event)'>
             </div>
             <ngx-datatable
                     #articleListTable
@@ -34,6 +37,15 @@ import { Subscription } from 'rxjs/Subscription';
                         {{row.title}}
                     </ng-template>
                 </ngx-datatable-column>
+                <ngx-datatable-column name="Assigned to:">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <ul>
+                            <li *ngFor='let item of row.assignedMenuList'>
+                                {{item.title}}
+                            </li>
+                        </ul>
+                    </ng-template>
+                </ngx-datatable-column>
                 <ngx-datatable-column name="Meta Keywords">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         {{row.metaKeywords}}
@@ -49,10 +61,7 @@ import { Subscription } from 'rxjs/Subscription';
                         <div class="btn-group">
                             <button type="button" class="btn btn-warning" (click)="onEditClick(row)">
                                 <i class="glyphicon glyphicon-pencil"></i>
-                            </button>                            
-                            <!--<a routerLink="/article-edit/{{ row.id }}" class="btn btn-warning">-->
-                                <!--<i class="glyphicon glyphicon-pencil"></i>-->
-                            <!--</a>-->
+                            </button>
                             <button type="button" class="btn btn-danger" (click)="onDeleteClick(row)">
                                 <i class="glyphicon glyphicon-remove"></i>
                             </button>

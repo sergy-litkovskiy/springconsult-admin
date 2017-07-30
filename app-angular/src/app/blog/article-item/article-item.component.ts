@@ -4,10 +4,11 @@ import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import { DateTimePickerModule } from 'ng-pick-datetime';
+import {DateTimePickerModule} from 'ng-pick-datetime';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
-    selector: 'article-item',
+    selector: 'article-edit',
     styles: [
         '.form-control.ckeditor { padding: 0; height: auto!important; }',
         '.preview-image-container {padding-top: 6px}'
@@ -69,34 +70,42 @@ import { DateTimePickerModule } from 'ng-pick-datetime';
                                             <img [src]="imagePath" class="img-responsive">
                                         </div>
                                     </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <textarea
+                                                    type="text"
+                                                    id="description"
+                                                    class="form-control"
+                                                    formControlName="description"
+                                                    rows="6"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea
-                                            type="text"
-                                            id="description"
-                                            class="form-control"
-                                            formControlName="description"
-                                            rows="6"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="metaDescription">Meta Description</label>
-                                    <textarea
-                                            type="text"
-                                            id="metaDescription"
-                                            class="form-control"
-                                            formControlName="metaDescription"
-                                            rows="6"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="metaKeywords">Meta Keywords</label>
-                                    <textarea
-                                            type="text"
-                                            id="metaKeywords"
-                                            class="form-control"
-                                            formControlName="metaKeywords"
-                                            rows="6"></textarea>
-                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="metaDescription">Meta Description</label>
+                                            <textarea
+                                                    type="text"
+                                                    id="metaDescription"
+                                                    class="form-control"
+                                                    formControlName="metaDescription"
+                                                    rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="metaKeywords">Meta Keywords</label>
+                                            <textarea
+                                                    type="text"
+                                                    id="metaKeywords"
+                                                    class="form-control"
+                                                    formControlName="metaKeywords"
+                                                    rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                </div>        
                                 <div class="form-group">
                                     <label for="text">Text</label>
                                     <ckeditor
@@ -107,23 +116,6 @@ import { DateTimePickerModule } from 'ng-pick-datetime';
                                             debounce="500"
                                     >
                                     </ckeditor>
-                                </div>
-                                <div class="form-group">
-                                    <input
-                                            type="hidden"
-                                            id="status"
-                                            formControlName="status"
-                                            class="form-control">
-                                    <input
-                                            type="hidden"
-                                            id="isSentMail"
-                                            formControlName="isSentMail"
-                                            class="form-control">
-                                    <input
-                                            type="hidden"
-                                            id="numSequence"
-                                            formControlName="numSequence"
-                                            class="form-control">
                                 </div>
                             </div>
                             <div class="box-footer">
@@ -155,9 +147,10 @@ export class AppArticleItemComponent implements OnInit {
     file: File;
     imagePath: string;
     originalImageName: string;
-
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
+
+    private articleItemSubscription: Subscription;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
@@ -170,7 +163,7 @@ export class AppArticleItemComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.params
+        this.articleItemSubscription = this.route.params
             .subscribe(
                 (params: Params) => {
                     this.articleId = +params['id'];
@@ -178,6 +171,11 @@ export class AppArticleItemComponent implements OnInit {
                     this.initForm();
                 }
             );
+    }
+
+    ngOnDestroy() {
+console.log('article ITEM - ON DESTROY');
+        this.articleItemSubscription.unsubscribe();
     }
 
     imageUpload(event: EventTarget) {
@@ -199,7 +197,7 @@ export class AppArticleItemComponent implements OnInit {
 
     onSubmit() {
         this.fillArticleItem();
-console.log('onSubmit', this.articleItem);
+
         if (this.editMode) {
             this.articleService.updateArticle(this.articleItem)
                 .subscribe(
@@ -218,8 +216,6 @@ console.log('onSubmit', this.articleItem);
     }
 
     private fillArticleItem() {
-        this.articleItem.title = this.articleForm.value.title;
-
         this.articleItem.title = this.articleForm.value.title;
         this.articleItem.imageData = this.file != null ? this.imagePath : null;
         this.articleItem.metaDescription = this.articleForm.value.metaDescription;
@@ -248,7 +244,7 @@ console.log('onSubmit', this.articleItem);
     // }
 
     onCancel() {
-        this.router.navigate(['/article-edit', this.articleItem.id], {relativeTo: this.route});
+        this.router.navigate(['/article-edit/:id', this.articleItem.id], {relativeTo: this.route});
     }
 
     redirectToArticleList() {
@@ -298,7 +294,7 @@ console.log('onSubmit', this.articleItem);
         }
 
         this.createdAt = this.articleItem.date || Date.now();
-        //set text for cleditor replacement
+        //set text for ckeditor replacement
         this.ckeditorContent = this.articleItem.text;
         //define image path for preview
         this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
