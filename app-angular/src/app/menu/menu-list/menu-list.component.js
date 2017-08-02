@@ -12,24 +12,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var menu_service_1 = require("../menu.service");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/catch");
+require("rxjs/add/observable/throw");
 var AppMenuComponent = (function () {
     function AppMenuComponent(menuService, router, route) {
         this.menuService = menuService;
         this.router = router;
         this.route = route;
-        this.rows = [
-            { name: 'Austin', gender: 'Male', company: 'Swimlane' },
-            { name: 'Dany', gender: 'Male', company: 'KFC' },
-            { name: 'Molly', gender: 'Female', company: 'Burger King' },
-        ];
-        this.columns = [
-            { prop: 'name' },
-            { name: 'Gender' },
-            { name: 'Company' }
-        ];
+        this.tempMenuItemList = [];
     }
     AppMenuComponent.prototype.ngOnInit = function () {
-        this.menuItemList = this.menuService.getMenuItemList();
+        var _this = this;
+        this.menuListSubscription = this.menuService.getMenuItemList()
+            .subscribe(function (menuItems) {
+            _this.menuItemList = menuItems;
+            _this.tempMenuItemList = menuItems.slice();
+        }, function (error) {
+            // this.showErrorPopup(error);
+        });
     };
     AppMenuComponent.prototype.onNewMenuItem = function () {
         this.router.navigate(['menu-new'], { relativeTo: this.route });

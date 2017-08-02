@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var menu_item_model_1 = require("../menu/menu-item.model");
 var ArticleItem = (function () {
     function ArticleItem(articleData) {
         this.id = articleData['id'] !== undefined ? articleData['id'] : null;
@@ -14,9 +15,16 @@ var ArticleItem = (function () {
         this.isSentMail = articleData['is_sent_mail'] !== undefined ? articleData['is_sent_mail'] : null;
         this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
         this.date = articleData['date'] !== undefined ? articleData['date'] : null;
-        this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
+        this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? this.makeAssignedMenuList(articleData['assignedMenuList']) : [];
         this.imageData = null; //use only for new uploaded image to pass base64 data into server
     }
+    ArticleItem.prototype.makeAssignedMenuList = function (dataList) {
+        return dataList.map(function (data) {
+            var menuItem = new menu_item_model_1.MenuItem(data);
+            menuItem.isChecked = true;
+            return menuItem;
+        });
+    };
     return ArticleItem;
 }());
 exports.ArticleItem = ArticleItem;

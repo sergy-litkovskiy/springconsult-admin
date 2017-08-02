@@ -67,16 +67,16 @@ export class ArticleService {
     addArticle(articleItem: ArticleItem) {
         return this.http
             .post(this.urlToAdd, articleItem, {headers: this.headers})
-            .map(
-                (response: Response) => {
-                    return response.json();
-                }
-            )
-            .catch(
-                (error: Response) => {
-                    return Observable.throw(error.statusText);
-                }
-            );
+                .map(
+                    (response: Response) => {
+                        return response.json();
+                    }
+                )
+                .catch(
+                    (error: Response) => {
+                        return Observable.throw(error.statusText);
+                    }
+                );
     }
 
     deleteArticle(articleItem: ArticleItem) {

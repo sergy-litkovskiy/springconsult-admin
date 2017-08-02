@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {MenuItem} from "../menu-item.model";
 import {MenuService} from "../menu.service";
+import {Subscription} from "rxjs/Subscription";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
+import 'rxjs/add/observable/throw';
 
 @Component({
     selector: 'menu-list',
@@ -26,16 +30,8 @@ import {MenuService} from "../menu.service";
 
 export class AppMenuComponent implements OnInit {
     menuItemList: MenuItem[];
-    rows = [
-        { name: 'Austin', gender: 'Male', company: 'Swimlane' },
-        { name: 'Dany', gender: 'Male', company: 'KFC' },
-        { name: 'Molly', gender: 'Female', company: 'Burger King' },
-    ];
-    columns = [
-        { prop: 'name' },
-        { name: 'Gender' },
-        { name: 'Company' }
-    ];
+    tempMenuItemList: MenuItem[] = [];
+    private menuListSubscription: Subscription;
 
     constructor(
         private menuService: MenuService,
@@ -45,7 +41,16 @@ export class AppMenuComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.menuItemList = this.menuService.getMenuItemList();
+        this.menuListSubscription = this.menuService.getMenuItemList()
+            .subscribe(
+                (menuItems: MenuItem[]) => {
+                    this.menuItemList = menuItems;
+                    this.tempMenuItemList = [...menuItems];
+                },
+                (error) => {
+                    // this.showErrorPopup(error);
+                }
+            );
     }
 
     onNewMenuItem() {

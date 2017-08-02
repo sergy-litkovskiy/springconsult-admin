@@ -11,16 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var menu_item_model_1 = require("./menu-item.model");
+var Observable_1 = require("rxjs/Observable");
+var http_1 = require("@angular/http");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/catch");
+require("rxjs/add/observable/throw");
 var MenuService = (function () {
-    function MenuService() {
+    function MenuService(http) {
+        this.http = http;
         this.menuItemSelected = new core_1.EventEmitter();
-        this.menuItemList = [
-            new menu_item_model_1.MenuItem('Tasty Schnitzel', 'A super-tasty Schnitzel - just awesome!', 'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG'),
-            new menu_item_model_1.MenuItem('Big Fat Burger', 'What else you need to say?', 'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg')
-        ];
+        this.urlToGetList = '/menu/list';
+        this.menuItemList = [];
     }
     MenuService.prototype.getMenuItemList = function () {
-        return this.menuItemList.slice();
+        var _this = this;
+        return this.http.get(this.urlToGetList)
+            .map(function (response) {
+            var menuDataList = response.json();
+            for (var _i = 0, menuDataList_1 = menuDataList; _i < menuDataList_1.length; _i++) {
+                var menuData = menuDataList_1[_i];
+                var menuItem = new menu_item_model_1.MenuItem(menuData);
+                _this.menuItemList.push(menuItem);
+            }
+            return _this.menuItemList;
+        })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.toString());
+        });
     };
     MenuService.prototype.getMenuItem = function (index) {
         return this.menuItemList[index];
@@ -29,7 +46,7 @@ var MenuService = (function () {
 }());
 MenuService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [http_1.Http])
 ], MenuService);
 exports.MenuService = MenuService;
 //# sourceMappingURL=menu.service.js.map

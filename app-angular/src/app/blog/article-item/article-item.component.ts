@@ -6,6 +6,8 @@ import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DateTimePickerModule} from 'ng-pick-datetime';
 import {Subscription} from "rxjs/Subscription";
+import {MenuItem} from "../../menu/menu-item.model";
+import {MenuService} from "../../menu/menu.service";
 
 @Component({
     selector: 'article-edit',
@@ -18,6 +20,8 @@ import {Subscription} from "rxjs/Subscription";
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-success">
+                        <h2 *ngIf="articleItem.status == 1" class="label bg-green">Active</h2>
+                        <h2 *ngIf="articleItem.status == 0" class="label bg-red">Inactive</h2>
                         <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
                             <div class="box-body">
                                 <div class="form-group">
@@ -117,6 +121,15 @@ import {Subscription} from "rxjs/Subscription";
                                     >
                                     </ckeditor>
                                 </div>
+                                <div class="form-group">
+                                    <label for="assignedMenuList">Assigned menu list</label>
+                                    <input 
+                                            *ngFor="let menuItem of availableMenuList;"
+                                            type="checkbox" 
+                                            [checked]="menuItem.isChecked" 
+                                            (change)="onChangeAssignment()"
+                                    >
+                                </div>
                             </div>
                             <div class="box-footer">
                                 <button
@@ -149,6 +162,8 @@ export class AppArticleItemComponent implements OnInit {
     originalImageName: string;
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
+    availableMenuList: MenuItem[];
+    assignedMenuIdList: number[];
 
     private articleItemSubscription: Subscription;
 
@@ -156,10 +171,12 @@ export class AppArticleItemComponent implements OnInit {
 
     constructor(
         private articleService: ArticleService,
+        private menuService: MenuService,
         private router: Router,
         private route: ActivatedRoute
     ) {
         this.dateTimePicker = new DateTimePickerModule();
+        this.availableMenuList = this.menuService.getMenuItemList();
     }
 
     ngOnInit() {
@@ -269,8 +286,6 @@ console.log('article ITEM - ON DESTROY');
     }
 
     private initForm() {
-        let assignedMenuList = new FormArray([]);
-
         this.articleItem = new ArticleItem({});
 
         if (this.editMode) {
@@ -282,15 +297,23 @@ console.log('article ITEM - ON DESTROY');
                 return false;
             }
 
-            // if (this.articleItem.assignedMenuList.size > 0) {
-            //     for (let assignedMenu of this.articleItem.assignedMenuList) {
-            //         assignedMenuList.push(
-            //             new FormGroup({
-            //                 // 'name': new FormControl(assignedMenu.name, Validators.required)
-            //             })
-            //         );
-            //     }
-            // }
+            this.assignedMenuIdList = this.articleItem.assignedMenuList.map(
+                (menuItem: MenuItem) => {
+                    return menuItem.id;
+                }
+            );
+
+console.log('INIT this.assignedMenuIdList', this.assignedMenuIdList);
+
+            this.availableMenuList = this.availableMenuList.map(
+                (menuItem: MenuItem) => {
+                    if (this.assignedMenuIdList.indexOf(menuItem.id)) {
+                        menuItem.isChecked = true;
+                    }
+
+                    return menuItem;
+                }
+            );
         }
 
         this.createdAt = this.articleItem.date || Date.now();
@@ -311,8 +334,11 @@ console.log('article ITEM - ON DESTROY');
             'slug': new FormControl(this.articleItem.slug, Validators.required),
             'status': new FormControl(this.articleItem.status, Validators.required),
             'isSentMail': new FormControl(this.articleItem.isSentMail),
-            'numSequence': new FormControl(this.articleItem.numSequence),
-            'assignedMenuList': assignedMenuList
+            'numSequence': new FormControl(this.articleItem.numSequence)
         });
+    }
+
+    onChangeAssignment() {
+        console.log('onChangeAssignment', arguments);
     }
 }

@@ -1,26 +1,40 @@
 import {EventEmitter, Injectable} from '@angular/core';
 
 import {MenuItem} from "./menu-item.model";
+import {Observable} from "rxjs/Observable";
+import {Http} from "@angular/http";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class MenuService {
     menuItemSelected = new EventEmitter<MenuItem>();
 
-    private menuItemList: MenuItem[] = [
-        new MenuItem(
-            'Tasty Schnitzel',
-            'A super-tasty Schnitzel - just awesome!',
-            'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG'),
-        new MenuItem('Big Fat Burger',
-            'What else you need to say?',
-            'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg')
-    ];
+    private urlToGetList = '/menu/list';
+    private menuItemList: MenuItem[] = [];
 
-    constructor() {
-    }
+    constructor(private http: Http) {}
 
     getMenuItemList() {
-        return this.menuItemList.slice();
+        return this.http.get(this.urlToGetList)
+            .map(
+                (response: Response) => {
+                    let menuDataList = response.json();
+
+                    for (let menuData of menuDataList) {
+                        let menuItem = new MenuItem(menuData);
+                        this.menuItemList.push(menuItem);
+                    }
+
+                    return this.menuItemList;
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw(error.toString());
+                }
+            );
     }
 
     getMenuItem(index: number) {
