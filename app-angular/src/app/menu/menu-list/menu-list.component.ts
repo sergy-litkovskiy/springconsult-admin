@@ -53,6 +53,11 @@ export class AppMenuComponent implements OnInit {
             );
     }
 
+    ngOnDestroy() {
+console.log('menu LIST - ON DESTROY');
+        this.menuListSubscription.unsubscribe();
+    }
+
     onNewMenuItem() {
         this.router.navigate(['menu-new'], {relativeTo: this.route});
     }

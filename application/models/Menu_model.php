@@ -4,13 +4,19 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Menu_model extends Crud
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->table = 'menu';
+    }
+
     public function getAssignedMenuList(array $articleIdList)
     {
-        $this->db->select('menu.*, maa.article_id as article_id');
-        $this->db->from('menu');
+        $this->db->select($this->table . '.*, maa.article_id as article_id');
         $this->db->join(
             'menu_article_assignment as maa',
-            'menu.id = maa.menu_id',
+            $this->table . '.id = maa.menu_id',
             'INNER'
         );
 

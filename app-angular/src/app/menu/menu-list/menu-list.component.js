@@ -32,6 +32,10 @@ var AppMenuComponent = (function () {
             // this.showErrorPopup(error);
         });
     };
+    AppMenuComponent.prototype.ngOnDestroy = function () {
+        console.log('menu LIST - ON DESTROY');
+        this.menuListSubscription.unsubscribe();
+    };
     AppMenuComponent.prototype.onNewMenuItem = function () {
         this.router.navigate(['menu-new'], { relativeTo: this.route });
     };
