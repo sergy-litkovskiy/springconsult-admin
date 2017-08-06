@@ -21,33 +21,19 @@ var AppArticleListComponent = (function () {
         this.route = route;
         this.tempArticleList = [];
     }
-    AppArticleListComponent.prototype.showErrorPopup = function (error) {
-        var _this = this;
-        this.popup.open(popup_1.NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: 'ERROR',
-            message: error,
-            buttons: {
-                CLOSE: function () {
-                    _this.popup.close();
-                }
-            }
-        });
-    };
     AppArticleListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.articleListSubscription = this.articleService.getArticleItemList()
-            .subscribe(function (articleList) {
-            _this.articleItemList = articleList;
-            _this.tempArticleList = articleList.slice();
-        }, function (error) {
-            _this.showErrorPopup(error);
-        });
+        this.articleItemList = this.articleService.getArticleItemList();
+        if (!this.articleItemList.length) {
+            this.articleListSubscription = this.articleService.getArticleItemListFromServer()
+                .subscribe(function (articleList) {
+                _this.articleItemList = articleList;
+                _this.tempArticleList = articleList.slice();
+            }, function (error) {
+                _this.showErrorPopup(error);
+            });
+        }
         this.actionButtonClassName = "btn btn-";
-    };
-    AppArticleListComponent.prototype.ngOnDestroy = function () {
-        console.log('article LIST - ON DESTROY');
-        this.articleListSubscription.unsubscribe();
     };
     // onNewMenuItem() {
     //     this.router.navigate(['menu-new'], {relativeTo: this.route});
@@ -102,6 +88,25 @@ var AppArticleListComponent = (function () {
         });
         // Whenever the filter changes, always go back to the first page
         this.articleListTable.offset = 0;
+    };
+    AppArticleListComponent.prototype.showErrorPopup = function (error) {
+        var _this = this;
+        this.popup.open(popup_1.NguiMessagePopupComponent, {
+            classNames: 'small',
+            title: 'ERROR',
+            message: error,
+            buttons: {
+                CLOSE: function () {
+                    _this.popup.close();
+                }
+            }
+        });
+    };
+    AppArticleListComponent.prototype.ngOnDestroy = function () {
+        console.log('article LIST - ON DESTROY');
+        if (this.articleListSubscription != undefined) {
+            this.articleListSubscription.unsubscribe();
+        }
     };
     return AppArticleListComponent;
 }());

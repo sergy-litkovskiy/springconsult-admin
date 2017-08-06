@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {MenuItem} from "../menu-item.model";
 import {MenuService} from "../menu.service";
-import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import 'rxjs/add/observable/throw';
+import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
+import {Subscribable} from "rxjs/Observable";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'menu-list',
@@ -24,14 +26,16 @@ import 'rxjs/add/observable/throw';
                 [limit]="10">
             </ngx-datatable>
         </div>
-    `,
-    providers: [MenuService]
+    `
 })
 
 export class AppMenuComponent implements OnInit {
     menuItemList: MenuItem[];
-    tempMenuItemList: MenuItem[] = [];
+    rows: any[];
+    columns: any[];
     private menuListSubscription: Subscription;
+
+    @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
     constructor(
         private menuService: MenuService,
@@ -41,21 +45,27 @@ export class AppMenuComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.menuListSubscription = this.menuService.getMenuItemList()
-            .subscribe(
-                (menuItems: MenuItem[]) => {
-                    this.menuItemList = menuItems;
-                    this.tempMenuItemList = [...menuItems];
-                },
-                (error) => {
-                    // this.showErrorPopup(error);
-                }
-            );
+        this.menuItemList = this.menuService.getMenuItemList();
+
+        if (!this.menuItemList.length) {
+            this.menuListSubscription = this.menuService.getMenuItemListFromService()
+                .subscribe(
+                    (menuItems: MenuItem[]) => {
+                        this.menuItemList = menuItems;
+                    },
+                    (error) => {
+                        // this.showErrorPopup(error);
+                    }
+                );
+        }
     }
 
     ngOnDestroy() {
 console.log('menu LIST - ON DESTROY');
-        this.menuListSubscription.unsubscribe();
+
+        if (this.menuListSubscription != undefined) {
+            this.menuListSubscription.unsubscribe();
+        }
     }
 
     onNewMenuItem() {

@@ -19,11 +19,13 @@ require("rxjs/add/observable/throw");
 var MenuService = (function () {
     function MenuService(http) {
         this.http = http;
-        this.menuItemSelected = new core_1.EventEmitter();
         this.urlToGetList = '/menu/list';
         this.menuItemList = [];
     }
     MenuService.prototype.getMenuItemList = function () {
+        return this.menuItemList;
+    };
+    MenuService.prototype.getMenuItemListFromService = function () {
         var _this = this;
         return this.http.get(this.urlToGetList)
             .map(function (response) {

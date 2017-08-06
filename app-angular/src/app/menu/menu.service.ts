@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {MenuItem} from "./menu-item.model";
 import {Http, Response, Headers} from '@angular/http';
@@ -7,16 +7,19 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import 'rxjs/add/observable/throw';
 
+
 @Injectable()
 export class MenuService {
-    menuItemSelected = new EventEmitter<MenuItem>();
-
     private urlToGetList = '/menu/list';
     private menuItemList: MenuItem[] = [];
 
     constructor(private http: Http) {}
 
     getMenuItemList() {
+        return this.menuItemList;
+    }
+
+    getMenuItemListFromService() {
         return this.http.get(this.urlToGetList)
             .map(
                 (response: Response) => {

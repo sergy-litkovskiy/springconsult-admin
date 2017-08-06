@@ -8,6 +8,7 @@ import {DateTimePickerModule} from 'ng-pick-datetime';
 import {Subscription} from "rxjs/Subscription";
 import {MenuItem} from "../../menu/menu-item.model";
 import {MenuService} from "../../menu/menu.service";
+import {isNullOrUndefined} from "util";
 
 @Component({
     selector: 'article-edit',
@@ -127,7 +128,7 @@ import {MenuService} from "../../menu/menu.service";
                                             *ngFor="let menuItem of availableMenuList;"
                                             type="checkbox" 
                                             [checked]="menuItem.isChecked" 
-                                            (change)="onChangeAssignment()"
+                                            (change)="onChangeAssignment(menuItem)"
                                     >
                                 </div>
                             </div>
@@ -148,6 +149,7 @@ import {MenuService} from "../../menu/menu.service";
                 </div>
             </div>
         </div>
+        <ngui-popup #popup></ngui-popup>
     `
 })
 
@@ -166,6 +168,7 @@ export class AppArticleItemComponent implements OnInit {
     assignedMenuIdList: number[];
 
     private articleItemSubscription: Subscription;
+    private menuListSubscription: Subscription;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
@@ -176,7 +179,6 @@ export class AppArticleItemComponent implements OnInit {
         private route: ActivatedRoute
     ) {
         this.dateTimePicker = new DateTimePickerModule();
-        this.availableMenuList = this.menuService.getMenuItemList();
     }
 
     ngOnInit() {
@@ -185,14 +187,77 @@ export class AppArticleItemComponent implements OnInit {
                 (params: Params) => {
                     this.articleId = +params['id'];
                     this.editMode = params['id'] != null;
+                    this.setAvailableMenuList();
                     this.initForm();
                 }
             );
     }
 
-    ngOnDestroy() {
-console.log('article ITEM - ON DESTROY');
-        this.articleItemSubscription.unsubscribe();
+    private setAvailableMenuList() {
+        this.availableMenuList = this.menuService.getMenuItemList();
+
+        if (!this.availableMenuList.length) {
+            this.menuListSubscription = this.menuService.getMenuItemListFromService()
+                .subscribe(
+                    (menuItems: MenuItem[]) => {
+                        this.availableMenuList = menuItems;
+                    },
+                    (error) => {
+                        this.showErrorPopup(error);
+                    }
+                );
+        }
+    }
+
+    private initForm() {
+        this.articleItem = new ArticleItem({});
+
+        if (this.editMode) {
+            this.articleItem = this.articleService.getArticleById(this.articleId);
+
+            if (!this.articleItem) {
+                this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
+
+                return false;
+            }
+
+            this.assignedMenuIdList = this.articleItem.assignedMenuList.map(
+                (menuItem: MenuItem) => {
+                    return menuItem.id;
+                }
+            );
+
+            this.availableMenuList = this.availableMenuList.map(
+                (menuItem: MenuItem) => {
+                    if (this.assignedMenuIdList.indexOf(menuItem.id) !== -1) {
+                        menuItem.isChecked = true;
+                    }
+
+                    return menuItem;
+                }
+            );
+        }
+
+        this.createdAt = this.articleItem.date || Date.now();
+        //set text for ckeditor replacement
+        this.ckeditorContent = this.articleItem.text;
+        //define image path for preview
+        this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
+
+        this.articleForm = new FormGroup({
+            'id': new FormControl(this.articleItem.id, Validators.required),
+            'createdAt': new FormControl(this.articleItem.date, Validators.required),
+            'title': new FormControl(this.articleItem.title, Validators.required),
+            'description': new FormControl(this.articleItem.description),
+            'ckeditorContent': new FormControl(this.articleItem.text),
+            'metaDescription': new FormControl(this.articleItem.metaDescription),
+            'metaKeywords': new FormControl(this.articleItem.metaKeywords),
+            'image': new FormControl(null),
+            'slug': new FormControl(this.articleItem.slug, Validators.required),
+            'status': new FormControl(this.articleItem.status, Validators.required),
+            'isSentMail': new FormControl(this.articleItem.isSentMail),
+            'numSequence': new FormControl(this.articleItem.numSequence)
+        });
     }
 
     imageUpload(event: EventTarget) {
@@ -242,23 +307,7 @@ console.log('article ITEM - ON DESTROY');
         this.articleItem.slug = this.articleForm.value.slug;
         this.articleItem.date = this.articleForm.value.createdAt;
         this.articleItem.image = this.file != null ? this.originalImageName : this.articleItem.image;
-        // this.articleItem.assignedMenuList = articleData['assignedMenuList'] !== undefined ? articleData['assignedMenuList'] : [];
     }
-    // onAddIngredient() {
-    //     (<FormArray>this.articleForm.get('ingredients')).push(
-    //         new FormGroup({
-    //             'name': new FormControl(null, Validators.required),
-    //             'amount': new FormControl(null, [
-    //                 Validators.required,
-    //                 Validators.pattern(/^[1-9]+[0-9]*$/)
-    //             ])
-    //         })
-    //     );
-    // }
-
-    // onDeleteIngredient(index: number) {
-    //     (<FormArray>this.articleForm.get('ingredients')).removeAt(index);
-    // }
 
     onCancel() {
         this.router.navigate(['/article-edit/:id', this.articleItem.id], {relativeTo: this.route});
@@ -268,8 +317,20 @@ console.log('article ITEM - ON DESTROY');
         this.router.navigate(['/article-list'], {relativeTo: this.route});
     }
 
-    public onDatePickerChange(moment: any): any {
+    onDatePickerChange(moment: any): any {
         this.createdAt = moment;
+    }
+
+    onChangeAssignment(menuItem: MenuItem) {
+        let previousState = menuItem.isChecked;
+
+        if (previousState) {
+            this.assignedMenuIdList = this.assignedMenuIdList.filter(menuId => menuId !== menuItem.id);
+        } else {
+            this.assignedMenuIdList.push(menuItem.id)
+        }
+
+        menuItem.isChecked = !previousState;
     }
 
     showErrorPopup(error: string) {
@@ -285,60 +346,11 @@ console.log('article ITEM - ON DESTROY');
         });
     }
 
-    private initForm() {
-        this.articleItem = new ArticleItem({});
+    ngOnDestroy() {
+console.log('article ITEM - ON DESTROY');
 
-        if (this.editMode) {
-            this.articleItem = this.articleService.getArticleById(this.articleId);
-
-            if (!this.articleItem) {
-                this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
-
-                return false;
-            }
-
-            this.assignedMenuIdList = this.articleItem.assignedMenuList.map(
-                (menuItem: MenuItem) => {
-                    return menuItem.id;
-                }
-            );
-
-console.log('INIT this.assignedMenuIdList', this.assignedMenuIdList);
-
-            this.availableMenuList = this.availableMenuList.map(
-                (menuItem: MenuItem) => {
-                    if (this.assignedMenuIdList.indexOf(menuItem.id)) {
-                        menuItem.isChecked = true;
-                    }
-
-                    return menuItem;
-                }
-            );
+        if (this.articleItemSubscription != undefined) {
+            this.articleItemSubscription.unsubscribe();
         }
-
-        this.createdAt = this.articleItem.date || Date.now();
-        //set text for ckeditor replacement
-        this.ckeditorContent = this.articleItem.text;
-        //define image path for preview
-        this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
-
-        this.articleForm = new FormGroup({
-            'id': new FormControl(this.articleItem.id, Validators.required),
-            'createdAt': new FormControl(this.articleItem.date, Validators.required),
-            'title': new FormControl(this.articleItem.title, Validators.required),
-            'description': new FormControl(this.articleItem.description),
-            'ckeditorContent': new FormControl(this.articleItem.text),
-            'metaDescription': new FormControl(this.articleItem.metaDescription),
-            'metaKeywords': new FormControl(this.articleItem.metaKeywords),
-            'image': new FormControl(null),
-            'slug': new FormControl(this.articleItem.slug, Validators.required),
-            'status': new FormControl(this.articleItem.status, Validators.required),
-            'isSentMail': new FormControl(this.articleItem.isSentMail),
-            'numSequence': new FormControl(this.articleItem.numSequence)
-        });
-    }
-
-    onChangeAssignment() {
-        console.log('onChangeAssignment', arguments);
     }
 }

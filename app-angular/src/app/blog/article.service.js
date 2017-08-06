@@ -27,6 +27,9 @@ var ArticleService = (function () {
         this.articleItemList = [];
     }
     ArticleService.prototype.getArticleItemList = function () {
+        return this.articleItemList;
+    };
+    ArticleService.prototype.getArticleItemListFromServer = function () {
         var _this = this;
         return this.http.get(this.urlToGetList)
             .map(function (response) {
@@ -80,14 +83,8 @@ var ArticleService = (function () {
         });
     };
     ArticleService.prototype.getArticleById = function (id) {
-        var _this = this;
         if (this.articleItemList.length < 1) {
-            this.getArticleItemList()
-                .subscribe(function (articleList) {
-                _this.articleItemList = articleList;
-            }, function (error) {
-                console.log(error);
-            });
+            this.getArticleItemListFromServer();
         }
         var filteredArticleList;
         filteredArticleList = this.articleItemList.filter(function (articleItem) {
@@ -95,7 +92,6 @@ var ArticleService = (function () {
                 return articleItem;
             }
         });
-        console.log('filteredArticleList', filteredArticleList);
         return filteredArticleList[0];
     };
     return ArticleService;

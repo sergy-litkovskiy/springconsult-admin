@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
@@ -6,6 +6,7 @@ import "rxjs/add/operator/catch";
 import 'rxjs/add/observable/throw';
 
 import {ArticleItem} from "./article-item.model";
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class ArticleService {
@@ -20,6 +21,10 @@ export class ArticleService {
     constructor(private http: Http) {}
 
     getArticleItemList() {
+        return this.articleItemList;
+    }
+
+    getArticleItemListFromServer() {
         return this.http.get(this.urlToGetList)
             .map(
                 (response: Response) => {
@@ -96,15 +101,7 @@ export class ArticleService {
 
     getArticleById(id: number): ArticleItem|null {
         if (this.articleItemList.length < 1) {
-            this.getArticleItemList()
-                .subscribe(
-                    (articleList: ArticleItem[]) => {
-                        this.articleItemList = articleList;
-                    },
-                    (error) => {
-                        console.log(error);
-                    }
-            );
+            this.getArticleItemListFromServer();
         }
 
         let filteredArticleList: ArticleItem[];
@@ -114,7 +111,7 @@ export class ArticleService {
                 return articleItem;
             }
         });
-console.log('filteredArticleList', filteredArticleList);
+
         return filteredArticleList[0];
     }
 }

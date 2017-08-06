@@ -5,6 +5,7 @@ import {ArticleService} from "../article.service";
 import {DatatableComponent} from "@swimlane/ngx-datatable";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import { Subscription } from 'rxjs/Subscription';
+import {isNullOrUndefined} from "util";
 
 @Component({
     selector: 'article-list',
@@ -106,37 +107,23 @@ export class AppArticleListComponent implements OnInit {
         private route: ActivatedRoute
     ) {}
 
-    showErrorPopup(error: string) {
-        this.popup.open(NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: 'ERROR',
-            message: error,
-            buttons: {
-                CLOSE: () => {
-                    this.popup.close();
-                }
-            }
-        });
-    }
-
     ngOnInit() {
-        this.articleListSubscription = this.articleService.getArticleItemList()
-            .subscribe(
-                (articleList: ArticleItem[]) => {
-                    this.articleItemList = articleList;
-                    this.tempArticleList = [...articleList];
-                },
-                (error) => {
-                    this.showErrorPopup(error);
-                }
-            );
+        this.articleItemList = this.articleService.getArticleItemList();
+
+        if (!this.articleItemList.length) {
+            this.articleListSubscription = this.articleService.getArticleItemListFromServer()
+                .subscribe(
+                    (articleList: ArticleItem[]) => {
+                        this.articleItemList = articleList;
+                        this.tempArticleList = [...articleList];
+                    },
+                    (error) => {
+                        this.showErrorPopup(error);
+                    }
+                );
+        }
 
         this.actionButtonClassName = "btn btn-";
-    }
-
-    ngOnDestroy() {
-console.log('article LIST - ON DESTROY');
-        this.articleListSubscription.unsubscribe();
     }
 
     // onNewMenuItem() {
@@ -209,4 +196,23 @@ console.log('article LIST - ON DESTROY');
         this.articleListTable.offset = 0;
     }
 
+    showErrorPopup(error: string) {
+        this.popup.open(NguiMessagePopupComponent, {
+            classNames: 'small',
+            title: 'ERROR',
+            message: error,
+            buttons: {
+                CLOSE: () => {
+                    this.popup.close();
+                }
+            }
+        });
+    }
+
+    ngOnDestroy() {
+console.log('article LIST - ON DESTROY');
+        if (this.articleListSubscription != undefined) {
+            this.articleListSubscription.unsubscribe();
+        }
+    }
 }
