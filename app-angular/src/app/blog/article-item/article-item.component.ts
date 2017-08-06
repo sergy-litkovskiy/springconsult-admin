@@ -123,13 +123,14 @@ import {isNullOrUndefined} from "util";
                                     </ckeditor>
                                 </div>
                                 <div class="form-group">
-                                    <label for="assignedMenuList">Assigned menu list</label>
-                                    <input 
-                                            *ngFor="let menuItem of availableMenuList;"
-                                            type="checkbox" 
-                                            [checked]="menuItem.isChecked" 
-                                            (change)="onChangeAssignment(menuItem)"
-                                    >
+                                    <label for="assignedMenuList">Assigned menu list: </label>
+                                    <span *ngFor="let menuItem of availableMenuList;">
+                                        <input
+                                                type="checkbox"
+                                                [checked]="menuItem.isChecked"
+                                                (change)="onChangeAssignment(menuItem)"
+                                        > {{ menuItem.title }} |
+                                    </span>
                                 </div>
                             </div>
                             <div class="box-footer">
@@ -165,7 +166,7 @@ export class AppArticleItemComponent implements OnInit {
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
     availableMenuList: MenuItem[];
-    assignedMenuIdList: number[];
+    assignedMenuItemList: MenuItem[];
 
     private articleItemSubscription: Subscription;
     private menuListSubscription: Subscription;
@@ -221,15 +222,14 @@ export class AppArticleItemComponent implements OnInit {
                 return false;
             }
 
-            this.assignedMenuIdList = this.articleItem.assignedMenuList.map(
-                (menuItem: MenuItem) => {
-                    return menuItem.id;
-                }
-            );
+            this.assignedMenuItemList = this.articleItem.assignedMenuList;
 
             this.availableMenuList = this.availableMenuList.map(
                 (menuItem: MenuItem) => {
-                    if (this.assignedMenuIdList.indexOf(menuItem.id) !== -1) {
+                    if (
+                        this.assignedMenuItemList
+                            .find((assignedMenuItem: MenuItem) => assignedMenuItem.id == menuItem.id)
+                    ) {
                         menuItem.isChecked = true;
                     }
 
@@ -325,9 +325,10 @@ export class AppArticleItemComponent implements OnInit {
         let previousState = menuItem.isChecked;
 
         if (previousState) {
-            this.assignedMenuIdList = this.assignedMenuIdList.filter(menuId => menuId !== menuItem.id);
+            this.assignedMenuItemList = this.assignedMenuItemList
+                .filter((assignedMenuItem: MenuItem) => assignedMenuItem.id !== menuItem.id);
         } else {
-            this.assignedMenuIdList.push(menuItem.id)
+            this.assignedMenuItemList.push(menuItem)
         }
 
         menuItem.isChecked = !previousState;
