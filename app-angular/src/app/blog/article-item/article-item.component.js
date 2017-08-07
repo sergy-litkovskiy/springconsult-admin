@@ -127,6 +127,7 @@ var AppArticleItemComponent = (function () {
         this.articleItem.slug = this.articleForm.value.slug;
         this.articleItem.date = this.articleForm.value.createdAt;
         this.articleItem.image = this.file != null ? this.originalImageName : this.articleItem.image;
+        this.articleItem.assignedMenuList = this.assignedMenuItemList;
     };
     AppArticleItemComponent.prototype.onCancel = function () {
         this.router.navigate(['/article-edit/:id', this.articleItem.id], { relativeTo: this.route });
