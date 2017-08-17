@@ -52,6 +52,9 @@ var ArticleService = (function () {
         var index = this.articleItemList.indexOf(articleItem);
         this.articleItemList[index] = articleItem;
     };
+    ArticleService.prototype.addArticleItemToList = function (articleItem) {
+        this.articleItemList.push(articleItem);
+    };
     ArticleService.prototype.updateArticle = function (articleItem) {
         return this.http
             .put(this.urlToUpdate, articleItem, { headers: this.headers })

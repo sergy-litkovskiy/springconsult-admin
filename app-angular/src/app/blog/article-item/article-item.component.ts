@@ -293,7 +293,17 @@ export class AppArticleItemComponent implements OnInit {
                     }
                 );
         } else {
-            // this.articleService.addArticle(this.articleItem);
+            this.articleService.addArticle(this.articleItem)
+                .subscribe(
+                    (response: any) => {
+                        this.articleItem.imageData = null;
+                        this.articleService.addArticleItemToList(this.articleItem);
+                        this.redirectToArticleList();
+                    },
+                    (error) => {
+                        this.showErrorPopup(error);
+                    }
+                );
         }
     }
 

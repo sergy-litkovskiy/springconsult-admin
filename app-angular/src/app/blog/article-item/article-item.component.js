@@ -114,7 +114,14 @@ var AppArticleItemComponent = (function () {
             });
         }
         else {
-            // this.articleService.addArticle(this.articleItem);
+            this.articleService.addArticle(this.articleItem)
+                .subscribe(function (response) {
+                _this.articleItem.imageData = null;
+                _this.articleService.addArticleItemToList(_this.articleItem);
+                _this.redirectToArticleList();
+            }, function (error) {
+                _this.showErrorPopup(error);
+            });
         }
     };
     AppArticleItemComponent.prototype.fillArticleItem = function () {

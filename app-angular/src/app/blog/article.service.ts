@@ -54,6 +54,10 @@ export class ArticleService {
         this.articleItemList[index] = articleItem;
     }
 
+    addArticleItemToList(articleItem: ArticleItem) {
+        this.articleItemList.push(articleItem);
+    }
+
     updateArticle(articleItem: ArticleItem) {
         return this.http
             .put(this.urlToUpdate, articleItem, {headers: this.headers})

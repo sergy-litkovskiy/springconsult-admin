@@ -29,6 +29,8 @@ class Blog extends MY_Controller
                 if (!$this->blog_model->update($articleId, $articleData)) {
                     throw new RuntimeException(sprintf('Article with ID#%s was not updated', $articleId));
                 }
+
+                return $articleId;
             }
         );
     }
@@ -37,9 +39,11 @@ class Blog extends MY_Controller
     {
         return $this->saveArticle(
             function ($articleData) {
-                if (!$this->blog_model->add($articleData)) {
+                if (!$id = $this->blog_model->add($articleData)) {
                     throw new RuntimeException('New Article was not inserted');
                 }
+
+                return $id;
             }
         );
     }
@@ -58,7 +62,8 @@ class Blog extends MY_Controller
 
             $articleData = $this->makeMainArticleData($data);
 
-            $fn($articleData);
+            $id = $fn($articleData);
+            $this->processAssignedMenuList($id, $data);
         } catch (Exception $e) {
             return $this->output
                 ->set_content_type($this->contentTypeJson)
@@ -153,6 +158,19 @@ class Blog extends MY_Controller
             $imageInBase64
         )) {
             throw new RuntimeException('Image for article was not uploaded');
+        }
+    }
+
+    private function processAssignedMenuList($articleId, array $data)
+    {
+        if (!$assignedMenuList = ArrayHelper::arrayGet($data, 'assignedMenuList')) {
+            return;
+        }
+
+        $this->menu_model->deleteAssignmentByArticleId($articleId);
+
+        foreach ($assignedMenuList as $assignedMenu) {
+            $this->menu_model->assignArticleToMenu($articleId, ArrayHelper::arrayGet($assignedMenu, 'id'));
         }
     }
 }

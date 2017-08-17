@@ -26,4 +26,18 @@ class Menu_model extends Crud
 
         return $query->result_array();
     }
+
+    public function deleteAssignmentByArticleId($articleId)
+    {
+        $this->table = 'menu_article_assignment';
+
+        return $this->deleteByParams(['article_id' => $articleId]);
+    }
+
+    public function assignArticleToMenu($articleId, $menuId)
+    {
+        $this->table = 'menu_article_assignment';
+
+        return $this->add(['article_id' => $articleId, 'menu_id' => $menuId]);
+    }
 }
