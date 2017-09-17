@@ -44,11 +44,11 @@ var MenuService = (function () {
     MenuService.prototype.getMenuItem = function (index) {
         return this.menuItemList[index];
     };
+    MenuService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], MenuService);
     return MenuService;
 }());
-MenuService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], MenuService);
 exports.MenuService = MenuService;
 //# sourceMappingURL=menu.service.js.map

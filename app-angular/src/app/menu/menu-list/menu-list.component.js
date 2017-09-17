@@ -43,21 +43,21 @@ var AppMenuComponent = (function () {
     AppMenuComponent.prototype.onNewMenuItem = function () {
         this.router.navigate(['menu-new'], { relativeTo: this.route });
     };
+    __decorate([
+        core_1.ViewChild(popup_1.NguiPopupComponent),
+        __metadata("design:type", popup_1.NguiPopupComponent)
+    ], AppMenuComponent.prototype, "popup", void 0);
+    AppMenuComponent = __decorate([
+        core_1.Component({
+            selector: 'menu-list',
+            // templateUrl: './menu-list.component.html',
+            template: "\n        <div>\n            <ngx-datatable\n                class=\"material ngx-datatable fixed-header fixed-row scroll-vertical scroll-horz\"\n                [rows]=\"rows\"\n                [columns]=\"columns\"\n                [columnMode]=\"'force'\"\n                [headerHeight]=\"50\"\n                [footerHeight]=\"50\"\n                [rowHeight]=\"'auto'\"\n                [sortType]=\"'multi'\"\n                [limit]=\"10\">\n            </ngx-datatable>\n        </div>\n    "
+        }),
+        __metadata("design:paramtypes", [menu_service_1.MenuService,
+            router_1.Router,
+            router_1.ActivatedRoute])
+    ], AppMenuComponent);
     return AppMenuComponent;
 }());
-__decorate([
-    core_1.ViewChild(popup_1.NguiPopupComponent),
-    __metadata("design:type", popup_1.NguiPopupComponent)
-], AppMenuComponent.prototype, "popup", void 0);
-AppMenuComponent = __decorate([
-    core_1.Component({
-        selector: 'menu-list',
-        // templateUrl: './menu-list.component.html',
-        template: "\n        <div>\n            <ngx-datatable\n                class=\"material ngx-datatable fixed-header fixed-row scroll-vertical scroll-horz\"\n                [rows]=\"rows\"\n                [columns]=\"columns\"\n                [columnMode]=\"'force'\"\n                [headerHeight]=\"50\"\n                [footerHeight]=\"50\"\n                [rowHeight]=\"'auto'\"\n                [sortType]=\"'multi'\"\n                [limit]=\"10\">\n            </ngx-datatable>\n        </div>\n    "
-    }),
-    __metadata("design:paramtypes", [menu_service_1.MenuService,
-        router_1.Router,
-        router_1.ActivatedRoute])
-], AppMenuComponent);
 exports.AppMenuComponent = AppMenuComponent;
 //# sourceMappingURL=menu-list.component.js.map

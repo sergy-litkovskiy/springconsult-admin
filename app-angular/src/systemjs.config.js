@@ -37,7 +37,6 @@
             'ng-pick-datetime'         : 'npm:ng-pick-datetime',
             'moment'                   : 'npm:moment',
             'ng2-ckeditor'             : 'npm:ng2-ckeditor',
-            'ng2-file-upload' : 'npm:ng2-file-upload'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -66,10 +65,6 @@
                 main           : 'lib/index.js',
                 defaultExtension: 'js',
             },
-            'ng2-file-upload' : {
-                main: './ng2-file-upload.js',
-                defaultExtension: 'js'
-            }
         }
     });
 })(this);

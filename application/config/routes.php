@@ -67,4 +67,3 @@ $route['article/add'] = "blog/addArticle";
 $route['article/delete/(:num)'] = "blog/deleteArticle/$1";
 
 $route['menu/list'] = "menu/getList";
-

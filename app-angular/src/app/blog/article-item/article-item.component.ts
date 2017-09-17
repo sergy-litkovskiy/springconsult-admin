@@ -8,7 +8,7 @@ import {DateTimePickerModule} from 'ng-pick-datetime';
 import {Subscription} from "rxjs/Subscription";
 import {MenuItem} from "../../menu/menu-item.model";
 import {MenuService} from "../../menu/menu.service";
-import {isNullOrUndefined} from "util";
+import {CKEditorModule} from "ng2-ckeditor";
 
 @Component({
     selector: 'article-edit',
@@ -114,12 +114,13 @@ import {isNullOrUndefined} from "util";
                                 <div class="form-group">
                                     <label for="text">Text</label>
                                     <ckeditor
-                                            id="ckeditorContent"
-                                            class="form-control ckeditor"
-                                            formControlName="ckeditorContent"
-                                            [readonly]="false"
-                                            debounce="500"
-                                    >
+                                        id="ckeditorContainer"
+                                        class="form-control ckeditor"
+                                        formControlName="ckeditorContent"
+                                        [readonly]="false"
+                                        debounce="500"
+                                        [config]="ckeditorConfig"
+                                        >
                                     </ckeditor>
                                 </div>
                                 <div class="form-group">
@@ -160,6 +161,7 @@ export class AppArticleItemComponent implements OnInit {
     articleId: number;
     articleForm: FormGroup;
     ckeditorContent: string;
+    ckeditorConfig: any;
     file: File;
     imagePath: string;
     originalImageName: string;
@@ -172,6 +174,7 @@ export class AppArticleItemComponent implements OnInit {
     private menuListSubscription: Subscription;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
+    @ViewChild(CKEditorModule) ckeditorContainer: CKEditorModule;
 
     constructor(
         private articleService: ArticleService,
@@ -180,6 +183,12 @@ export class AppArticleItemComponent implements OnInit {
         private route: ActivatedRoute
     ) {
         this.dateTimePicker = new DateTimePickerModule();
+        this.ckeditorConfig = {
+            filebrowserBrowseUrl: '/vendor/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl: '/vendor/ckfinder/ckfinder.html?Type=Images',
+            filebrowserUploadUrl: '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl: '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+        }
     }
 
     ngOnInit() {

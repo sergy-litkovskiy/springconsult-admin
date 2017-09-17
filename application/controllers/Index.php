@@ -55,5 +55,4 @@ class Index extends MY_Controller
     {
         $this->twig->display('/layout.html', []);
     }
-
 }

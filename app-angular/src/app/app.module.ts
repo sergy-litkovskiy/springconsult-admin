@@ -38,7 +38,7 @@ import {ArticleService} from "./blog/article.service";
         FormsModule,
         ReactiveFormsModule,
         DateTimePickerModule,
-        CKEditorModule
+        CKEditorModule,
     ],
     providers: [
         MenuService,

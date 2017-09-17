@@ -97,11 +97,11 @@ var ArticleService = (function () {
         });
         return filteredArticleList[0];
     };
+    ArticleService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], ArticleService);
     return ArticleService;
 }());
-ArticleService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], ArticleService);
 exports.ArticleService = ArticleService;
 //# sourceMappingURL=article.service.js.map

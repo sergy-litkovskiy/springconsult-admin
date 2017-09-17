@@ -26,41 +26,41 @@ var article_service_1 = require("./blog/article.service");
 var AppModule = (function () {
     function AppModule() {
     }
+    AppModule = __decorate([
+        core_1.NgModule({
+            declarations: [
+                app_main_component_1.AppMainComponent,
+                menu_list_component_1.AppMenuComponent,
+                article_list_component_1.AppArticleListComponent,
+                article_item_component_1.AppArticleItemComponent
+                // ,
+                // FileSelectDirective,
+                // FileDropDirective
+            ],
+            imports: [
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                http_1.HttpModule,
+                app_routing_module_1.AppRoutingModule,
+                ngx_datatable_1.NgxDatatableModule,
+                popup_1.NguiPopupModule,
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
+                ng_pick_datetime_1.DateTimePickerModule,
+                ng2_ckeditor_1.CKEditorModule,
+            ],
+            providers: [
+                menu_service_1.MenuService,
+                article_service_1.ArticleService,
+                {
+                    provide: common_1.APP_BASE_HREF,
+                    useValue: '/'
+                }
+            ],
+            bootstrap: [app_main_component_1.AppMainComponent]
+        })
+    ], AppModule);
     return AppModule;
 }());
-AppModule = __decorate([
-    core_1.NgModule({
-        declarations: [
-            app_main_component_1.AppMainComponent,
-            menu_list_component_1.AppMenuComponent,
-            article_list_component_1.AppArticleListComponent,
-            article_item_component_1.AppArticleItemComponent
-            // ,
-            // FileSelectDirective,
-            // FileDropDirective
-        ],
-        imports: [
-            platform_browser_1.BrowserModule,
-            forms_1.FormsModule,
-            http_1.HttpModule,
-            app_routing_module_1.AppRoutingModule,
-            ngx_datatable_1.NgxDatatableModule,
-            popup_1.NguiPopupModule,
-            forms_1.FormsModule,
-            forms_1.ReactiveFormsModule,
-            ng_pick_datetime_1.DateTimePickerModule,
-            ng2_ckeditor_1.CKEditorModule
-        ],
-        providers: [
-            menu_service_1.MenuService,
-            article_service_1.ArticleService,
-            {
-                provide: common_1.APP_BASE_HREF,
-                useValue: '/'
-            }
-        ],
-        bootstrap: [app_main_component_1.AppMainComponent]
-    })
-], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

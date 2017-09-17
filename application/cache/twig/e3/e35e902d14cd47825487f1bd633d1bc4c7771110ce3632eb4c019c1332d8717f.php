@@ -48,7 +48,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                 ";
         // line 66
         $this->displayBlock('footer', $context, $blocks);
-        // line 118
+        // line 125
         echo "            </div>
         </body>
 </html>
@@ -226,36 +226,55 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
         echo "js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
                     <script src=\"https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js\"></script>
+
+                    <link href=\"";
+        // line 96
+        echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
+        echo "app-angular/node_modules/froala-editor/css/froala_editor.pkgd.min.css\" rel=\"stylesheet\">
+                    <link rel=\"stylesheet\" href=\"";
+        // line 97
+        echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
+        echo "app-angular/node_modules/froala-editor/css/froala_style.min.css\">
+                    <link href=\"";
+        // line 98
+        echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
+        echo "app-angular/node_modules/font-awesome/css/font-awesome.min.css\" rel=\"stylesheet\">
+
+                    <script src=\"";
+        // line 100
+        echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
+        echo "app-angular/node_modules/froala-editor/js/froala_editor.pkgd.min.js\"></script>
+
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     ";
-        // line 97
+        // line 104
         echo "
                     ";
-        // line 99
+        // line 106
         echo "                    ";
-        // line 100
+        // line 107
         echo "
                     <!-- Polyfills -->
                     <script src=\"";
-        // line 102
+        // line 109
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/core-js/client/shim.js\"></script>
 
                     <script src=\"";
-        // line 104
+        // line 111
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/zone.js/dist/zone.min.js\"></script>
                     <script src=\"";
-        // line 105
+        // line 112
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/reflect-metadata/Reflect.js\"></script>
 
                     <script src=\"";
-        // line 107
+        // line 114
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/node_modules/systemjs/dist/system.js\"></script>
                     <script src=\"";
-        // line 108
+        // line 115
         echo twig_escape_filter($this->env, getCurrentDomain(), "html", null, true);
         echo "app-angular/src/systemjs.config.js\"></script>
 
@@ -276,7 +295,7 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
 
     public function getDebugInfo()
     {
-        return array (  259 => 108,  255 => 107,  250 => 105,  246 => 104,  241 => 102,  237 => 100,  235 => 99,  232 => 97,  225 => 92,  220 => 90,  215 => 88,  210 => 86,  205 => 84,  200 => 82,  196 => 81,  191 => 79,  186 => 77,  181 => 75,  176 => 73,  171 => 71,  165 => 67,  162 => 66,  157 => 63,  154 => 62,  145 => 56,  141 => 54,  138 => 53,  134 => 49,  132 => 48,  120 => 38,  116 => 37,  112 => 36,  107 => 34,  101 => 31,  96 => 30,  91 => 27,  86 => 25,  81 => 23,  71 => 16,  63 => 10,  60 => 9,  52 => 118,  50 => 66,  47 => 65,  45 => 62,  42 => 61,  40 => 53,  35 => 50,  33 => 9,  23 => 1,);
+        return array (  278 => 115,  274 => 114,  269 => 112,  265 => 111,  260 => 109,  256 => 107,  254 => 106,  251 => 104,  245 => 100,  240 => 98,  236 => 97,  232 => 96,  225 => 92,  220 => 90,  215 => 88,  210 => 86,  205 => 84,  200 => 82,  196 => 81,  191 => 79,  186 => 77,  181 => 75,  176 => 73,  171 => 71,  165 => 67,  162 => 66,  157 => 63,  154 => 62,  145 => 56,  141 => 54,  138 => 53,  134 => 49,  132 => 48,  120 => 38,  116 => 37,  112 => 36,  107 => 34,  101 => 31,  96 => 30,  91 => 27,  86 => 25,  81 => 23,  71 => 16,  63 => 10,  60 => 9,  52 => 125,  50 => 66,  47 => 65,  45 => 62,  42 => 61,  40 => 53,  35 => 50,  33 => 9,  23 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -383,6 +402,13 @@ class __TwigTemplate_0f44a09138db61b8a3a3b9dad0e162e076c132231292e1394163efb20ad
                     <script src=\"{{ getCurrentDomain() }}js/admin/plugins/chartjs/Chart.min.js\" type=\"text/javascript\"></script>
 
                     <script src=\"https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js\"></script>
+
+                    <link href=\"{{ getCurrentDomain() }}app-angular/node_modules/froala-editor/css/froala_editor.pkgd.min.css\" rel=\"stylesheet\">
+                    <link rel=\"stylesheet\" href=\"{{ getCurrentDomain() }}app-angular/node_modules/froala-editor/css/froala_style.min.css\">
+                    <link href=\"{{ getCurrentDomain() }}app-angular/node_modules/font-awesome/css/font-awesome.min.css\" rel=\"stylesheet\">
+
+                    <script src=\"{{ getCurrentDomain() }}app-angular/node_modules/froala-editor/js/froala_editor.pkgd.min.js\"></script>
+
                     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
                     {#<script src=\"dist/js/pages/dashboard2.js\" type=\"text/javascript\"></script>#}
 
