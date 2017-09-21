@@ -18,6 +18,7 @@ export declare class Chips implements AfterContentInit, ControlValueAccessor {
     allowDuplicate: boolean;
     inputStyle: any;
     inputStyleClass: any;
+    addOnTab: boolean;
     templates: QueryList<any>;
     itemTemplate: TemplateRef<any>;
     value: any;
@@ -35,6 +36,7 @@ export declare class Chips implements AfterContentInit, ControlValueAccessor {
     onFocus(): void;
     onBlur(): void;
     removeItem(event: Event, index: number): void;
+    addItem(event: Event, item: string): void;
     onKeydown(event: KeyboardEvent, inputEL: HTMLInputElement): void;
     readonly maxedOut: boolean;
 }

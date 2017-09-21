@@ -142,6 +142,10 @@ __decorate([
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)
+], Column.prototype, "filterField", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
 ], Column.prototype, "header", void 0);
 __decorate([
     core_1.Input(),

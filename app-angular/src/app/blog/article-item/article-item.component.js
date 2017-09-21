@@ -37,6 +37,7 @@ var AppArticleItemComponent = (function () {
         var _this = this;
         this.articleItemSubscription = this.route.params
             .subscribe(function (params) {
+            console.log('params', params);
             _this.articleId = +params['id'];
             _this.editMode = params['id'] != null;
             _this.setAvailableMenuList();
@@ -144,7 +145,7 @@ var AppArticleItemComponent = (function () {
         this.articleItem.assignedMenuList = this.assignedMenuItemList;
     };
     AppArticleItemComponent.prototype.onCancel = function () {
-        this.router.navigate(['/article-edit/:id', this.articleItem.id], { relativeTo: this.route });
+        this.redirectToArticleList();
     };
     AppArticleItemComponent.prototype.redirectToArticleList = function () {
         this.router.navigate(['/article-list'], { relativeTo: this.route });

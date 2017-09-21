@@ -1,4 +1,4 @@
-import { ElementRef, OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, OnDestroy, Renderer2, EventEmitter, QueryList, TemplateRef, ChangeDetectorRef } from '@angular/core';
+import { ElementRef, OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, OnDestroy, Renderer2, EventEmitter, QueryList, TemplateRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { SelectItem } from '../common/selectitem';
 import { DomHandler } from '../dom/domhandler';
 import { ObjectUtils } from '../utils/objectutils';
@@ -10,6 +10,7 @@ export declare class Dropdown implements OnInit, AfterViewInit, AfterContentInit
     renderer: Renderer2;
     private cd;
     objectUtils: ObjectUtils;
+    zone: NgZone;
     scrollHeight: string;
     filter: boolean;
     style: any;
@@ -29,6 +30,7 @@ export declare class Dropdown implements OnInit, AfterViewInit, AfterContentInit
     dataKey: string;
     filterBy: string;
     lazy: boolean;
+    autofocus: boolean;
     onChange: EventEmitter<any>;
     onFocus: EventEmitter<any>;
     onBlur: EventEmitter<any>;
@@ -61,7 +63,7 @@ export declare class Dropdown implements OnInit, AfterViewInit, AfterContentInit
     hoveredItem: any;
     selectedOptionUpdated: boolean;
     filterValue: string;
-    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, cd: ChangeDetectorRef, objectUtils: ObjectUtils);
+    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, cd: ChangeDetectorRef, objectUtils: ObjectUtils, zone: NgZone);
     ngAfterContentInit(): void;
     ngOnInit(): void;
     options: SelectItem[];

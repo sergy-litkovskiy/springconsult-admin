@@ -66,6 +66,8 @@ export declare class Tree implements OnInit, AfterContentInit, OnDestroy {
     metaKeySelection: boolean;
     propagateSelectionUp: boolean;
     propagateSelectionDown: boolean;
+    loading: boolean;
+    loadingIcon: string;
     templates: QueryList<any>;
     templateMap: any;
     nodeTouched: boolean;

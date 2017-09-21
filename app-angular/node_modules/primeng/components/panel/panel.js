@@ -35,7 +35,6 @@ var Panel = (function () {
             else
                 this.collapse(event);
         }
-        this.onAfterToggle.emit({ originalEvent: event, collapsed: this.collapsed });
         event.preventDefault();
     };
     Panel.prototype.expand = function (event) {
@@ -51,6 +50,7 @@ var Panel = (function () {
     };
     Panel.prototype.onToggleDone = function (event) {
         this.animating = false;
+        this.onAfterToggle.emit({ originalEvent: event, collapsed: this.collapsed });
     };
     return Panel;
 }());

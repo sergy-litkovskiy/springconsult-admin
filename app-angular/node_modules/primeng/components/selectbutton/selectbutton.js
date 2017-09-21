@@ -19,6 +19,7 @@ exports.SELECTBUTTON_VALUE_ACCESSOR = {
 };
 var SelectButton = (function () {
     function SelectButton() {
+        this.onOptionClick = new core_1.EventEmitter();
         this.onChange = new core_1.EventEmitter();
         this.onModelChange = function () { };
         this.onModelTouched = function () { };
@@ -35,7 +36,7 @@ var SelectButton = (function () {
     SelectButton.prototype.setDisabledState = function (val) {
         this.disabled = val;
     };
-    SelectButton.prototype.onItemClick = function (event, option, checkbox) {
+    SelectButton.prototype.onItemClick = function (event, option, checkbox, index) {
         if (this.disabled) {
             return;
         }
@@ -50,6 +51,11 @@ var SelectButton = (function () {
         else {
             this.value = option.value;
         }
+        this.onOptionClick.emit({
+            originalEvent: event,
+            option: option,
+            index: index
+        });
         this.onModelChange(this.value);
         this.onChange.emit({
             originalEvent: event,
@@ -110,11 +116,15 @@ __decorate([
 __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
+], SelectButton.prototype, "onOptionClick", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
 ], SelectButton.prototype, "onChange", void 0);
 SelectButton = __decorate([
     core_1.Component({
         selector: 'p-selectButton',
-        template: "\n        <div [ngClass]=\"'ui-selectbutton ui-buttonset ui-widget ui-corner-all ui-buttonset-' + options.length\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div *ngFor=\"let option of options;\" class=\"ui-button ui-widget ui-state-default ui-button-text-only\"\n                [ngClass]=\"{'ui-state-active':isSelected(option), 'ui-state-disabled':disabled, 'ui-state-focus': cbox == focusedItem}\" (click)=\"onItemClick($event,option,cbox)\">\n                <span class=\"ui-button-text ui-clickable\">{{option.label}}</span>\n                <div class=\"ui-helper-hidden-accessible\">\n                    <input #cbox type=\"checkbox\" [checked]=\"isSelected(option)\" (focus)=\"onFocus($event)\" (blur)=\"onBlur($event)\" [attr.tabindex]=\"tabindex\" [attr.disabled]=\"disabled\">\n                </div>\n            </div>\n        </div>\n    ",
+        template: "\n        <div [ngClass]=\"'ui-selectbutton ui-buttonset ui-widget ui-corner-all ui-buttonset-' + options.length\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div *ngFor=\"let option of options; let i = index\" class=\"ui-button ui-widget ui-state-default ui-button-text-only {{option.styleClass}}\"\n                [ngClass]=\"{'ui-state-active':isSelected(option), 'ui-state-disabled':disabled, 'ui-state-focus': cbox == focusedItem}\" (click)=\"onItemClick($event,option,cbox,i)\">\n                <span class=\"ui-button-text ui-clickable\">{{option.label}}</span>\n                <div class=\"ui-helper-hidden-accessible\">\n                    <input #cbox type=\"checkbox\" [checked]=\"isSelected(option)\" (focus)=\"onFocus($event)\" (blur)=\"onBlur($event)\" [attr.tabindex]=\"tabindex\" [attr.disabled]=\"disabled\">\n                </div>\n            </div>\n        </div>\n    ",
         providers: [exports.SELECTBUTTON_VALUE_ACCESSOR]
     })
 ], SelectButton);

@@ -59,7 +59,7 @@ var OrderList = (function () {
             return this._value;
         },
         set: function (val) {
-            this._value = val ? val.slice() : null;
+            this._value = val;
             if (this.filterValue) {
                 this.filter();
             }

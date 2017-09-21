@@ -54,6 +54,7 @@ var BlockUI = (function () {
         this.el.nativeElement.appendChild(this.mask.nativeElement);
     };
     BlockUI.prototype.ngOnDestroy = function () {
+        this.unblock();
     };
     return BlockUI;
 }());

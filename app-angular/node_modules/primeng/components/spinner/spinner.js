@@ -24,6 +24,7 @@ var Spinner = (function () {
         this.el = el;
         this.domHandler = domHandler;
         this.onChange = new core_1.EventEmitter();
+        this.onFocus = new core_1.EventEmitter();
         this.onBlur = new core_1.EventEmitter();
         this.step = 1;
         this.decimalSeparator = '.';
@@ -40,16 +41,16 @@ var Spinner = (function () {
             this.precision = this.step.toString().split(/[,]|[.]/)[1].length;
         }
     };
-    Spinner.prototype.repeat = function (interval, dir) {
+    Spinner.prototype.repeat = function (event, interval, dir) {
         var _this = this;
         var i = interval || 500;
         this.clearTimer();
         this.timer = setTimeout(function () {
-            _this.repeat(40, dir);
+            _this.repeat(event, 40, dir);
         }, i);
-        this.spin(dir);
+        this.spin(event, dir);
     };
-    Spinner.prototype.spin = function (dir) {
+    Spinner.prototype.spin = function (event, dir) {
         var step = this.step * dir;
         var currentValue = this.value || 0;
         var newValue = null;
@@ -68,7 +69,7 @@ var Spinner = (function () {
         }
         this.formatValue();
         this.onModelChange(this.value);
-        this.onChange.emit();
+        this.onChange.emit(event);
     };
     Spinner.prototype.toFixed = function (value, precision) {
         var power = Math.pow(10, precision || 0);
@@ -77,7 +78,7 @@ var Spinner = (function () {
     Spinner.prototype.onUpButtonMousedown = function (event, input) {
         if (!this.disabled) {
             input.focus();
-            this.repeat(null, 1);
+            this.repeat(event, null, 1);
             this.updateFilledState();
         }
     };
@@ -94,7 +95,7 @@ var Spinner = (function () {
     Spinner.prototype.onDownButtonMousedown = function (event, input) {
         if (!this.disabled) {
             input.focus();
-            this.repeat(null, -1);
+            this.repeat(event, null, -1);
             this.updateFilledState();
         }
     };
@@ -110,11 +111,11 @@ var Spinner = (function () {
     };
     Spinner.prototype.onInputKeydown = function (event) {
         if (event.which == 38) {
-            this.spin(1);
+            this.spin(event, 1);
             event.preventDefault();
         }
         else if (event.which == 40) {
-            this.spin(-1);
+            this.spin(event, -1);
             event.preventDefault();
         }
     };
@@ -135,8 +136,9 @@ var Spinner = (function () {
         this.onModelTouched();
         this.onBlur.emit(event);
     };
-    Spinner.prototype.onFocus = function () {
+    Spinner.prototype.onInputFocus = function (event) {
         this.focus = true;
+        this.onFocus.emit(event);
     };
     Spinner.prototype.parseValue = function (val) {
         var value;
@@ -213,6 +215,10 @@ __decorate([
 __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
+], Spinner.prototype, "onFocus", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
 ], Spinner.prototype, "onBlur", void 0);
 __decorate([
     core_1.Input(),
@@ -270,10 +276,14 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", String)
 ], Spinner.prototype, "type", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Spinner.prototype, "required", void 0);
 Spinner = __decorate([
     core_1.Component({
         selector: 'p-spinner',
-        template: "\n        <span class=\"ui-spinner ui-widget ui-corner-all\">\n            <input #in [attr.type]=\"type\" [attr.id]=\"inputId\" class=\"ui-spinner-input\" [value]=\"valueAsString\" class=\"ui-inputtext ui-widget ui-state-default ui-corner-all\"\n            [attr.size]=\"size\" [attr.maxlength]=\"maxlength\" [attr.tabindex]=\"tabindex\" [attr.placeholder]=\"placeholder\" [disabled]=\"disabled\" [readonly]=\"readonly\"\n            (keydown)=\"onInputKeydown($event)\" (keyup)=\"onInput($event,in.value)\" (keypress)=\"onInputKeyPress($event)\" (blur)=\"onInputBlur($event)\" (change)=\"handleChange($event)\" (focus)=\"onFocus()\">\n            <button type=\"button\" [ngClass]=\"{'ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}\" [disabled]=\"disabled\"\n                (mouseleave)=\"onUpButtonMouseleave($event)\" (mousedown)=\"onUpButtonMousedown($event,in)\" (mouseup)=\"onUpButtonMouseup($event)\">\n                <span class=\"fa fa-caret-up ui-clickable\"></span>\n            </button>\n            <button type=\"button\" [ngClass]=\"{'ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}\" [disabled]=\"disabled\"\n                (mouseleave)=\"onDownButtonMouseleave($event)\" (mousedown)=\"onDownButtonMousedown($event,in)\" (mouseup)=\"onDownButtonMouseup($event)\">\n                <span class=\"fa fa-caret-down ui-clickable\"></span>\n            </button>\n        </span>\n    ",
+        template: "\n        <span class=\"ui-spinner ui-widget ui-corner-all\">\n            <input #in [attr.type]=\"type\" [attr.id]=\"inputId\" class=\"ui-spinner-input\" [value]=\"valueAsString\" class=\"ui-inputtext ui-widget ui-state-default ui-corner-all\"\n            [attr.size]=\"size\" [attr.maxlength]=\"maxlength\" [attr.tabindex]=\"tabindex\" [attr.placeholder]=\"placeholder\" [disabled]=\"disabled\" [readonly]=\"readonly\" [attr.required]=\"required\"\n            (keydown)=\"onInputKeydown($event)\" (keyup)=\"onInput($event,in.value)\" (keypress)=\"onInputKeyPress($event)\" (blur)=\"onInputBlur($event)\" (change)=\"handleChange($event)\" (focus)=\"onInputFocus($event)\">\n            <button type=\"button\" [ngClass]=\"{'ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}\" [disabled]=\"disabled\"\n                (mouseleave)=\"onUpButtonMouseleave($event)\" (mousedown)=\"onUpButtonMousedown($event,in)\" (mouseup)=\"onUpButtonMouseup($event)\">\n                <span class=\"fa fa-caret-up ui-clickable\"></span>\n            </button>\n            <button type=\"button\" [ngClass]=\"{'ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}\" [disabled]=\"disabled\"\n                (mouseleave)=\"onDownButtonMouseleave($event)\" (mousedown)=\"onDownButtonMousedown($event,in)\" (mouseup)=\"onDownButtonMouseup($event)\">\n                <span class=\"fa fa-caret-down ui-clickable\"></span>\n            </button>\n        </span>\n    ",
         host: {
             '[class.ui-inputwrapper-filled]': 'filled',
             '[class.ui-inputwrapper-focus]': 'focus'

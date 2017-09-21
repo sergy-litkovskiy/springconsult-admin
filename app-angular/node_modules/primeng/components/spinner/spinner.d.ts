@@ -6,6 +6,7 @@ export declare class Spinner implements OnInit, ControlValueAccessor {
     el: ElementRef;
     domHandler: DomHandler;
     onChange: EventEmitter<any>;
+    onFocus: EventEmitter<any>;
     onBlur: EventEmitter<any>;
     step: number;
     min: number;
@@ -21,6 +22,7 @@ export declare class Spinner implements OnInit, ControlValueAccessor {
     tabindex: number;
     formatInput: boolean;
     type: string;
+    required: boolean;
     value: number;
     valueAsString: string;
     onModelChange: Function;
@@ -32,8 +34,8 @@ export declare class Spinner implements OnInit, ControlValueAccessor {
     filled: boolean;
     constructor(el: ElementRef, domHandler: DomHandler);
     ngOnInit(): void;
-    repeat(interval: number, dir: number): void;
-    spin(dir: number): void;
+    repeat(event: Event, interval: number, dir: number): void;
+    spin(event: Event, dir: number): void;
     toFixed(value: number, precision: number): string;
     onUpButtonMousedown(event: Event, input: HTMLInputElement): void;
     onUpButtonMouseup(event: Event): void;
@@ -45,7 +47,7 @@ export declare class Spinner implements OnInit, ControlValueAccessor {
     onInputKeyPress(event: KeyboardEvent): void;
     onInput(event: Event, inputValue: string): void;
     onInputBlur(event: any): void;
-    onFocus(): void;
+    onInputFocus(event: any): void;
     parseValue(val: string): number;
     formatValue(): void;
     handleChange(event: Event): void;

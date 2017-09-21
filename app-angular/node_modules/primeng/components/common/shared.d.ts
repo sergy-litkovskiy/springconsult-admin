@@ -24,6 +24,7 @@ export declare class Column implements AfterContentInit {
     field: string;
     colId: string;
     sortField: string;
+    filterField: string;
     header: string;
     footer: string;
     sortable: any;

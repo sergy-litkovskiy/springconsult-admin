@@ -101,7 +101,7 @@ $autoload['helper'] = [
         'cdn_url',
         'form',
         'head_htm_backend',
-        'tinymce',
+//        'tinymce',
         'email',
         'directory',
         'text',
@@ -110,7 +110,7 @@ $autoload['helper'] = [
         'pager',
         'security',
         'disqus',
-        'unisender_curl',
+//        'unisender_curl',
         'environment'
     ];
 
@@ -161,11 +161,11 @@ $autoload['model'] = [
     'index_model',
     'edit_menu_model',
     'login_model',
-    'search_model',
-    'mailer_model',
+//    'search_model',
+//    'mailer_model',
     'landing_model',
     'assign_model',
-    'tags_model',
+//    'tags_model',
 
     'menu_model',
     'topic_model',
@@ -178,6 +178,6 @@ $autoload['model'] = [
     'gift_model',
     'blog_model',
     'recipient_model',
-    'linkspacker_model',
+//    'linkspacker_model',
     'errorLog_model',
 ];

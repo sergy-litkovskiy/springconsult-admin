@@ -55,7 +55,7 @@ $route['404_override']       = 'errorController/index';
 
 $route['menu-list'] = "index";
 $route['article-list'] = "index";
-$route['article-edit/(:num)'] = "index/$1";
+//$route['article-edit/(:num)'] = "index/$1";
 $route['article-edit'] = "index";
 $route['article-update'] = "index";
 $route['article-add'] = "index";

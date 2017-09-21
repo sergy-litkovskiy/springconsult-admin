@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
+var shared_1 = require("../common/shared");
 var TabViewNav = (function () {
     function TabViewNav() {
         this.orientation = 'top';
@@ -69,18 +70,43 @@ TabViewNav = __decorate([
 ], TabViewNav);
 exports.TabViewNav = TabViewNav;
 var TabPanel = (function () {
-    function TabPanel() {
+    function TabPanel(viewContainer) {
+        this.viewContainer = viewContainer;
+        this.cache = true;
     }
+    TabPanel.prototype.ngAfterContentInit = function () {
+        var _this = this;
+        this.templates.forEach(function (item) {
+            switch (item.getType()) {
+                case 'content':
+                    _this.contentTemplate = item.template;
+                    break;
+                default:
+                    _this.contentTemplate = item.template;
+                    break;
+            }
+        });
+    };
+    Object.defineProperty(TabPanel.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (val) {
+            this._selected = val;
+            this.loaded = true;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TabPanel.prototype.ngOnDestroy = function () {
+        this.view = null;
+    };
     return TabPanel;
 }());
 __decorate([
     core_1.Input(),
     __metadata("design:type", String)
 ], TabPanel.prototype, "header", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Boolean)
-], TabPanel.prototype, "selected", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Boolean)
@@ -105,11 +131,25 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", String)
 ], TabPanel.prototype, "rightIcon", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], TabPanel.prototype, "cache", void 0);
+__decorate([
+    core_1.ContentChildren(shared_1.PrimeTemplate),
+    __metadata("design:type", core_1.QueryList)
+], TabPanel.prototype, "templates", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean),
+    __metadata("design:paramtypes", [Boolean])
+], TabPanel.prototype, "selected", null);
 TabPanel = __decorate([
     core_1.Component({
         selector: 'p-tabPanel',
-        template: "\n        <div class=\"ui-tabview-panel ui-widget-content\" [style.display]=\"selected ? 'block' : 'none'\" \n            role=\"tabpanel\" [attr.aria-hidden]=\"!selected\" *ngIf=\"closed ? false :\u00A0(lazy ? selected : true)\">\n            <ng-content></ng-content>\n        </div>\n    "
-    })
+        template: "\n        <div class=\"ui-tabview-panel ui-widget-content\" [style.display]=\"selected ? 'block' : 'none'\" \n            role=\"tabpanel\" [attr.aria-hidden]=\"!selected\" *ngIf=\"!closed\">\n            <ng-content></ng-content>\n            <p-templateLoader [template]=\"contentTemplate\" *ngIf=\"contentTemplate&&(cache ? loaded : selected)\"></p-templateLoader>\n        </div>\n    "
+    }),
+    __metadata("design:paramtypes", [core_1.ViewContainerRef])
 ], TabPanel);
 exports.TabPanel = TabPanel;
 var TabView = (function () {
@@ -119,6 +159,17 @@ var TabView = (function () {
         this.onChange = new core_1.EventEmitter();
         this.onClose = new core_1.EventEmitter();
     }
+    Object.defineProperty(TabView.prototype, "lazy", {
+        get: function () {
+            return this._lazy;
+        },
+        set: function (val) {
+            this._lazy = val;
+            console.log('Lazy property of TabView is deprecated, use an ngTemplate inside a TabPanel instead for Lazy Loading');
+        },
+        enumerable: true,
+        configurable: true
+    });
     TabView.prototype.ngAfterContentInit = function () {
         var _this = this;
         this.initTabs();
@@ -128,10 +179,6 @@ var TabView = (function () {
     };
     TabView.prototype.initTabs = function () {
         this.tabs = this.tabPanels.toArray();
-        for (var _i = 0, _a = this.tabs; _i < _a.length; _i++) {
-            var tab = _a[_i];
-            tab.lazy = this.lazy;
-        }
         var selectedTab = this.findSelectedTab();
         if (!selectedTab && this.tabs.length) {
             if (this.activeIndex != null && this.tabs.length > this.activeIndex)
@@ -246,10 +293,6 @@ __decorate([
     __metadata("design:type", Boolean)
 ], TabView.prototype, "controlClose", void 0);
 __decorate([
-    core_1.Input(),
-    __metadata("design:type", Boolean)
-], TabView.prototype, "lazy", void 0);
-__decorate([
     core_1.ContentChildren(TabPanel),
     __metadata("design:type", core_1.QueryList)
 ], TabView.prototype, "tabPanels", void 0);
@@ -261,6 +304,11 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], TabView.prototype, "onClose", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean),
+    __metadata("design:paramtypes", [Boolean])
+], TabView.prototype, "lazy", null);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Number),
@@ -281,8 +329,8 @@ var TabViewModule = (function () {
 }());
 TabViewModule = __decorate([
     core_1.NgModule({
-        imports: [common_1.CommonModule],
-        exports: [TabView, TabPanel, TabViewNav],
+        imports: [common_1.CommonModule, shared_1.SharedModule],
+        exports: [TabView, TabPanel, TabViewNav, shared_1.SharedModule],
         declarations: [TabView, TabPanel, TabViewNav]
     })
 ], TabViewModule);

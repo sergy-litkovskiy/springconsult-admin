@@ -195,6 +195,7 @@ export class AppArticleItemComponent implements OnInit {
         this.articleItemSubscription = this.route.params
             .subscribe(
                 (params: Params) => {
+console.log('params', params);
                     this.articleId = +params['id'];
                     this.editMode = params['id'] != null;
                     this.setAvailableMenuList();
@@ -330,7 +331,7 @@ export class AppArticleItemComponent implements OnInit {
     }
 
     onCancel() {
-        this.router.navigate(['/article-edit/:id', this.articleItem.id], {relativeTo: this.route});
+        this.redirectToArticleList();
     }
 
     redirectToArticleList() {
