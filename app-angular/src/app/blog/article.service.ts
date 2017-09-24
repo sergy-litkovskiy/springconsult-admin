@@ -11,6 +11,7 @@ import {isNullOrUndefined} from "util";
 @Injectable()
 export class ArticleService {
     private urlToGetList = '/article/list';
+    private urlToGetArticleItem = '/article/';
     private urlToUpdate = '/article/update';
     private urlToAdd = '/article/add';
     private urlToDelete = '/article/delete';
@@ -34,8 +35,25 @@ export class ArticleService {
                         let articleItem = new ArticleItem(articleData);
                         this.articleItemList.push(articleItem);
                     }
-
                     return this.articleItemList;
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw(error.toString());
+                }
+            );
+    }
+
+    getArticleItemByIdFromServer(id: number) {
+        let link = this.urlToGetArticleItem + id;
+
+        return this.http.get(link)
+            .map(
+                (response: Response) => {
+                    let articleData = response.json();
+
+                    return new ArticleItem(articleData);
                 }
             )
             .catch(
@@ -104,8 +122,8 @@ export class ArticleService {
     }
 
     getArticleById(id: number): ArticleItem|null {
-        if (this.articleItemList.length < 1) {
-            this.getArticleItemListFromServer();
+        if (!this.articleItemList.length) {
+            return null;
         }
 
         let filteredArticleList: ArticleItem[];
@@ -118,4 +136,5 @@ export class ArticleService {
 
         return filteredArticleList[0];
     }
+
 }

@@ -11,7 +11,7 @@ var ArticleItem = (function () {
         this.text = articleData['text'] !== undefined ? articleData['text'] : null;
         this.description = articleData['description'] !== undefined ? articleData['description'] : null;
         this.slug = articleData['slug'] !== undefined ? articleData['slug'] : null;
-        this.status = (articleData['status'] == 1) !== undefined ? articleData['status'] : null;
+        this.status = (articleData['status'] == '1') !== undefined ? articleData['status'] : null;
         this.isSentMail = articleData['is_sent_mail'] !== undefined ? articleData['is_sent_mail'] : null;
         this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
         this.date = articleData['date'] !== undefined ? articleData['date'] : null;

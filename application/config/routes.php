@@ -55,13 +55,14 @@ $route['404_override']       = 'errorController/index';
 
 $route['menu-list'] = "index";
 $route['article-list'] = "index";
-//$route['article-edit/(:num)'] = "index/$1";
+$route['article-edit/(:num)'] = "index/index/$1";
 $route['article-edit'] = "index";
 $route['article-update'] = "index";
 $route['article-add'] = "index";
 $route['article-delete'] = "index";
 
 $route['article/list'] = "blog/getList";
+$route['article/(:num)'] = "blog/getItem/$1";
 $route['article/update'] = "blog/updateArticle";
 $route['article/add'] = "blog/addArticle";
 $route['article/delete/(:num)'] = "blog/deleteArticle/$1";

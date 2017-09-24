@@ -11,7 +11,6 @@ class Index extends MY_Controller
 
     public function index()
     {
-//var_dump('HERE');exit();
         $this->twig->display('/layout.html', []);
     }
 }

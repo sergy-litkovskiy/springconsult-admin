@@ -20,6 +20,17 @@ class Blog extends MY_Controller
             ->set_output(json_encode($articleList));
     }
 
+    public function getItem($id)
+    {
+        $articleData = $this->blog_model->getOneByParams(['id' => $id]);
+
+        $articleList = $this->extendWithAssignedMenu([$articleData]);
+
+        return $this->output
+            ->set_content_type($this->contentTypeJson)
+            ->set_output(json_encode(ArrayHelper::arrayGet($articleList, 0)));
+    }
+
     public function updateArticle()
     {
         return $this->saveArticle(

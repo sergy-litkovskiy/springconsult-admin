@@ -21,8 +21,8 @@ import {CKEditorModule} from "ng2-ckeditor";
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-success">
-                        <h2 *ngIf="articleItem.status == 1" class="label bg-green">Active</h2>
-                        <h2 *ngIf="articleItem.status == 0" class="label bg-red">Inactive</h2>
+                        <h2 *ngIf="articleItem && articleItem.status == 1" class="label bg-green">Active</h2>
+                        <h2 *ngIf="articleItem && articleItem.status == 0" class="label bg-red">Inactive</h2>
                         <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
                             <div class="box-body">
                                 <div class="form-group">
@@ -171,6 +171,7 @@ export class AppArticleItemComponent implements OnInit {
     assignedMenuItemList: MenuItem[];
 
     private articleItemSubscription: Subscription;
+    private articleDataSubscription: Subscription;
     private menuListSubscription: Subscription;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
@@ -198,8 +199,37 @@ export class AppArticleItemComponent implements OnInit {
 console.log('params', params);
                     this.articleId = +params['id'];
                     this.editMode = params['id'] != null;
+                    this.articleItem = new ArticleItem({});
+
                     this.setAvailableMenuList();
+console.log('BEFORE INITFORM');
+                    if (this.editMode) {
+                        this.initArticleItem();
+                    } else {
+                        this.initForm();
+                    }
+                }
+            );
+    }
+
+    private initArticleItem() {
+console.log('BEFORE getArticleById');
+        let article = this.articleService.getArticleById(this.articleId);
+        //try to fill article list after page was manually reloaded
+        if (article) {
+            this.articleItem = article;
+            this.initForm();
+            return;
+        }
+console.log('BEFORE getArticleItemListFromServer');
+        this.articleDataSubscription = this.articleService.getArticleItemByIdFromServer(this.articleId)
+            .subscribe(
+                (articleItem: ArticleItem) => {
+                    this.articleItem = articleItem;
                     this.initForm();
+                },
+                (error) => {
+                    this.showErrorPopup(error);
                 }
             );
     }
@@ -221,39 +251,27 @@ console.log('params', params);
     }
 
     private initForm() {
-        this.articleItem = new ArticleItem({});
-
-        if (this.editMode) {
-            this.articleItem = this.articleService.getArticleById(this.articleId);
-
-            if (!this.articleItem) {
-                this.showErrorPopup('Article item with ID '+this.articleId+' was not found');
-
-                return false;
-            }
-
-            this.assignedMenuItemList = this.articleItem.assignedMenuList;
-
-            this.availableMenuList = this.availableMenuList.map(
-                (menuItem: MenuItem) => {
-                    if (
-                        this.assignedMenuItemList
-                            .find((assignedMenuItem: MenuItem) => assignedMenuItem.id == menuItem.id)
-                    ) {
-                        menuItem.isChecked = true;
-                    }
-
-                    return menuItem;
+        this.assignedMenuItemList = this.articleItem.assignedMenuList;
+console.log('fillFormData START');
+        this.availableMenuList = this.availableMenuList.map(
+            (menuItem: MenuItem) => {
+                if (
+                    this.assignedMenuItemList
+                        .find((assignedMenuItem: MenuItem) => assignedMenuItem.id == menuItem.id)
+                ) {
+                    menuItem.isChecked = true;
                 }
-            );
-        }
+
+                return menuItem;
+            }
+        );
 
         this.createdAt = this.articleItem.date || Date.now();
         //set text for ckeditor replacement
         this.ckeditorContent = this.articleItem.text;
         //define image path for preview
         this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
-
+console.log('FINAL - this.articleItem', this.articleItem);
         this.articleForm = new FormGroup({
             'id': new FormControl(this.articleItem.id, Validators.required),
             'createdAt': new FormControl(this.articleItem.date, Validators.required),
@@ -373,6 +391,10 @@ console.log('article ITEM - ON DESTROY');
 
         if (this.articleItemSubscription != undefined) {
             this.articleItemSubscription.unsubscribe();
+        }
+
+        if (this.articleDataSubscription != undefined) {
+            this.articleDataSubscription.unsubscribe();
         }
     }
 }

@@ -20,6 +20,7 @@ var ArticleService = (function () {
     function ArticleService(http) {
         this.http = http;
         this.urlToGetList = '/article/list';
+        this.urlToGetArticleItem = '/article/';
         this.urlToUpdate = '/article/update';
         this.urlToAdd = '/article/add';
         this.urlToDelete = '/article/delete';
@@ -40,6 +41,17 @@ var ArticleService = (function () {
                 _this.articleItemList.push(articleItem);
             }
             return _this.articleItemList;
+        })
+            .catch(function (error) {
+            return Observable_1.Observable.throw(error.toString());
+        });
+    };
+    ArticleService.prototype.getArticleItemByIdFromServer = function (id) {
+        var link = this.urlToGetArticleItem + id;
+        return this.http.get(link)
+            .map(function (response) {
+            var articleData = response.json();
+            return new article_item_model_1.ArticleItem(articleData);
         })
             .catch(function (error) {
             return Observable_1.Observable.throw(error.toString());
@@ -86,8 +98,8 @@ var ArticleService = (function () {
         });
     };
     ArticleService.prototype.getArticleById = function (id) {
-        if (this.articleItemList.length < 1) {
-            this.getArticleItemListFromServer();
+        if (!this.articleItemList.length) {
+            return null;
         }
         var filteredArticleList;
         filteredArticleList = this.articleItemList.filter(function (articleItem) {
