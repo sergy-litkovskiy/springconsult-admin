@@ -17,6 +17,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
 
 import {APP_BASE_HREF} from '@angular/common';
 import {ArticleService} from "./blog/article.service";
+import {AppMainCkeditorHelper} from "./app.main.ckeditor.helper";
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import {ArticleService} from "./blog/article.service";
         {
             provide: APP_BASE_HREF,
             useValue: '/'
-        }
+        },
+        AppMainCkeditorHelper
     ],
     bootstrap: [AppMainComponent]
 })

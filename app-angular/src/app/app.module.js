@@ -23,6 +23,7 @@ var ng2_ckeditor_1 = require("ng2-ckeditor");
 // import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 var common_1 = require("@angular/common");
 var article_service_1 = require("./blog/article.service");
+var app_main_ckeditor_helper_1 = require("./app.main.ckeditor.helper");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -55,7 +56,8 @@ var AppModule = (function () {
                 {
                     provide: common_1.APP_BASE_HREF,
                     useValue: '/'
-                }
+                },
+                app_main_ckeditor_helper_1.AppMainCkeditorHelper
             ],
             bootstrap: [app_main_component_1.AppMainComponent]
         })

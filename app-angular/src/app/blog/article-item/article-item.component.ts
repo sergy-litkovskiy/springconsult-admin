@@ -3,12 +3,13 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DateTimePickerModule} from 'ng-pick-datetime';
 import {Subscription} from "rxjs/Subscription";
 import {MenuItem} from "../../menu/menu-item.model";
 import {MenuService} from "../../menu/menu.service";
 import {CKEditorModule} from "ng2-ckeditor";
+import {AppMainCkeditorHelper} from "../../app.main.ckeditor.helper";
 
 @Component({
     selector: 'article-edit',
@@ -21,8 +22,8 @@ import {CKEditorModule} from "ng2-ckeditor";
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-success">
-                        <h2 *ngIf="articleItem && articleItem.status == 1" class="label bg-green">Active</h2>
-                        <h2 *ngIf="articleItem && articleItem.status == 0" class="label bg-red">Inactive</h2>
+                        <h2 *ngIf="articleItem.isActive()" class="label bg-green">Active</h2>
+                        <h2 *ngIf="!articleItem.isActive()" class="label bg-red">Inactive</h2>
                         <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
                             <div class="box-body">
                                 <div class="form-group">
@@ -181,15 +182,11 @@ export class AppArticleItemComponent implements OnInit {
         private articleService: ArticleService,
         private menuService: MenuService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private appMainCkeditorHelper: AppMainCkeditorHelper
     ) {
         this.dateTimePicker = new DateTimePickerModule();
-        this.ckeditorConfig = {
-            filebrowserBrowseUrl: '/vendor/ckfinder/ckfinder.html',
-            filebrowserImageBrowseUrl: '/vendor/ckfinder/ckfinder.html?Type=Images',
-            filebrowserUploadUrl: '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-            filebrowserImageUploadUrl: '/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-        }
+        this.ckeditorConfig = appMainCkeditorHelper.getCkeditorDefaultConfig();
     }
 
     ngOnInit() {

@@ -25,6 +25,9 @@ var ArticleItem = (function () {
             return menuItem;
         });
     };
+    ArticleItem.prototype.isActive = function () {
+        return (this.status == true);
+    };
     return ArticleItem;
 }());
 exports.ArticleItem = ArticleItem;

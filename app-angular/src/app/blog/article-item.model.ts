@@ -44,4 +44,8 @@ export class ArticleItem {
             }
         );
     }
+
+    isActive() {
+        return (this.status == true);
+    }
 }
