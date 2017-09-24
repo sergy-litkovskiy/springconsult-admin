@@ -37,12 +37,11 @@ var AppArticleItemComponent = (function () {
         var _this = this;
         this.articleItemSubscription = this.route.params
             .subscribe(function (params) {
-            console.log('params', params);
             _this.articleId = +params['id'];
             _this.editMode = params['id'] != null;
+            _this.initEmptyForm();
             _this.articleItem = new article_item_model_1.ArticleItem({});
             _this.setAvailableMenuList();
-            console.log('BEFORE INITFORM');
             if (_this.editMode) {
                 _this.initArticleItem();
             }
@@ -51,9 +50,24 @@ var AppArticleItemComponent = (function () {
             }
         });
     };
+    AppArticleItemComponent.prototype.initEmptyForm = function () {
+        this.articleForm = new forms_1.FormGroup({
+            'id': new forms_1.FormControl(null),
+            'createdAt': new forms_1.FormControl(null),
+            'title': new forms_1.FormControl(null),
+            'description': new forms_1.FormControl(null),
+            'ckeditorContent': new forms_1.FormControl(null),
+            'metaDescription': new forms_1.FormControl(null),
+            'metaKeywords': new forms_1.FormControl(null),
+            'image': new forms_1.FormControl(null),
+            'slug': new forms_1.FormControl(null),
+            'status': new forms_1.FormControl(null),
+            'isSentMail': new forms_1.FormControl(null),
+            'numSequence': new forms_1.FormControl(null)
+        });
+    };
     AppArticleItemComponent.prototype.initArticleItem = function () {
         var _this = this;
-        console.log('BEFORE getArticleById');
         var article = this.articleService.getArticleById(this.articleId);
         //try to fill article list after page was manually reloaded
         if (article) {
@@ -61,7 +75,6 @@ var AppArticleItemComponent = (function () {
             this.initForm();
             return;
         }
-        console.log('BEFORE getArticleItemListFromServer');
         this.articleDataSubscription = this.articleService.getArticleItemByIdFromServer(this.articleId)
             .subscribe(function (articleItem) {
             _this.articleItem = articleItem;
@@ -85,7 +98,6 @@ var AppArticleItemComponent = (function () {
     AppArticleItemComponent.prototype.initForm = function () {
         var _this = this;
         this.assignedMenuItemList = this.articleItem.assignedMenuList;
-        console.log('fillFormData START');
         this.availableMenuList = this.availableMenuList.map(function (menuItem) {
             if (_this.assignedMenuItemList
                 .find(function (assignedMenuItem) { return assignedMenuItem.id == menuItem.id; })) {
@@ -98,7 +110,6 @@ var AppArticleItemComponent = (function () {
         this.ckeditorContent = this.articleItem.text;
         //define image path for preview
         this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
-        console.log('FINAL - this.articleItem', this.articleItem);
         this.articleForm = new forms_1.FormGroup({
             'id': new forms_1.FormControl(this.articleItem.id, forms_1.Validators.required),
             'createdAt': new forms_1.FormControl(this.articleItem.date, forms_1.Validators.required),

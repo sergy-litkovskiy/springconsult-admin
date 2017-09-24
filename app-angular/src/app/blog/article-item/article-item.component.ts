@@ -196,13 +196,13 @@ export class AppArticleItemComponent implements OnInit {
         this.articleItemSubscription = this.route.params
             .subscribe(
                 (params: Params) => {
-console.log('params', params);
                     this.articleId = +params['id'];
                     this.editMode = params['id'] != null;
+                    this.initEmptyForm();
                     this.articleItem = new ArticleItem({});
 
                     this.setAvailableMenuList();
-console.log('BEFORE INITFORM');
+
                     if (this.editMode) {
                         this.initArticleItem();
                     } else {
@@ -212,8 +212,24 @@ console.log('BEFORE INITFORM');
             );
     }
 
+    private initEmptyForm() {
+        this.articleForm = new FormGroup({
+            'id': new FormControl(null),
+            'createdAt': new FormControl(null),
+            'title': new FormControl(null),
+            'description': new FormControl(null),
+            'ckeditorContent': new FormControl(null),
+            'metaDescription': new FormControl(null),
+            'metaKeywords': new FormControl(null),
+            'image': new FormControl(null),
+            'slug': new FormControl(null),
+            'status': new FormControl(null),
+            'isSentMail': new FormControl(null),
+            'numSequence': new FormControl(null)
+        });
+    }
+
     private initArticleItem() {
-console.log('BEFORE getArticleById');
         let article = this.articleService.getArticleById(this.articleId);
         //try to fill article list after page was manually reloaded
         if (article) {
@@ -221,7 +237,7 @@ console.log('BEFORE getArticleById');
             this.initForm();
             return;
         }
-console.log('BEFORE getArticleItemListFromServer');
+
         this.articleDataSubscription = this.articleService.getArticleItemByIdFromServer(this.articleId)
             .subscribe(
                 (articleItem: ArticleItem) => {
@@ -252,7 +268,7 @@ console.log('BEFORE getArticleItemListFromServer');
 
     private initForm() {
         this.assignedMenuItemList = this.articleItem.assignedMenuList;
-console.log('fillFormData START');
+
         this.availableMenuList = this.availableMenuList.map(
             (menuItem: MenuItem) => {
                 if (
@@ -271,7 +287,7 @@ console.log('fillFormData START');
         this.ckeditorContent = this.articleItem.text;
         //define image path for preview
         this.imagePath = this.articleItem.image ? '/img/blog/' + this.articleItem.image : '';
-console.log('FINAL - this.articleItem', this.articleItem);
+
         this.articleForm = new FormGroup({
             'id': new FormControl(this.articleItem.id, Validators.required),
             'createdAt': new FormControl(this.articleItem.date, Validators.required),
