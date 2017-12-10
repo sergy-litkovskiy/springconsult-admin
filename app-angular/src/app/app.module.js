@@ -24,7 +24,7 @@ var ng2_ckeditor_1 = require("ng2-ckeditor");
 var common_1 = require("@angular/common");
 var article_service_1 = require("./blog/article.service");
 var app_main_ckeditor_helper_1 = require("./app.main.ckeditor.helper");
-var AppModule = (function () {
+var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([

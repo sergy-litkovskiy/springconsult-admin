@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var menu_item_model_1 = require("../menu/menu-item.model");
-var ArticleItem = (function () {
+var ArticleItem = /** @class */ (function () {
     function ArticleItem(articleData) {
         this.id = articleData['id'] !== undefined ? articleData['id'] : null;
         this.title = articleData['title'] !== undefined ? articleData['title'] : null;

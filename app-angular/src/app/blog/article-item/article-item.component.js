@@ -19,7 +19,7 @@ var ng_pick_datetime_1 = require("ng-pick-datetime");
 var menu_service_1 = require("../../menu/menu.service");
 var ng2_ckeditor_1 = require("ng2-ckeditor");
 var app_main_ckeditor_helper_1 = require("../../app.main.ckeditor.helper");
-var AppArticleItemComponent = (function () {
+var AppArticleItemComponent = /** @class */ (function () {
     function AppArticleItemComponent(articleService, menuService, router, route, appMainCkeditorHelper) {
         this.articleService = articleService;
         this.menuService = menuService;

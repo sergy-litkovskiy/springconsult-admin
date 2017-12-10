@@ -33,10 +33,10 @@ import {isNullOrUndefined} from "util";
                         {{row.id}}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="On|Off" [width]="10">
+                <ngx-datatable-column name="On|Off" [width]="15">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span *ngIf="row.status == 1" class="label bg-green">on</span>
-                        <span *ngIf="row.status == 0" class="label bg-gray">off</span>
+                        <span *ngIf="row.isActive()" class="label bg-green">on</span>
+                        <span *ngIf="!row.isActive()" class="label bg-gray">off</span>
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Title">

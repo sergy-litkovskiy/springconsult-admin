@@ -18,7 +18,7 @@ var routes = [
     { path: 'article-edit/:id', component: article_item_component_1.AppArticleItemComponent },
     { path: 'article-edit', component: article_item_component_1.AppArticleItemComponent }
 ];
-var AppRoutingModule = (function () {
+var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([

@@ -16,7 +16,7 @@ var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
 require("rxjs/add/observable/throw");
-var MenuService = (function () {
+var MenuService = /** @class */ (function () {
     function MenuService(http) {
         this.http = http;
         this.urlToGetList = '/menu/list';

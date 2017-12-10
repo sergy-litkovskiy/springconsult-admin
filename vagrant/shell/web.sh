@@ -25,6 +25,14 @@ echo "Installing Composer..."
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
+echo "Install Nodejs and npm"
+sudo apt-get install python-software-properties
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install nodejs
+sudo apt-get install npm
+sudo npm install -g @angular/cli
+
+
 #echo "Installing phpUnit..."
 #wget https://phar.phpunit.de/phpunit.phar
 #chmod +x phpunit.phar

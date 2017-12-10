@@ -16,7 +16,7 @@ require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
 require("rxjs/add/observable/throw");
 var article_item_model_1 = require("./article-item.model");
-var ArticleService = (function () {
+var ArticleService = /** @class */ (function () {
     function ArticleService(http) {
         this.http = http;
         this.urlToGetList = '/article/list';

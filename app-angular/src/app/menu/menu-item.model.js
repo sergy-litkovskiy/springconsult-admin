@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var MenuItem = (function () {
+var MenuItem = /** @class */ (function () {
     function MenuItem(menuData) {
         this.id = menuData['id'] !== undefined ? menuData['id'] : null;
         this.title = menuData['title'] !== undefined ? menuData['title'] : null;

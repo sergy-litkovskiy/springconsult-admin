@@ -16,7 +16,7 @@ require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
 require("rxjs/add/observable/throw");
 var popup_1 = require("@ngui/popup");
-var AppMenuComponent = (function () {
+var AppMenuComponent = /** @class */ (function () {
     function AppMenuComponent(menuService, router, route) {
         this.menuService = menuService;
         this.router = router;
