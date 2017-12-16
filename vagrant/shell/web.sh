@@ -30,23 +30,9 @@ sudo apt-get install python-software-properties
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install nodejs
 sudo apt-get install npm
-sudo npm install -g @angular/cli
 
-
-#echo "Installing phpUnit..."
-#wget https://phar.phpunit.de/phpunit.phar
-#chmod +x phpunit.phar
-#mv phpunit.phar /usr/local/bin/phpunit
-
-#echo "Installing redis"
-#apt-add-repository ppa:chris-lea/redis-server
-#apt-get update
-#apt-get install -y redis-server
-
-#echo "Installing gearmand"
-#apt-get -y install gearman
-#sudo pecl install gearman
-#sudo gearmand -d
+npm install -g @angular/cli
+npm install angular-4-data-table --save
 
 HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
 
