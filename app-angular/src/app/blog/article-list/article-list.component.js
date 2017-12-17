@@ -14,14 +14,14 @@ var router_1 = require("@angular/router");
 var article_service_1 = require("../article.service");
 var ngx_datatable_1 = require("@swimlane/ngx-datatable");
 var popup_1 = require("@ngui/popup");
-var AppArticleListComponent = /** @class */ (function () {
-    function AppArticleListComponent(articleService, router, route) {
+var AppArticleListComponentOld = (function () {
+    function AppArticleListComponentOld(articleService, router, route) {
         this.articleService = articleService;
         this.router = router;
         this.route = route;
         this.tempArticleList = [];
     }
-    AppArticleListComponent.prototype.ngOnInit = function () {
+    AppArticleListComponentOld.prototype.ngOnInit = function () {
         var _this = this;
         this.articleItemList = this.articleService.getArticleItemList();
         if (!this.articleItemList.length) {
@@ -38,15 +38,15 @@ var AppArticleListComponent = /** @class */ (function () {
     // onNewMenuItem() {
     //     this.router.navigate(['menu-new'], {relativeTo: this.route});
     // }
-    AppArticleListComponent.prototype.getButtonClassForStatusOn = function (row) {
+    AppArticleListComponentOld.prototype.getButtonClassForStatusOn = function (row) {
         var currentStatus = +row.status == 1 ? "success disabled" : "default";
         return this.actionButtonClassName + currentStatus;
     };
-    AppArticleListComponent.prototype.getButtonClassForStatusOff = function (row) {
+    AppArticleListComponentOld.prototype.getButtonClassForStatusOff = function (row) {
         var currentStatus = +row.status == 1 ? "default" : "success disabled";
         return this.actionButtonClassName + currentStatus;
     };
-    AppArticleListComponent.prototype.onStatusChangeClick = function (row) {
+    AppArticleListComponentOld.prototype.onStatusChangeClick = function (row) {
         var _this = this;
         row.status = !row.status;
         this.articleService.updateArticle(row)
@@ -55,10 +55,10 @@ var AppArticleListComponent = /** @class */ (function () {
             row.status = !row.status;
         });
     };
-    AppArticleListComponent.prototype.onEditClick = function (articleItem) {
+    AppArticleListComponentOld.prototype.onEditClick = function (articleItem) {
         this.router.navigate(['/article-edit', articleItem.id], { relativeTo: this.route });
     };
-    AppArticleListComponent.prototype.onDeleteClick = function (articleItem) {
+    AppArticleListComponentOld.prototype.onDeleteClick = function (articleItem) {
         var _this = this;
         this.popup.open(popup_1.NguiMessagePopupComponent, {
             classNames: 'small',
@@ -80,7 +80,7 @@ var AppArticleListComponent = /** @class */ (function () {
             }
         });
     };
-    AppArticleListComponent.prototype.searchArticle = function (event) {
+    AppArticleListComponentOld.prototype.searchArticle = function (event) {
         var val = event.target.value.toLowerCase();
         // filter our data
         this.articleItemList = this.tempArticleList.filter(function (articleItem) {
@@ -89,7 +89,7 @@ var AppArticleListComponent = /** @class */ (function () {
         // Whenever the filter changes, always go back to the first page
         this.articleListTable.offset = 0;
     };
-    AppArticleListComponent.prototype.showErrorPopup = function (error) {
+    AppArticleListComponentOld.prototype.showErrorPopup = function (error) {
         var _this = this;
         this.popup.open(popup_1.NguiMessagePopupComponent, {
             classNames: 'small',
@@ -102,7 +102,7 @@ var AppArticleListComponent = /** @class */ (function () {
             }
         });
     };
-    AppArticleListComponent.prototype.ngOnDestroy = function () {
+    AppArticleListComponentOld.prototype.ngOnDestroy = function () {
         console.log('article LIST - ON DESTROY');
         if (this.articleListSubscription != undefined) {
             this.articleListSubscription.unsubscribe();
@@ -111,12 +111,12 @@ var AppArticleListComponent = /** @class */ (function () {
     __decorate([
         core_1.ViewChild(ngx_datatable_1.DatatableComponent),
         __metadata("design:type", ngx_datatable_1.DatatableComponent)
-    ], AppArticleListComponent.prototype, "articleListTable", void 0);
+    ], AppArticleListComponentOld.prototype, "articleListTable", void 0);
     __decorate([
         core_1.ViewChild(popup_1.NguiPopupComponent),
         __metadata("design:type", popup_1.NguiPopupComponent)
-    ], AppArticleListComponent.prototype, "popup", void 0);
-    AppArticleListComponent = __decorate([
+    ], AppArticleListComponentOld.prototype, "popup", void 0);
+    AppArticleListComponentOld = __decorate([
         core_1.Component({
             selector: 'article-list',
             styles: [
@@ -124,11 +124,11 @@ var AppArticleListComponent = /** @class */ (function () {
             ],
             template: "\n        <div>\n            <div class=\"input-group col-md-3 search-panel\">\n                <input class=\"form-control\" placeholder=\"Search by title ...\" type=\"text\" (keyup)='searchArticle($event)'>\n            </div>\n            <ngx-datatable\n                    #articleListTable\n                    class=\"material ngx-datatable fixed-header fixed-row\"\n                    [rows]=\"articleItemList\"\n                    [columnMode]=\"'force'\"\n                    [headerHeight]=\"40\"\n                    [footerHeight]=\"40\"\n                    [rowHeight]=\"'auto'\"\n                    [sortType]=\"'multi'\"\n                    [limit]=\"10\"\n            >\n                <ngx-datatable-column name=\"ID\" [width]=\"10\">\n                    <ng-template let-row=\"row\" ngx-datatable-cell-template>\n                        {{row.id}}\n                    </ng-template>\n                </ngx-datatable-column>\n                <ngx-datatable-column name=\"On|Off\" [width]=\"15\">\n                    <ng-template let-row=\"row\" ngx-datatable-cell-template>\n                        <span *ngIf=\"row.isActive()\" class=\"label bg-green\">on</span>\n                        <span *ngIf=\"!row.isActive()\" class=\"label bg-gray\">off</span>\n                    </ng-template>\n                </ngx-datatable-column>\n                <ngx-datatable-column name=\"Title\">\n                    <ng-template let-row=\"row\" ngx-datatable-cell-template>\n                        {{row.title}}\n                    </ng-template>\n                </ngx-datatable-column>\n                <ngx-datatable-column name=\"Assigned to:\">\n                    <ng-template let-row=\"row\" let-value=\"value\" ngx-datatable-cell-template>\n                        <ul>\n                            <li *ngFor='let item of row.assignedMenuList'>\n                                {{item.title}}\n                            </li>\n                        </ul>\n                    </ng-template>\n                </ngx-datatable-column>\n                <ngx-datatable-column name=\"Meta Keywords\">\n                    <ng-template let-row=\"row\" ngx-datatable-cell-template>\n                        {{row.metaKeywords}}\n                    </ng-template>\n                </ngx-datatable-column>\n                <ngx-datatable-column name=\"Meta Description\">\n                    <ng-template let-row=\"row\" ngx-datatable-cell-template>\n                        {{row.metaDescription | slice:0:70}}...\n                    </ng-template>\n                </ngx-datatable-column>\n                <ngx-datatable-column name=\"Actions\">\n                    <ng-template let-row=\"row\" ngx-datatable-cell-template>\n                        <div class=\"btn-group\">\n                            <button type=\"button\" class=\"btn btn-warning\" (click)=\"onEditClick(row)\">\n                                <i class=\"glyphicon glyphicon-pencil\"></i>\n                            </button>\n                            <button type=\"button\" class=\"btn btn-danger\" (click)=\"onDeleteClick(row)\">\n                                <i class=\"glyphicon glyphicon-remove\"></i>\n                            </button>\n                            <button type=\"button\"\n                                    [ngClass]=\"getButtonClassForStatusOn(row)\"\n                                    (click)=\"onStatusChangeClick(row)\">\n                                <i class=\"glyphicon glyphicon-eye-open\"></i>\n                            </button>\n                            <button type=\"button\"\n                                    [ngClass]=\"getButtonClassForStatusOff(row)\"\n                                    (click)=\"onStatusChangeClick(row)\">\n                                <i class=\"glyphicon glyphicon-eye-close\"></i>\n                            </button>\n                        </div>\n                    </ng-template>\n                </ngx-datatable-column>\n            </ngx-datatable>\n        </div>\n\n        <ngui-popup #popup></ngui-popup>\n    "
         }),
-        __metadata("design:paramtypes", [article_service_1.ArticleService,
-            router_1.Router,
+        __metadata("design:paramtypes", [typeof (_a = typeof article_service_1.ArticleService !== "undefined" && article_service_1.ArticleService) === "function" && _a || Object, router_1.Router,
             router_1.ActivatedRoute])
-    ], AppArticleListComponent);
-    return AppArticleListComponent;
+    ], AppArticleListComponentOld);
+    return AppArticleListComponentOld;
+    var _a;
 }());
-exports.AppArticleListComponent = AppArticleListComponent;
+exports.AppArticleListComponentOld = AppArticleListComponentOld;
 //# sourceMappingURL=article-list.component.js.map

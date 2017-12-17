@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var menu_item_model_1 = require("../menu/menu-item.model");
-var ArticleItem = /** @class */ (function () {
-    function ArticleItem(articleData) {
+var ArticleItemOld = (function () {
+    function ArticleItemOld(articleData) {
         this.id = articleData['id'] !== undefined ? articleData['id'] : null;
         this.title = articleData['title'] !== undefined ? articleData['title'] : null;
         this.image = articleData['image'] !== undefined ? articleData['image'] : null;
@@ -18,17 +18,17 @@ var ArticleItem = /** @class */ (function () {
         this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? this.makeAssignedMenuList(articleData['assignedMenuList']) : [];
         this.imageData = null; //use only for new uploaded image to pass base64 data into server
     }
-    ArticleItem.prototype.makeAssignedMenuList = function (dataList) {
+    ArticleItemOld.prototype.makeAssignedMenuList = function (dataList) {
         return dataList.map(function (data) {
             var menuItem = new menu_item_model_1.MenuItem(data);
             menuItem.isChecked = true;
             return menuItem;
         });
     };
-    ArticleItem.prototype.isActive = function () {
+    ArticleItemOld.prototype.isActive = function () {
         return (this.status == true);
     };
-    return ArticleItem;
+    return ArticleItemOld;
 }());
-exports.ArticleItem = ArticleItem;
+exports.ArticleItemOld = ArticleItemOld;
 //# sourceMappingURL=article-item.model.js.map

@@ -156,7 +156,7 @@ import {AppMainCkeditorHelper} from "../../app.main.ckeditor.helper";
     `
 })
 
-export class AppArticleItemComponent implements OnInit {
+export class AppArticleItemComponentOld implements OnInit {
     articleItem: ArticleItem;
     editMode = false;
     articleId: number;

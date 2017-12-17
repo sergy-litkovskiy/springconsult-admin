@@ -92,7 +92,7 @@ import {isNullOrUndefined} from "util";
     `
 })
 
-export class AppArticleListComponent implements OnInit {
+export class AppArticleListComponentOld implements OnInit {
     articleItemList: ArticleItem[];
     actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];

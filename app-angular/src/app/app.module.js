@@ -24,7 +24,7 @@ var ng2_ckeditor_1 = require("ng2-ckeditor");
 var common_1 = require("@angular/common");
 var article_service_1 = require("./blog/article.service");
 var app_main_ckeditor_helper_1 = require("./app.main.ckeditor.helper");
-var AppModule = /** @class */ (function () {
+var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
@@ -51,8 +51,8 @@ var AppModule = /** @class */ (function () {
                 ng2_ckeditor_1.CKEditorModule,
             ],
             providers: [
-                menu_service_1.MenuService,
-                article_service_1.ArticleService,
+                menu_service_1.MenuServiceOld,
+                article_service_1.ArticleServiceOld,
                 {
                     provide: common_1.APP_BASE_HREF,
                     useValue: '/'

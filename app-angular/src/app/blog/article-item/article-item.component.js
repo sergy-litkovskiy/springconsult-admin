@@ -19,8 +19,8 @@ var ng_pick_datetime_1 = require("ng-pick-datetime");
 var menu_service_1 = require("../../menu/menu.service");
 var ng2_ckeditor_1 = require("ng2-ckeditor");
 var app_main_ckeditor_helper_1 = require("../../app.main.ckeditor.helper");
-var AppArticleItemComponent = /** @class */ (function () {
-    function AppArticleItemComponent(articleService, menuService, router, route, appMainCkeditorHelper) {
+var AppArticleItemComponentOld = (function () {
+    function AppArticleItemComponentOld(articleService, menuService, router, route, appMainCkeditorHelper) {
         this.articleService = articleService;
         this.menuService = menuService;
         this.router = router;
@@ -30,7 +30,7 @@ var AppArticleItemComponent = /** @class */ (function () {
         this.dateTimePicker = new ng_pick_datetime_1.DateTimePickerModule();
         this.ckeditorConfig = appMainCkeditorHelper.getCkeditorDefaultConfig();
     }
-    AppArticleItemComponent.prototype.ngOnInit = function () {
+    AppArticleItemComponentOld.prototype.ngOnInit = function () {
         var _this = this;
         this.articleItemSubscription = this.route.params
             .subscribe(function (params) {
@@ -47,7 +47,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             }
         });
     };
-    AppArticleItemComponent.prototype.initEmptyForm = function () {
+    AppArticleItemComponentOld.prototype.initEmptyForm = function () {
         this.articleForm = new forms_1.FormGroup({
             'id': new forms_1.FormControl(null),
             'createdAt': new forms_1.FormControl(null),
@@ -63,7 +63,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             'numSequence': new forms_1.FormControl(null)
         });
     };
-    AppArticleItemComponent.prototype.initArticleItem = function () {
+    AppArticleItemComponentOld.prototype.initArticleItem = function () {
         var _this = this;
         var article = this.articleService.getArticleById(this.articleId);
         //try to fill article list after page was manually reloaded
@@ -80,7 +80,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             _this.showErrorPopup(error);
         });
     };
-    AppArticleItemComponent.prototype.setAvailableMenuList = function () {
+    AppArticleItemComponentOld.prototype.setAvailableMenuList = function () {
         var _this = this;
         this.availableMenuList = this.menuService.getMenuItemList();
         if (!this.availableMenuList.length) {
@@ -92,7 +92,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             });
         }
     };
-    AppArticleItemComponent.prototype.initForm = function () {
+    AppArticleItemComponentOld.prototype.initForm = function () {
         var _this = this;
         this.assignedMenuItemList = this.articleItem.assignedMenuList;
         this.availableMenuList = this.availableMenuList.map(function (menuItem) {
@@ -122,7 +122,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             'numSequence': new forms_1.FormControl(this.articleItem.numSequence)
         });
     };
-    AppArticleItemComponent.prototype.imageUpload = function (event) {
+    AppArticleItemComponentOld.prototype.imageUpload = function (event) {
         var _this = this;
         var eventObj = event;
         var target = eventObj.target;
@@ -136,7 +136,7 @@ var AppArticleItemComponent = /** @class */ (function () {
         this.originalImageName = this.file.name;
         reader.readAsDataURL(this.file);
     };
-    AppArticleItemComponent.prototype.onSubmit = function () {
+    AppArticleItemComponentOld.prototype.onSubmit = function () {
         var _this = this;
         this.fillArticleItem();
         if (this.editMode) {
@@ -160,7 +160,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             });
         }
     };
-    AppArticleItemComponent.prototype.fillArticleItem = function () {
+    AppArticleItemComponentOld.prototype.fillArticleItem = function () {
         this.articleItem.title = this.articleForm.value.title;
         this.articleItem.imageData = this.file != null ? this.imagePath : null;
         this.articleItem.metaDescription = this.articleForm.value.metaDescription;
@@ -172,16 +172,16 @@ var AppArticleItemComponent = /** @class */ (function () {
         this.articleItem.image = this.file != null ? this.originalImageName : this.articleItem.image;
         this.articleItem.assignedMenuList = this.assignedMenuItemList;
     };
-    AppArticleItemComponent.prototype.onCancel = function () {
+    AppArticleItemComponentOld.prototype.onCancel = function () {
         this.redirectToArticleList();
     };
-    AppArticleItemComponent.prototype.redirectToArticleList = function () {
+    AppArticleItemComponentOld.prototype.redirectToArticleList = function () {
         this.router.navigate(['/article-list'], { relativeTo: this.route });
     };
-    AppArticleItemComponent.prototype.onDatePickerChange = function (moment) {
+    AppArticleItemComponentOld.prototype.onDatePickerChange = function (moment) {
         this.createdAt = moment;
     };
-    AppArticleItemComponent.prototype.onChangeAssignment = function (menuItem) {
+    AppArticleItemComponentOld.prototype.onChangeAssignment = function (menuItem) {
         var previousState = menuItem.isChecked;
         if (previousState) {
             this.assignedMenuItemList = this.assignedMenuItemList
@@ -192,7 +192,7 @@ var AppArticleItemComponent = /** @class */ (function () {
         }
         menuItem.isChecked = !previousState;
     };
-    AppArticleItemComponent.prototype.showErrorPopup = function (error) {
+    AppArticleItemComponentOld.prototype.showErrorPopup = function (error) {
         var _this = this;
         this.popup.open(popup_1.NguiMessagePopupComponent, {
             classNames: 'small',
@@ -205,7 +205,7 @@ var AppArticleItemComponent = /** @class */ (function () {
             }
         });
     };
-    AppArticleItemComponent.prototype.ngOnDestroy = function () {
+    AppArticleItemComponentOld.prototype.ngOnDestroy = function () {
         console.log('article ITEM - ON DESTROY');
         if (this.articleItemSubscription != undefined) {
             this.articleItemSubscription.unsubscribe();
@@ -217,12 +217,12 @@ var AppArticleItemComponent = /** @class */ (function () {
     __decorate([
         core_1.ViewChild(popup_1.NguiPopupComponent),
         __metadata("design:type", popup_1.NguiPopupComponent)
-    ], AppArticleItemComponent.prototype, "popup", void 0);
+    ], AppArticleItemComponentOld.prototype, "popup", void 0);
     __decorate([
         core_1.ViewChild(ng2_ckeditor_1.CKEditorModule),
         __metadata("design:type", ng2_ckeditor_1.CKEditorModule)
-    ], AppArticleItemComponent.prototype, "ckeditorContainer", void 0);
-    AppArticleItemComponent = __decorate([
+    ], AppArticleItemComponentOld.prototype, "ckeditorContainer", void 0);
+    AppArticleItemComponentOld = __decorate([
         core_1.Component({
             selector: 'article-edit',
             styles: [
@@ -231,13 +231,12 @@ var AppArticleItemComponent = /** @class */ (function () {
             ],
             template: "\n        <div class=\"content\">\n            <div class=\"row\">\n                <div class=\"col-xs-12\">\n                    <div class=\"box box-success\">\n                        <h2 *ngIf=\"articleItem.isActive()\" class=\"label bg-green\">Active</h2>\n                        <h2 *ngIf=\"!articleItem.isActive()\" class=\"label bg-red\">Inactive</h2>\n                        <form [formGroup]=\"articleForm\" (ngSubmit)=\"onSubmit()\">\n                            <div class=\"box-body\">\n                                <div class=\"form-group\">\n                                    <label for=\"title\">Title</label>\n                                    <input\n                                            type=\"text\"\n                                            id=\"title\"\n                                            formControlName=\"title\"\n                                            class=\"form-control\">\n                                </div>\n                                <div class=\"row\">\n                                    <div class=\"col-xs-3\">\n                                        <div class=\"form-group\">\n                                            <label for=\"image\">Image for preview (165 x 165)</label>\n                                            <input\n                                                    type=\"file\"\n                                                    id=\"image\"\n                                                    formControlName=\"image\"\n                                                    class=\"form-control\"\n                                                    (change)=\"imageUpload($event)\"\n                                                    #image>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"slug\">Slug</label>\n                                            <input\n                                                    type=\"text\"\n                                                    id=\"slug\"\n                                                    formControlName=\"slug\"\n                                                    class=\"form-control\">\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"createdAt\">Date</label>\n                                            <input\n                                                    type=\"text\"\n                                                    id=\"createdAt\"\n                                                    formControlName=\"createdAt\"\n                                                    class=\"form-control\"\n                                                    dateTimePicker\n                                                    [returnObject]=\"'string'\"\n                                                    [viewFormat]=\"'YYYY-MM-DD HH:mm'\"\n                                                    [value]=\"createdAt | date: 'y-MM-dd HH:mm'\"\n                                                    [mode]=\"'dropdown'\"\n                                                    [autoClose]=\"true\"\n                                                    (onChange)=\"onDatePickerChange($event)\"\n                                            >\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-3\">\n                                        <div class=\"form-group preview-image-container\">\n                                            <img [src]=\"imagePath\" class=\"img-responsive\">\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-6\">\n                                        <div class=\"form-group\">\n                                            <label for=\"description\">Description</label>\n                                            <textarea\n                                                    type=\"text\"\n                                                    id=\"description\"\n                                                    class=\"form-control\"\n                                                    formControlName=\"description\"\n                                                    rows=\"6\"></textarea>\n                                        </div>\n                                    </div>\n                                </div>\n                                <div class=\"row\">\n                                    <div class=\"col-xs-6\">\n                                        <div class=\"form-group\">\n                                            <label for=\"metaDescription\">Meta Description</label>\n                                            <textarea\n                                                    type=\"text\"\n                                                    id=\"metaDescription\"\n                                                    class=\"form-control\"\n                                                    formControlName=\"metaDescription\"\n                                                    rows=\"6\"></textarea>\n                                        </div>\n                                    </div>\n                                    <div class=\"col-xs-6\">\n                                        <div class=\"form-group\">\n                                            <label for=\"metaKeywords\">Meta Keywords</label>\n                                            <textarea\n                                                    type=\"text\"\n                                                    id=\"metaKeywords\"\n                                                    class=\"form-control\"\n                                                    formControlName=\"metaKeywords\"\n                                                    rows=\"6\"></textarea>\n                                        </div>\n                                    </div>\n                                </div>        \n                                <div class=\"form-group\">\n                                    <label for=\"text\">Text</label>\n                                    <ckeditor\n                                        id=\"ckeditorContainer\"\n                                        class=\"form-control ckeditor\"\n                                        formControlName=\"ckeditorContent\"\n                                        [readonly]=\"false\"\n                                        debounce=\"500\"\n                                        [config]=\"ckeditorConfig\"\n                                        >\n                                    </ckeditor>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"assignedMenuList\">Assigned menu list: </label>\n                                    <span *ngFor=\"let menuItem of availableMenuList;\">\n                                        <input\n                                                type=\"checkbox\"\n                                                [checked]=\"menuItem.isChecked\"\n                                                (change)=\"onChangeAssignment(menuItem)\"\n                                        > {{ menuItem.title }} |\n                                    </span>\n                                </div>\n                            </div>\n                            <div class=\"box-footer\">\n                                <button\n                                        type=\"submit\"\n                                        class=\"btn btn-success\"\n                                        [disabled]=\"!articleForm.valid\">Save\n                                </button>\n                                <button\n                                        type=\"button\"\n                                        class=\"btn btn-danger\"\n                                        (click)=\"onCancel()\">Cancel\n                                </button>\n                            </div>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <ngui-popup #popup></ngui-popup>\n    "
         }),
-        __metadata("design:paramtypes", [article_service_1.ArticleService,
-            menu_service_1.MenuService,
-            router_1.Router,
+        __metadata("design:paramtypes", [typeof (_a = typeof article_service_1.ArticleService !== "undefined" && article_service_1.ArticleService) === "function" && _a || Object, typeof (_b = typeof menu_service_1.MenuService !== "undefined" && menu_service_1.MenuService) === "function" && _b || Object, router_1.Router,
             router_1.ActivatedRoute,
             app_main_ckeditor_helper_1.AppMainCkeditorHelper])
-    ], AppArticleItemComponent);
-    return AppArticleItemComponent;
+    ], AppArticleItemComponentOld);
+    return AppArticleItemComponentOld;
+    var _a, _b;
 }());
-exports.AppArticleItemComponent = AppArticleItemComponent;
+exports.AppArticleItemComponentOld = AppArticleItemComponentOld;
 //# sourceMappingURL=article-item.component.js.map

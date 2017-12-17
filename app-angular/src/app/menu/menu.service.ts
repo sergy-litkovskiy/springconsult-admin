@@ -9,7 +9,7 @@ import 'rxjs/add/observable/throw';
 
 
 @Injectable()
-export class MenuService {
+export class MenuServiceOld {
     private urlToGetList = '/menu/list';
     private menuItemList: MenuItem[] = [];
 

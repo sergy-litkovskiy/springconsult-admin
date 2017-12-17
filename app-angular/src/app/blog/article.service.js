@@ -16,8 +16,8 @@ require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
 require("rxjs/add/observable/throw");
 var article_item_model_1 = require("./article-item.model");
-var ArticleService = /** @class */ (function () {
-    function ArticleService(http) {
+var ArticleServiceOld = (function () {
+    function ArticleServiceOld(http) {
         this.http = http;
         this.urlToGetList = '/article/list';
         this.urlToGetArticleItem = '/article/';
@@ -27,10 +27,10 @@ var ArticleService = /** @class */ (function () {
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.articleItemList = [];
     }
-    ArticleService.prototype.getArticleItemList = function () {
+    ArticleServiceOld.prototype.getArticleItemList = function () {
         return this.articleItemList;
     };
-    ArticleService.prototype.getArticleItemListFromServer = function () {
+    ArticleServiceOld.prototype.getArticleItemListFromServer = function () {
         var _this = this;
         return this.http.get(this.urlToGetList)
             .map(function (response) {
@@ -46,7 +46,7 @@ var ArticleService = /** @class */ (function () {
             return Observable_1.Observable.throw(error.toString());
         });
     };
-    ArticleService.prototype.getArticleItemByIdFromServer = function (id) {
+    ArticleServiceOld.prototype.getArticleItemByIdFromServer = function (id) {
         var link = this.urlToGetArticleItem + id;
         return this.http.get(link)
             .map(function (response) {
@@ -57,17 +57,17 @@ var ArticleService = /** @class */ (function () {
             return Observable_1.Observable.throw(error.toString());
         });
     };
-    ArticleService.prototype.getArticleItem = function (index) {
+    ArticleServiceOld.prototype.getArticleItem = function (index) {
         return this.articleItemList[index];
     };
-    ArticleService.prototype.updateArticleItemInList = function (articleItem) {
+    ArticleServiceOld.prototype.updateArticleItemInList = function (articleItem) {
         var index = this.articleItemList.indexOf(articleItem);
         this.articleItemList[index] = articleItem;
     };
-    ArticleService.prototype.addArticleItemToList = function (articleItem) {
+    ArticleServiceOld.prototype.addArticleItemToList = function (articleItem) {
         this.articleItemList.push(articleItem);
     };
-    ArticleService.prototype.updateArticle = function (articleItem) {
+    ArticleServiceOld.prototype.updateArticle = function (articleItem) {
         return this.http
             .put(this.urlToUpdate, articleItem, { headers: this.headers })
             .map(function (response) {
@@ -77,7 +77,7 @@ var ArticleService = /** @class */ (function () {
             return Observable_1.Observable.throw(error.statusText);
         });
     };
-    ArticleService.prototype.addArticle = function (articleItem) {
+    ArticleServiceOld.prototype.addArticle = function (articleItem) {
         return this.http
             .post(this.urlToAdd, articleItem, { headers: this.headers })
             .map(function (response) {
@@ -87,7 +87,7 @@ var ArticleService = /** @class */ (function () {
             return Observable_1.Observable.throw(error.statusText);
         });
     };
-    ArticleService.prototype.deleteArticle = function (articleItem) {
+    ArticleServiceOld.prototype.deleteArticle = function (articleItem) {
         return this.http
             .delete(this.urlToDelete + '/' + articleItem.id)
             .map(function (response) {
@@ -97,7 +97,7 @@ var ArticleService = /** @class */ (function () {
             return Observable_1.Observable.throw(error.statusText);
         });
     };
-    ArticleService.prototype.getArticleById = function (id) {
+    ArticleServiceOld.prototype.getArticleById = function (id) {
         if (!this.articleItemList.length) {
             return null;
         }
@@ -109,11 +109,11 @@ var ArticleService = /** @class */ (function () {
         });
         return filteredArticleList[0];
     };
-    ArticleService = __decorate([
+    ArticleServiceOld = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http])
-    ], ArticleService);
-    return ArticleService;
+    ], ArticleServiceOld);
+    return ArticleServiceOld;
 }());
-exports.ArticleService = ArticleService;
+exports.ArticleServiceOld = ArticleServiceOld;
 //# sourceMappingURL=article.service.js.map

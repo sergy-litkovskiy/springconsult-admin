@@ -4,29 +4,34 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {APP_BASE_HREF} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import {DateTimePickerModule} from 'ng-pick-datetime';
 import {NguiPopupModule} from '@ngui/popup';
 import {AppMainRoutingModule} from './app.routing.module';
-// import {DataTableModule} from 'angular-4-data-table';
+import {AgGridModule, BaseComponentFactory} from 'ag-grid-angular/main';
+import {ArticleService} from "./blog/article.service";
+import {AppArticleListComponent} from "./blog/article-list/article-list.component";
 
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        AppArticleListComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         AppMainRoutingModule,
-        // DataTableModule,
         NguiPopupModule,
         FormsModule,
         ReactiveFormsModule,
-        DateTimePickerModule
+        DateTimePickerModule,
+        AgGridModule
     ],
     providers: [
+        BaseComponentFactory,
+        ArticleService,
         {
             provide: APP_BASE_HREF,
             useValue: '/'

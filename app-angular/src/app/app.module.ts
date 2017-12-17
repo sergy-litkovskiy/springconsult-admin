@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app.routing.module';
 
 import {AppMainComponent} from './app.main.component';
 import {AppMenuComponent} from './menu/menu-list/menu-list.component';
-import {MenuService} from './menu/menu.service';
+import {MenuServiceOld} from './menu/menu.service';
 import {AppArticleListComponent} from './blog/article-list/article-list.component';
 import {AppArticleItemComponent} from './blog/article-item/article-item.component';
 import {NguiPopupModule} from '@ngui/popup';
@@ -16,7 +16,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
 // import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import {APP_BASE_HREF} from '@angular/common';
-import {ArticleService} from "./blog/article.service";
+import {ArticleServiceOld} from "./blog/article.service";
 import {AppMainCkeditorHelper} from "./app.main.ckeditor.helper";
 
 @NgModule({
@@ -42,8 +42,8 @@ import {AppMainCkeditorHelper} from "./app.main.ckeditor.helper";
         CKEditorModule,
     ],
     providers: [
-        MenuService,
-        ArticleService,
+        MenuServiceOld,
+        ArticleServiceOld,
         {
             provide: APP_BASE_HREF,
             useValue: '/'

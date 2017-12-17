@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers} from '@angular/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -8,17 +8,17 @@ import 'rxjs/add/observable/throw';
 import {ArticleItem} from "./article-item.model";
 
 @Injectable()
-export class ArticleServiceOld {
+export class ArticleService {
     private urlToGetList = '/article/list';
     private urlToGetArticleItem = '/article/';
     private urlToUpdate = '/article/update';
     private urlToAdd = '/article/add';
     private urlToDelete = '/article/delete';
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     private articleItemList: ArticleItem[] = [];
 
-    constructor(private http: Http) {}
+    constructor(private http: HttpClient) {}
 
     getArticleItemList() {
         return this.articleItemList;
@@ -27,7 +27,7 @@ export class ArticleServiceOld {
     getArticleItemListFromServer() {
         return this.http.get(this.urlToGetList)
             .map(
-                (response: Response) => {
+                (response: any) => {
                     let articleDataList = response.json();
 
                     for (let articleData of articleDataList) {
@@ -38,7 +38,7 @@ export class ArticleServiceOld {
                 }
             )
             .catch(
-                (error: Response) => {
+                (error: any) => {
                     return Observable.throw(error.toString());
                 }
             );
@@ -49,14 +49,14 @@ export class ArticleServiceOld {
 
         return this.http.get(link)
             .map(
-                (response: Response) => {
+                (response: any) => {
                     let articleData = response.json();
 
                     return new ArticleItem(articleData);
                 }
             )
             .catch(
-                (error: Response) => {
+                (error: any) => {
                     return Observable.throw(error.toString());
                 }
             );
@@ -79,12 +79,12 @@ export class ArticleServiceOld {
         return this.http
             .put(this.urlToUpdate, articleItem, {headers: this.headers})
                 .map(
-                    (response: Response) => {
+                    (response: any) => {
                         return response.json();
                     }
                 )
                 .catch(
-                    (error: Response) => {
+                    (error: any) => {
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -94,12 +94,12 @@ export class ArticleServiceOld {
         return this.http
             .post(this.urlToAdd, articleItem, {headers: this.headers})
                 .map(
-                    (response: Response) => {
+                    (response: any) => {
                         return response.json();
                     }
                 )
                 .catch(
-                    (error: Response) => {
+                    (error: any) => {
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -109,12 +109,12 @@ export class ArticleServiceOld {
         return this.http
             .delete(this.urlToDelete + '/' + articleItem.id)
                 .map(
-                    (response: Response) => {
+                    (response: any) => {
                         return response.json();
                     }
                 )
                 .catch(
-                    (error: Response) => {
+                    (error: any) => {
                         return Observable.throw(error.statusText);
                     }
                 );

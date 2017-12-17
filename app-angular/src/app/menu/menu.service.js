@@ -16,16 +16,16 @@ var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
 require("rxjs/add/observable/throw");
-var MenuService = /** @class */ (function () {
-    function MenuService(http) {
+var MenuServiceOld = (function () {
+    function MenuServiceOld(http) {
         this.http = http;
         this.urlToGetList = '/menu/list';
         this.menuItemList = [];
     }
-    MenuService.prototype.getMenuItemList = function () {
+    MenuServiceOld.prototype.getMenuItemList = function () {
         return this.menuItemList;
     };
-    MenuService.prototype.getMenuItemListFromService = function () {
+    MenuServiceOld.prototype.getMenuItemListFromService = function () {
         var _this = this;
         return this.http.get(this.urlToGetList)
             .map(function (response) {
@@ -41,14 +41,14 @@ var MenuService = /** @class */ (function () {
             return Observable_1.Observable.throw(error.toString());
         });
     };
-    MenuService.prototype.getMenuItem = function (index) {
+    MenuServiceOld.prototype.getMenuItem = function (index) {
         return this.menuItemList[index];
     };
-    MenuService = __decorate([
+    MenuServiceOld = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.Http])
-    ], MenuService);
-    return MenuService;
+    ], MenuServiceOld);
+    return MenuServiceOld;
 }());
-exports.MenuService = MenuService;
+exports.MenuServiceOld = MenuServiceOld;
 //# sourceMappingURL=menu.service.js.map
