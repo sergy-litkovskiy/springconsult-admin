@@ -2,7 +2,6 @@ import {Component, OnInit, Output, ViewChild, EventEmitter, Input} from '@angula
 import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
-// import {DatatableComponent} from "@swimlane/ngx-datatable";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import { Subscription } from 'rxjs/Subscription';
 import {isNullOrUndefined} from "util";
@@ -14,8 +13,7 @@ import ArticleListDataMock from "./article-list-mock";
 @Component({
     selector: 'article-list',
     styleUrls: [
-        "../../../../node_modules/ag-grid/dist/styles/ag-grid.css",
-        "../../../../node_modules/ag-grid/dist/styles/ag-theme-fresh.css"
+        "../../../../node_modules/ag-grid/dist/styles/ag-theme-bootstrap.css"
     ],
     templateUrl: './article-list.component.html'
 })
