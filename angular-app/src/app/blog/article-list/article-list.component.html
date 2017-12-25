@@ -74,22 +74,22 @@
 <!--</div>-->
 
 <!--<ngui-popup #popup></ngui-popup>-->
+<div class="row">
+    <ag-grid-angular style="height: 525px;" class="ag-theme-bootstrap"
+                     [gridOptions]="gridOptions"
+                     [columnDefs]="columnDefs"
+                     [rowData]="rowData"
 
-<ag-grid-angular style="height: 525px; width: 900px;" class="ag-theme-bootstrap"
+                     [icons]="icons"
 
-                 [gridOptions]="gridOptions"
-                 [columnDefs]="columnDefs"
-                 [rowData]="rowData"
+                     enableColResize
+                     enableSorting
+                     enableFilter
+                     suppressRowClickSelection
+                     toolPanelSuppressValues
+                     rowHeight="22"
+                     rowSelection="multiple"
 
-                 [icons]="icons"
-
-                 enableColResize
-                 enableSorting
-                 enableFilter
-                 suppressRowClickSelection
-                 toolPanelSuppressValues
-                 rowHeight="22"
-                 rowSelection="multiple"
-
-                 (gridReady)="onReady($event)">
-</ag-grid-angular>
+                     (gridReady)="onReady($event)">
+    </ag-grid-angular>
+</div>

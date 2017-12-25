@@ -181,8 +181,8 @@ console.log('article LIST - ON DESTROY');
                 country: countryData.country,
                 continent: countryData.continent,
                 language: countryData.language,
-                mobile: createRandomPhoneNumber(),
-                landline: createRandomPhoneNumber()
+                mobile: 123,
+                landline: 111111111
             });
         }
 
@@ -269,17 +269,6 @@ console.log('article LIST - ON DESTROY');
 function countryCellRenderer(params) {
     const flag = "<img border='0' width='15' height='10' style='margin-bottom: 2px' src='https://www.ag-grid.com/images/flags/" + ArticleListDataMock.COUNTRY_CODES[params.value] + ".png'>";
     return flag + " " + params.value;
-}
-
-function createRandomPhoneNumber() {
-    let result = '+';
-    for (let i = 0; i < 12; i++) {
-        result += Math.round(Math.random() * 10);
-        if (i === 2 || i === 5 || i === 8) {
-            result += ' ';
-        }
-    }
-    return result;
 }
 
 //Utility function used to pad the date formatting.

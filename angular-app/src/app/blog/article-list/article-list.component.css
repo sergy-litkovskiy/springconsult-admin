@@ -3,6 +3,10 @@
     padding-bottom: 2px !important;
 }
 
+.ag-body, .ag-header {
+    padding: 10px;
+}
+
 label {
     font-weight: normal !important;
 }
