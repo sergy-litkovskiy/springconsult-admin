@@ -3,7 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
-import { Subscription } from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from "util";
 import {ColumnApi, GridApi, GridOptions} from "ag-grid";
 
@@ -12,38 +12,41 @@ import ArticleListDataMock from "./article-list-mock";
 
 @Component({
     selector: 'article-list',
-    styleUrls: [
-        "../../../../node_modules/ag-grid/dist/styles/ag-theme-bootstrap.css"
+    // styleUrls: [
+        // "../../../../node_modules/ag-grid/dist/styles/ag-grid.css",
+        // "../../../../node_modules/ag-grid/dist/styles/ag-theme-bootstrap.css",
+        // "./article-list.component.css"
+    // ],
+    styles: [
+        '.ag-theme-bootstrap .ag-body, .ag-theme-bootstrap .ag-header {padding: 10px !important;}',
+        '.ag-theme-bootstrap .ag-header {background: red !important;}'
     ],
     templateUrl: './article-list.component.html'
 })
 
 export class AppArticleListComponent implements OnInit {
-    articleItemList: ArticleItem[];
+    // articleItemList: ArticleItem[];
+    rowData: ArticleItem[];
     actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
-    private articleListSubscription: Subscription;
 
+    private articleListSubscription: Subscription;
     private gridOptions: GridOptions;
-    private icons: any;
-    public rowData: any[];
+    // public rowData: any[];
     public columnDefs: any[];
     public rowCount: string;
 
     private api: GridApi;
     private columnApi: ColumnApi;
 
-    // @ViewChild(DatatableComponent) articleListTable: DatatableComponent;
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
-    constructor(
-        private articleService: ArticleService,
-        private router: Router,
-        private route: ActivatedRoute
-    ) {
+    constructor(private articleService: ArticleService,
+                private router: Router,
+                private route: ActivatedRoute) {
         this.gridOptions = <GridOptions>{};
-        this.rowData = this.createRowData();
-        this.columnDefs = this.createColumnDefs();
+        this.createRowData();
+        this.createColumnDefs();
     }
 
     private onReady(params) {
@@ -52,13 +55,13 @@ export class AppArticleListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.articleItemList = this.articleService.getArticleItemList();
+        this.rowData = this.articleService.getArticleItemList();
 
-        if (!this.articleItemList.length) {
+        if (!this.rowData.length) {
             this.articleListSubscription = this.articleService.getArticleItemListFromServer()
                 .subscribe(
                     (articleList: ArticleItem[]) => {
-                        this.articleItemList = articleList;
+                        this.rowData = articleList;
                         this.tempArticleList = [...articleList];
                     },
                     (error) => {
@@ -66,7 +69,7 @@ export class AppArticleListComponent implements OnInit {
                     }
                 );
         }
-
+console.log('this.rowData', this.rowData);
         this.actionButtonClassName = "btn btn-";
     }
 
@@ -114,7 +117,7 @@ export class AppArticleListComponent implements OnInit {
                     this.articleService.deleteArticle(articleItem)
                         .subscribe(
                             (response: any) => {
-                                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+                                this.rowData = this.rowData.filter(obj => obj !== articleItem);
                             },
                             (error) => {
                                 // this.showErrorPopup(error);
@@ -132,7 +135,7 @@ export class AppArticleListComponent implements OnInit {
         const val = event.target.value.toLowerCase();
 
         // filter our data
-        this.articleItemList = this.tempArticleList.filter(function (articleItem) {
+        this.rowData = this.tempArticleList.filter(function (articleItem) {
             return articleItem.title.toLowerCase().indexOf(val) !== -1 || !val;
         });
 
@@ -154,127 +157,102 @@ export class AppArticleListComponent implements OnInit {
     }
 
     ngOnDestroy() {
-console.log('article LIST - ON DESTROY');
+        console.log('article LIST - ON DESTROY');
         if (this.articleListSubscription != undefined) {
             this.articleListSubscription.unsubscribe();
         }
     }
 
     private createRowData() {
-        const rowData: any[] = [];
+        this.rowData = [];
 
-        for (let i = 0; i < 200; i++) {
-            const countryData = ArticleListDataMock.countries[i % ArticleListDataMock.countries.length];
-            rowData.push({
-                name: ArticleListDataMock.firstNames[i % ArticleListDataMock.firstNames.length] + ' ' + ArticleListDataMock.lastNames[i % ArticleListDataMock.lastNames.length],
-                skills: {
-                    android: Math.random() < 0.4,
-                    html5: Math.random() < 0.4,
-                    mac: Math.random() < 0.4,
-                    windows: Math.random() < 0.4,
-                    css: Math.random() < 0.4
-                },
-                dob: ArticleListDataMock.DOBs[i % ArticleListDataMock.DOBs.length],
-                address: ArticleListDataMock.addresses[i % ArticleListDataMock.addresses.length],
-                years: Math.round(Math.random() * 100),
-                proficiency: Math.round(Math.random() * 100),
-                country: countryData.country,
-                continent: countryData.continent,
-                language: countryData.language,
-                mobile: 123,
-                landline: 111111111
-            });
-        }
-
-        return rowData;
+        // for (let i = 0; i < 15; i++) {
+        //     const countryData = ArticleListDataMock.countries[i % ArticleListDataMock.countries.length];
+        //
+        //     this.rowData.push({
+        //         date: 'createdAt',
+        //         title: 'some title-'+i,
+        //         slug: 'slug-'+i,
+        //         metaDescription: 'metaDescription-'+i,
+        //         metaKeywords: 'metaKeywords-'+i,
+        //         assignedMenuList: []
+        //         // ,
+        //         // country: countryData.country,
+        //     });
+        // }
     }
 
     private createColumnDefs() {
-        const columnDefs = [
+        this.columnDefs = [
             {
-                headerName: '#',
-                width: 30,
-                checkboxSelection: true,
-                suppressSorting: true,
-                suppressMenu: true,
+                headerName: "Date",
+                field: "date",
+                width: 100,
                 pinned: true
-            },
-            {
-                headerName: 'Employee',
-                children: [
-                    {
-                        headerName: "Name",
-                        field: "name",
-                        width: 150,
-                        pinned: true
-                    },
-                    {
-                        headerName: "Country",
-                        field: "country",
-                        width: 150,
-                        // an example of using a non-React cell renderer
-                        cellRenderer: countryCellRenderer,
-                        pinned: true,
-                        filter: 'set',
-                        filterParams: {
-                            cellRenderer: countryCellRenderer,
-                            cellHeight: 20
-                        },
-                        cellEditor: 'agRichSelect',
-                        cellEditorParams: {
-                            values: ["Argentina", "Brazil", "Colombia", "France", "Germany", "Greece", "Iceland", "Ireland",
-                                "Italy", "Malta", "Portugal", "Norway", "Peru", "Spain", "Sweden", "United Kingdom",
-                                "Uruguay", "Venezuela", "Belgium", "Luxembourg"],
-                            cellRenderer: countryCellRenderer,
-                        },
-                        editable: true
-                    },
-                    {
-                        headerName: "Date of Birth",
-                        field: "dob",
-                        width: 110,
-                        pinned: true,
-                        cellRenderer: function (params) {
-                            return pad(params.value.getDate(), 2) + '/' +
-                                pad(params.value.getMonth() + 1, 2) + '/' +
-                                params.value.getFullYear();
-                        },
-                        filter: 'date',
-                        columnGroupShow: 'open'
-                    }
-                ]
-            },
-            {
-                headerName: "Proficiency",
-                field: "proficiency",
-                width: 135
                 // ,
-                // supply an angular component
-                // cellRendererFramework: ProficiencyCellRenderer
+                // cellRenderer: function (params) {
+                //     return pad(params.value.getDate(), 2) + '/' +
+                //         pad(params.value.getMonth() + 1, 2) + '/' +
+                //         params.value.getFullYear();
+                // },
             },
             {
-                headerName: 'Contact',
-                children: [
-                    {headerName: "Mobile", field: "mobile", width: 150, filter: 'text'},
-                    {headerName: "Landline", field: "landline", width: 150, filter: 'text'},
-                    {headerName: "Address", field: "address", width: 500, filter: 'text'}
-                ]
+                headerName: "Title",
+                field: "title",
+                width: 150,
+                // pinned: true
+            },
+            {
+                headerName: "slug",
+                field: "slug",
+                width: 135,
+                // pinned: true
+            },
+            {
+                headerName: "MetaDescription",
+                field: "metaDescription",
+                // width: 150,
+                // an example of using a non-React cell renderer
+                cellRenderer: countryCellRenderer,
+                // pinned: true
+                // ,
+                // filter: 'set',
+                // filterParams: {
+                //     cellRenderer: countryCellRenderer,
+                //     cellHeight: 20
+                // },
+                // cellEditor: 'agRichSelect',
+                // cellEditorParams: {
+                //     values: ["Argentina", "Brazil", "Colombia", "France", "Germany", "Greece", "Iceland", "Ireland",
+                //         "Italy", "Malta", "Portugal", "Norway", "Peru", "Spain", "Sweden", "United Kingdom",
+                //         "Uruguay", "Venezuela", "Belgium", "Luxembourg"],
+                //     cellRenderer: countryCellRenderer,
+                // },
+                // editable: true
+            },
+            {
+                headerName: "MetaKeywords",
+                field: "metaKeywords",
+                // width: 110,
+                filter: 'metaKeywords',
+                // pinned: true
+            },
+            {
+                headerName: 'AssignedMenuList',
+                field: "assignedMenuList",
+                // width: 250,
+                // pinned: true,
+                cellRenderer: function (params) {
+                    return 'menu item';
+                    // return pad(params.value.getDate(), 2) + '/' +
+                    //     pad(params.value.getMonth() + 1, 2) + '/' +
+                    //     params.value.getFullYear();
+                }
             }
         ];
-
-        return columnDefs;
     }
 }
 
 function countryCellRenderer(params) {
-    const flag = "<img border='0' width='15' height='10' style='margin-bottom: 2px' src='https://www.ag-grid.com/images/flags/" + ArticleListDataMock.COUNTRY_CODES[params.value] + ".png'>";
-    return flag + " " + params.value;
+    return "- " + params.value;
 }
-
-//Utility function used to pad the date formatting.
-function pad(num, totalStringSize) {
-    let asString = num + "";
-    while (asString.length < totalStringSize) asString = "0" + asString;
-    return asString;
-}
-

@@ -74,21 +74,19 @@
 <!--</div>-->
 
 <!--<ngui-popup #popup></ngui-popup>-->
-<div class="row">
-    <ag-grid-angular style="height: 525px;" class="ag-theme-bootstrap"
+<div>
+    <ag-grid-angular style="height: 525px;" class="ag-theme-fresh"
                      [gridOptions]="gridOptions"
                      [columnDefs]="columnDefs"
                      [rowData]="rowData"
-
-                     [icons]="icons"
-
+                     pagination
+                     paginationAutoPageSize
                      enableColResize
                      enableSorting
                      enableFilter
                      suppressRowClickSelection
                      toolPanelSuppressValues
                      rowHeight="22"
-                     rowSelection="multiple"
 
                      (gridReady)="onReady($event)">
     </ag-grid-angular>
