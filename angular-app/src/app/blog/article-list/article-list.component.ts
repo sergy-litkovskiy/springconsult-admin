@@ -27,6 +27,7 @@ import ArticleListDataMock from "./article-list-mock";
 export class AppArticleListComponent implements OnInit {
     // articleItemList: ArticleItem[];
     rowData: ArticleItem[];
+    rowData2: any[];
     actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
 
@@ -45,11 +46,12 @@ export class AppArticleListComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute) {
         this.gridOptions = <GridOptions>{};
-        this.createRowData();
-        this.createColumnDefs();
+        // this.createRowData();
+        // this.createColumnDefs();
     }
 
     private onReady(params) {
+console.log('onReady', params);
         this.api = params.api;
         this.columnApi = params.columnApi;
     }
@@ -63,6 +65,9 @@ export class AppArticleListComponent implements OnInit {
                     (articleList: ArticleItem[]) => {
                         this.rowData = articleList;
                         this.tempArticleList = [...articleList];
+console.log('this.articleListSubscription - ngOnInit', this.rowData);
+                        this.createRowData();
+                        this.createColumnDefs();
                     },
                     (error) => {
                         // this.showErrorPopup(error);
@@ -164,7 +169,19 @@ console.log('this.rowData', this.rowData);
     }
 
     private createRowData() {
-        this.rowData = [];
+        // this.rowData = [];
+console.log('createRowData', this.rowData);
+        for (let articleItem in this.rowData) {
+
+            this.rowData2.push({
+                date: articleItem.date,
+                title: articleItem.title,
+                slug: articleItem.slug,
+                metaDescription: articleItem.metaDescription,
+                metaKeywords: articleItem.metaKeywords,
+                assignedMenuList: articleItem.assignedMenuList
+            });
+        }
 
         // for (let i = 0; i < 15; i++) {
         //     const countryData = ArticleListDataMock.countries[i % ArticleListDataMock.countries.length];

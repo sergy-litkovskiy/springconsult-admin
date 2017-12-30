@@ -21,15 +21,14 @@ export class ArticleService {
     constructor(private http: HttpClient) {}
 
     getArticleItemList() {
+console.log('getArticleItemList', this.articleItemList);
         return this.articleItemList;
     }
 
     getArticleItemListFromServer() {
-        return this.http.get(this.urlToGetList)
+        return this.http.get<ArticleItem[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
             .map(
-                (response: any) => {
-                    let articleDataList = response.json();
-
+                (articleDataList) => {
                     for (let articleData of articleDataList) {
                         let articleItem = new ArticleItem(articleData);
                         this.articleItemList.push(articleItem);
