@@ -1,14 +1,10 @@
-import {Component, OnInit, Output, ViewChild, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {Subscription} from 'rxjs/Subscription';
-import {isNullOrUndefined} from "util";
 import {ColumnApi, GridApi, GridOptions} from "ag-grid";
-
-import ArticleListDataMock from "./article-list-mock";
-
 
 @Component({
     selector: 'article-list',
@@ -24,16 +20,14 @@ import ArticleListDataMock from "./article-list-mock";
     templateUrl: './article-list.component.html'
 })
 
-export class AppArticleListComponent implements OnInit {
-    // articleItemList: ArticleItem[];
-    rowData: ArticleItem[];
-    rowData2: any[];
+export class ArticleListComponent implements OnInit {
+    articleItemList: ArticleItem[];
+    rowData: any[];
     actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
 
     private articleListSubscription: Subscription;
     private gridOptions: GridOptions;
-    // public rowData: any[];
     public columnDefs: any[];
     public rowCount: string;
 
@@ -46,35 +40,35 @@ export class AppArticleListComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute) {
         this.gridOptions = <GridOptions>{};
-        // this.createRowData();
-        // this.createColumnDefs();
     }
 
     private onReady(params) {
-console.log('onReady', params);
         this.api = params.api;
         this.columnApi = params.columnApi;
     }
 
     ngOnInit() {
-        this.rowData = this.articleService.getArticleItemList();
+        this.articleItemList = this.articleService.getArticleItemList();
 
-        if (!this.rowData.length) {
+        if (!this.articleItemList.length) {
             this.articleListSubscription = this.articleService.getArticleItemListFromServer()
                 .subscribe(
                     (articleList: ArticleItem[]) => {
-                        this.rowData = articleList;
+                        this.articleItemList = articleList;
                         this.tempArticleList = [...articleList];
-console.log('this.articleListSubscription - ngOnInit', this.rowData);
+
                         this.createRowData();
                         this.createColumnDefs();
                     },
                     (error) => {
-                        // this.showErrorPopup(error);
+                       this.showErrorPopup(error);
                     }
                 );
+        } else {
+            this.createRowData();
+            this.createColumnDefs();
         }
-console.log('this.rowData', this.rowData);
+
         this.actionButtonClassName = "btn btn-";
     }
 
@@ -99,7 +93,7 @@ console.log('this.rowData', this.rowData);
             .subscribe(
                 (response: any) => console.log('response', response),
                 (error) => {
-                    // this.showErrorPopup(error);
+                    this.showErrorPopup(error);
 
                     row.status = !row.status;
                 }
@@ -121,11 +115,11 @@ console.log('this.rowData', this.rowData);
 
                     this.articleService.deleteArticle(articleItem)
                         .subscribe(
-                            (response: any) => {
-                                this.rowData = this.rowData.filter(obj => obj !== articleItem);
+                            (response) => {
+                                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
                             },
                             (error) => {
-                                // this.showErrorPopup(error);
+                                this.showErrorPopup(error);
                             }
                         );
                 },
@@ -140,7 +134,7 @@ console.log('this.rowData', this.rowData);
         const val = event.target.value.toLowerCase();
 
         // filter our data
-        this.rowData = this.tempArticleList.filter(function (articleItem) {
+        this.articleItemList = this.tempArticleList.filter(function (articleItem) {
             return articleItem.title.toLowerCase().indexOf(val) !== -1 || !val;
         });
 
@@ -169,34 +163,21 @@ console.log('this.rowData', this.rowData);
     }
 
     private createRowData() {
-        // this.rowData = [];
-console.log('createRowData', this.rowData);
-        for (let articleItem in this.rowData) {
+        this.rowData = [];
 
-            this.rowData2.push({
+        for (let index in this.articleItemList) {
+            let articleItem = this.articleItemList[index];
+
+            this.rowData.push({
                 date: articleItem.date,
                 title: articleItem.title,
                 slug: articleItem.slug,
                 metaDescription: articleItem.metaDescription,
                 metaKeywords: articleItem.metaKeywords,
-                assignedMenuList: articleItem.assignedMenuList
+                assignedMenuList: articleItem.assignedMenuList,
+                actions: 'button: ' + articleItem.id
             });
         }
-
-        // for (let i = 0; i < 15; i++) {
-        //     const countryData = ArticleListDataMock.countries[i % ArticleListDataMock.countries.length];
-        //
-        //     this.rowData.push({
-        //         date: 'createdAt',
-        //         title: 'some title-'+i,
-        //         slug: 'slug-'+i,
-        //         metaDescription: 'metaDescription-'+i,
-        //         metaKeywords: 'metaKeywords-'+i,
-        //         assignedMenuList: []
-        //         // ,
-        //         // country: countryData.country,
-        //     });
-        // }
     }
 
     private createColumnDefs() {
@@ -205,32 +186,27 @@ console.log('createRowData', this.rowData);
                 headerName: "Date",
                 field: "date",
                 width: 100,
-                pinned: true
-                // ,
-                // cellRenderer: function (params) {
-                //     return pad(params.value.getDate(), 2) + '/' +
-                //         pad(params.value.getMonth() + 1, 2) + '/' +
-                //         params.value.getFullYear();
-                // },
+                pinned: 'left'
             },
             {
                 headerName: "Title",
                 field: "title",
-                width: 150,
-                // pinned: true
+                width: 250
             },
             {
-                headerName: "slug",
+                headerName: "Slug",
                 field: "slug",
-                width: 135,
-                // pinned: true
+                width: 150,
+                cellRenderer: function (params) {
+                    return "slug - " + params.value;
+                }
             },
             {
-                headerName: "MetaDescription",
+                headerName: "Meta Description",
                 field: "metaDescription",
-                // width: 150,
-                // an example of using a non-React cell renderer
-                cellRenderer: countryCellRenderer,
+                cellRenderer: function (params) {
+                    return "- " + params.value;
+                },
                 // pinned: true
                 // ,
                 // filter: 'set',
@@ -248,19 +224,25 @@ console.log('createRowData', this.rowData);
                 // editable: true
             },
             {
-                headerName: "MetaKeywords",
+                headerName: "Meta Keywords",
                 field: "metaKeywords",
-                // width: 110,
-                filter: 'metaKeywords',
-                // pinned: true
+                filter: 'metaKeywords'
             },
             {
-                headerName: 'AssignedMenuList',
+                headerName: 'Assigned to',
                 field: "assignedMenuList",
-                // width: 250,
-                // pinned: true,
                 cellRenderer: function (params) {
+console.log('assignedMenuList', params.value);
                     return 'menu item';
+                }
+            },
+            {
+                headerName: 'Actions',
+                field: "actions",
+                width: 100,
+                pinned: 'right',
+                cellRenderer: function (params) {
+                    return params.value;
                     // return pad(params.value.getDate(), 2) + '/' +
                     //     pad(params.value.getMonth() + 1, 2) + '/' +
                     //     params.value.getFullYear();
@@ -268,8 +250,4 @@ console.log('createRowData', this.rowData);
             }
         ];
     }
-}
-
-function countryCellRenderer(params) {
-    return "- " + params.value;
 }

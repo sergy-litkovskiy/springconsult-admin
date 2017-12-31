@@ -113,7 +113,7 @@ export class AppArticleItemComponent implements OnInit {
 
     private setAvailableMenuList() {
         // this.availableMenuList = this.menuService.getMenuItemList();
-
+        //
         // if (!this.availableMenuList.length) {
         //     this.menuListSubscription = this.menuService.getMenuItemListFromService()
         //         .subscribe(

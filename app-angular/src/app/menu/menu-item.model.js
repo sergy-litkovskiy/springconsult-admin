@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var MenuItem = (function () {
-    function MenuItem(menuData) {
+var MenuItemOld = (function () {
+    function MenuItemOld(menuData) {
         this.id = menuData['id'] !== undefined ? menuData['id'] : null;
         this.title = menuData['title'] !== undefined ? menuData['title'] : null;
         this.metaDescription = menuData['meta_description'] !== undefined ? menuData['meta_description'] : null;
@@ -17,7 +17,7 @@ var MenuItem = (function () {
         this.parent = menuData['parent'] !== undefined ? menuData['parent'] : null;
         this.isChecked = false;
     }
-    return MenuItem;
+    return MenuItemOld;
 }());
-exports.MenuItem = MenuItem;
+exports.MenuItemOld = MenuItemOld;
 //# sourceMappingURL=menu-item.model.js.map

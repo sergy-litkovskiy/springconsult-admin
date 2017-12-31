@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -21,7 +21,6 @@ export class ArticleService {
     constructor(private http: HttpClient) {}
 
     getArticleItemList() {
-console.log('getArticleItemList', this.articleItemList);
         return this.articleItemList;
     }
 
@@ -37,7 +36,7 @@ console.log('getArticleItemList', this.articleItemList);
                 }
             )
             .catch(
-                (error: any) => {
+                (error) => {
                     return Observable.throw(error.toString());
                 }
             );
@@ -46,16 +45,14 @@ console.log('getArticleItemList', this.articleItemList);
     getArticleItemByIdFromServer(id: number) {
         let link = this.urlToGetArticleItem + id;
 
-        return this.http.get(link)
+        return this.http.get<ArticleItem>(link, {observe: 'body', responseType: 'json'})
             .map(
-                (response: any) => {
-                    let articleData = response.json();
-
+                (articleData) => {
                     return new ArticleItem(articleData);
                 }
             )
             .catch(
-                (error: any) => {
+                (error) => {
                     return Observable.throw(error.toString());
                 }
             );
@@ -78,12 +75,12 @@ console.log('getArticleItemList', this.articleItemList);
         return this.http
             .put(this.urlToUpdate, articleItem, {headers: this.headers})
                 .map(
-                    (response: any) => {
-                        return response.json();
+                    (response) => {
+                        return response;
                     }
                 )
                 .catch(
-                    (error: any) => {
+                    (error) => {
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -93,12 +90,12 @@ console.log('getArticleItemList', this.articleItemList);
         return this.http
             .post(this.urlToAdd, articleItem, {headers: this.headers})
                 .map(
-                    (response: any) => {
-                        return response.json();
+                    (response) => {
+                        return response;
                     }
                 )
                 .catch(
-                    (error: any) => {
+                    (error) => {
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -108,12 +105,12 @@ console.log('getArticleItemList', this.articleItemList);
         return this.http
             .delete(this.urlToDelete + '/' + articleItem.id)
                 .map(
-                    (response: any) => {
-                        return response.json();
+                    (response) => {
+                        return response;
                     }
                 )
                 .catch(
-                    (error: any) => {
+                    (error) => {
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -134,5 +131,4 @@ console.log('getArticleItemList', this.articleItemList);
 
         return filteredArticleList[0];
     }
-
 }

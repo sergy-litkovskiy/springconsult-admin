@@ -1,4 +1,4 @@
-// import {MenuItem} from "../menu/menu-item.model";
+import {MenuItem} from "../menu/menu-item.model";
 
 export class ArticleItem {
     public id: number;
@@ -30,22 +30,21 @@ export class ArticleItem {
         this.isSentMail = articleData['is_sent_mail'] !== undefined ? articleData['is_sent_mail'] : null;
         this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
         this.date = articleData['date'] !== undefined ? articleData['date'] : null;
-        // this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? this.makeAssignedMenuList(articleData['assignedMenuList']) : [];
-        this.assignedMenuList = [];
+        this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? this.makeAssignedMenuList(articleData['assignedMenuList']) : [];
         this.imageData = null;//use only for new uploaded image to pass base64 data into server
     }
 
-    // makeAssignedMenuList(dataList: any[]) {
-    //     return dataList.map(
-    //         (data: any[]) => {
-    //             // let menuItem = new MenuItem(data);
-    //             let menuItem = {};
-    //             // menuItem.isChecked = true;
-    //
-    //             return menuItem;
-    //         }
-    //     );
-    // }
+    makeAssignedMenuList(dataList: any[]) {
+        return dataList.map(
+            (data: any[]) => {
+                let menuItem = new MenuItem(data);
+                // let menuItem = {};
+                // menuItem.isChecked = true;
+
+                return menuItem;
+            }
+        );
+    }
 
     isActive() {
         return (this.status == true);

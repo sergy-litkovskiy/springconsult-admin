@@ -32,7 +32,7 @@ var MenuServiceOld = (function () {
             var menuDataList = response.json();
             for (var _i = 0, menuDataList_1 = menuDataList; _i < menuDataList_1.length; _i++) {
                 var menuData = menuDataList_1[_i];
-                var menuItem = new menu_item_model_1.MenuItem(menuData);
+                var menuItem = new menu_item_model_1.MenuItemOld(menuData);
                 _this.menuItemList.push(menuItem);
             }
             return _this.menuItemList;

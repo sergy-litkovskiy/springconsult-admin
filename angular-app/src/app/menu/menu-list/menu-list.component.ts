@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {MenuItemOld} from "../menu-item.model";
-import {MenuServiceOld} from "../menu.service";
+import {MenuItem} from "../menu-item.model";
+import {MenuService} from "../menu.service";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import 'rxjs/add/observable/throw';
@@ -14,23 +14,13 @@ import {Subscription} from "rxjs/Subscription";
     // templateUrl: './menu-list.component.html',
     template: `
         <div>
-            <ngx-datatable
-                class="material ngx-datatable fixed-header fixed-row scroll-vertical scroll-horz"
-                [rows]="rows"
-                [columns]="columns"
-                [columnMode]="'force'"
-                [headerHeight]="50"
-                [footerHeight]="50"
-                [rowHeight]="'auto'"
-                [sortType]="'multi'"
-                [limit]="10">
-            </ngx-datatable>
+            Some menu list
         </div>
     `
 })
 
-export class AppMenuComponent implements OnInit {
-    menuItemList: MenuItemOld[];
+export class MenuListComponent implements OnInit {
+    menuItemList: MenuItem[];
     rows: any[];
     columns: any[];
     private menuListSubscription: Subscription;
@@ -38,7 +28,7 @@ export class AppMenuComponent implements OnInit {
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
     constructor(
-        private menuService: MenuServiceOld,
+        private menuService: MenuService,
         private router: Router,
         private route: ActivatedRoute
     ) {
@@ -50,7 +40,7 @@ export class AppMenuComponent implements OnInit {
         if (!this.menuItemList.length) {
             this.menuListSubscription = this.menuService.getMenuItemListFromService()
                 .subscribe(
-                    (menuItems: MenuItemOld[]) => {
+                    (menuItems: MenuItem[]) => {
                         this.menuItemList = menuItems;
                     },
                     (error) => {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
-import {MenuItemOld} from "./menu-item.model";
-import {Http, Response, Headers} from '@angular/http';
+import {MenuItem} from "./menu-item.model";
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -9,24 +9,22 @@ import 'rxjs/add/observable/throw';
 
 
 @Injectable()
-export class MenuServiceOld {
+export class MenuService {
     private urlToGetList = '/menu/list';
-    private menuItemList: MenuItemOld[] = [];
+    private menuItemList: MenuItem[] = [];
 
-    constructor(private http: Http) {}
+    constructor(private http: HttpClient) {}
 
     getMenuItemList() {
         return this.menuItemList;
     }
 
     getMenuItemListFromService() {
-        return this.http.get(this.urlToGetList)
+        return this.http.get<MenuItem[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
             .map(
-                (response: Response) => {
-                    let menuDataList = response.json();
-
+                (menuDataList) => {
                     for (let menuData of menuDataList) {
-                        let menuItem = new MenuItemOld(menuData);
+                        let menuItem = new MenuItem(menuData);
                         this.menuItemList.push(menuItem);
                     }
 
@@ -34,7 +32,7 @@ export class MenuServiceOld {
                 }
             )
             .catch(
-                (error: Response) => {
+                (error) => {
                     return Observable.throw(error.toString());
                 }
             );

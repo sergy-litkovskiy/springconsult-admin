@@ -64,7 +64,8 @@ body {
   -webkit-transition: margin-left 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
   -o-transition: margin-left 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
   transition: margin-left 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
-  margin-left: 230px;
+  /*margin-left: 230px;*/
+  margin-left: 150px;
   z-index: 820;
 }
 .layout-top-nav .content-wrapper,
@@ -90,10 +91,14 @@ body {
   .sidebar-open .content-wrapper,
   .sidebar-open .right-side,
   .sidebar-open .main-footer {
-    -webkit-transform: translate(230px, 0);
-    -ms-transform: translate(230px, 0);
-    -o-transform: translate(230px, 0);
-    transform: translate(230px, 0);
+    /*-webkit-transform: translate(230px, 0);*/
+    /*-ms-transform: translate(230px, 0);*/
+    /*-o-transform: translate(230px, 0);*/
+    /*transform: translate(230px, 0);*/
+    -webkit-transform: translate(150px, 0);
+    -ms-transform: translate(150px, 0);
+    -o-transform: translate(150px, 0);
+    transform: translate(150px, 0);
   }
 }
 .content-wrapper,
@@ -204,7 +209,8 @@ a:focus {
 }
 .main-header > .navbar {
   margin-bottom: 0;
-  margin-left: 230px;
+  /*margin-left: 230px;*/
+  margin-left: 150px;
   border: none;
   min-height: 50px;
   border-radius: 0;
@@ -292,7 +298,7 @@ a:focus {
   font-size: 20px;
   line-height: 50px;
   text-align: center;
-  width: 230px;
+  width: 150px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;
@@ -404,7 +410,8 @@ a:focus {
   left: 0;
   padding-top: 50px;
   height: 100%;
-  width: 230px;
+  /*width: 230px;*/
+  width: 150px;
   z-index: 810;
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
   -moz-transition: -moz-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
@@ -414,19 +421,19 @@ a:focus {
 @media (max-width: 767px) {
   .main-sidebar,
   .left-side {
-    -webkit-transform: translate(-230px, 0);
-    -ms-transform: translate(-230px, 0);
-    -o-transform: translate(-230px, 0);
-    transform: translate(-230px, 0);
+    -webkit-transform: translate(-150px, 0);
+    -ms-transform: translate(-150px, 0);
+    -o-transform: translate(-150px, 0);
+    transform: translate(-150px, 0);
   }
 }
 @media (min-width: 768px) {
   .sidebar-collapse .main-sidebar,
   .sidebar-collapse .left-side {
-    -webkit-transform: translate(-230px, 0);
-    -ms-transform: translate(-230px, 0);
-    -o-transform: translate(-230px, 0);
-    transform: translate(-230px, 0);
+    -webkit-transform: translate(-150px, 0);
+    -ms-transform: translate(-150px, 0);
+    -o-transform: translate(-150px, 0);
+    transform: translate(-150px, 0);
   }
 }
 @media (max-width: 767px) {

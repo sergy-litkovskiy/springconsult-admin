@@ -1,4 +1,4 @@
-export class MenuItemOld {
+export class MenuItem {
     public id: number;
     public title: string;
     public text: string;

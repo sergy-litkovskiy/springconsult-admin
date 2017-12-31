@@ -10,13 +10,16 @@ import {NguiPopupModule} from '@ngui/popup';
 import {AppMainRoutingModule} from './app.routing.module';
 import {AgGridModule, BaseComponentFactory} from 'ag-grid-angular/main';
 import {ArticleService} from "./blog/article.service";
-import {AppArticleListComponent} from "./blog/article-list/article-list.component";
+import {ArticleListComponent} from "./blog/article-list/article-list.component";
+import {MenuService} from "./menu/menu.service";
+import {MenuListComponent} from "./menu/menu-list/menu-list.component";
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        AppArticleListComponent
+        ArticleListComponent,
+        MenuListComponent
     ],
     imports: [
         BrowserModule,
@@ -32,6 +35,7 @@ import {AppArticleListComponent} from "./blog/article-list/article-list.componen
     providers: [
         BaseComponentFactory,
         ArticleService,
+        MenuService,
         {
             provide: APP_BASE_HREF,
             useValue: '/'
