@@ -40,6 +40,7 @@ export class ArticleListComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute) {
         this.gridOptions = <GridOptions>{};
+        this.gridOptions.rowHeight = 35;
     }
 
     private onReady(params) {
@@ -77,34 +78,39 @@ export class ArticleListComponent implements OnInit {
     // }
 
     getButtonClassForStatusOn(row: any): string {
+console.log('getButtonClassForStatusOn', row);
         let currentStatus = +row.status == 1 ? "success disabled" : "default";
         return this.actionButtonClassName + currentStatus;
     }
 
     getButtonClassForStatusOff(row: any): string {
+console.log('getButtonClassForStatusOff', row);
         let currentStatus = +row.status == 1 ? "default" : "success disabled";
         return this.actionButtonClassName + currentStatus;
     }
 
-    onStatusChangeClick(row: any): void {
-        row.status = !row.status;
+    onStatusChangeClick(articleItem: ArticleItem): void {
+console.log('onStatusChangeClick', articleItem);
+        articleItem.status = !articleItem.status;
 
-        this.articleService.updateArticle(row)
-            .subscribe(
-                (response: any) => console.log('response', response),
-                (error) => {
-                    this.showErrorPopup(error);
-
-                    row.status = !row.status;
-                }
-            );
+        // this.articleService.updateArticle(articleItem)
+        //     .subscribe(
+        //         (response: any) => console.log('response', response),
+        //         (error) => {
+        //             this.showErrorPopup(error);
+        //
+        //             articleItem.status = !articleItem.status;
+        //         }
+        //     );
     }
 
     onEditClick(articleItem: ArticleItem): void {
-        this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
+console.log('onEditClick', articleItem);
+        // this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
     }
 
     onDeleteClick(articleItem: ArticleItem): void {
+console.log('onDeleteClick', articleItem);
         this.popup.open(NguiMessagePopupComponent, {
             classNames: 'small',
             title: articleItem.title,
@@ -113,21 +119,37 @@ export class ArticleListComponent implements OnInit {
                 OK: () => {
                     this.popup.close();
 
-                    this.articleService.deleteArticle(articleItem)
-                        .subscribe(
-                            (response) => {
-                                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
-                            },
-                            (error) => {
-                                this.showErrorPopup(error);
-                            }
-                        );
+                    // this.articleService.deleteArticle(articleItem)
+                    //     .subscribe(
+                    //         (response) => {
+                    //             this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+                    //         },
+                    //         (error) => {
+                    //             this.showErrorPopup(error);
+                    //         }
+                    //     );
                 },
                 CANCEL: () => {
                     this.popup.close();
                 }
             }
         });
+    }
+
+    onRowClicked(e) {
+        if (e.event.target !== undefined) {
+            let data = e.data;
+            let actionType = e.event.target.getAttribute('data-action-type');
+
+            switch(actionType) {
+                case "edit":
+                    return this.onEditClick(data);
+                case "remove":
+                    return this.onDeleteClick(data);
+                case "status":
+                    return this.onStatusChangeClick(data);
+            }
+        }
     }
 
     searchArticle(event: any) {
@@ -175,7 +197,7 @@ export class ArticleListComponent implements OnInit {
                 metaDescription: articleItem.metaDescription,
                 metaKeywords: articleItem.metaKeywords,
                 assignedMenuList: articleItem.assignedMenuList,
-                actions: 'button: ' + articleItem.id
+                actions: articleItem
             });
         }
     }
@@ -198,14 +220,14 @@ export class ArticleListComponent implements OnInit {
                 field: "slug",
                 width: 150,
                 cellRenderer: function (params) {
-                    return "slug - " + params.value;
+                    return params.value;
                 }
             },
             {
                 headerName: "Meta Description",
                 field: "metaDescription",
                 cellRenderer: function (params) {
-                    return "- " + params.value;
+                    return params.value;
                 },
                 // pinned: true
                 // ,
@@ -224,29 +246,57 @@ export class ArticleListComponent implements OnInit {
                 // editable: true
             },
             {
-                headerName: "Meta Keywords",
-                field: "metaKeywords",
+                headerName: 'Meta Keywords',
+                field: 'metaKeywords',
                 filter: 'metaKeywords'
             },
             {
                 headerName: 'Assigned to',
-                field: "assignedMenuList",
+                field: 'assignedMenuList',
                 cellRenderer: function (params) {
-console.log('assignedMenuList', params.value);
-                    return 'menu item';
+                    let menuListSize = params.value.length;
+
+                    for (let i = 0; i < menuListSize; i++) {
+                        return params.value[i].title + ' | ';
+                    }
                 }
             },
             {
                 headerName: 'Actions',
                 field: "actions",
-                width: 100,
+                width: 180,
                 pinned: 'right',
-                cellRenderer: function (params) {
-                    return params.value;
-                    // return pad(params.value.getDate(), 2) + '/' +
-                    //     pad(params.value.getMonth() + 1, 2) + '/' +
-                    //     params.value.getFullYear();
-                }
+                suppressMenu: true,
+                suppressSorting: true,
+                template:
+                    `
+                        <div class="btn-group">
+                            <button type="button"
+                                    data-action-type="edit"
+                                    class="btn btn-sm btn-warning"
+                                    (click)="onEditClick(params.value)">
+                                <i class="glyphicon glyphicon-pencil" data-action-type="edit"></i>
+                            </button>
+                            <button type="button"
+                                    data-action-type="remove"
+                                    class="btn btn-sm btn-danger"
+                                    (click)="onDeleteClick(params.value)">
+                                <i class="glyphicon glyphicon-remove" data-action-type="remove"></i>
+                            </button>
+                            <button type="button"
+                                    data-action-type="status"
+                                    [ngClass]="getButtonClassForStatusOn(params.value)"
+                                    (click)="onStatusChangeClick(params.value)">
+                                <i class="glyphicon glyphicon-eye-open" data-action-type="status"></i>
+                            </button>
+                            <button type="button"
+                                    data-action-type="status"
+                                    [ngClass]="getButtonClassForStatusOff(params.value)"
+                                    (click)="onStatusChangeClick(params.value)">
+                                <i class="glyphicon glyphicon-eye-close" data-action-type="status"></i>
+                            </button>
+                        </div>
+                    `
             }
         ];
     }

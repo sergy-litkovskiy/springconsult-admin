@@ -87,8 +87,7 @@
                      enableFilter
                      suppressRowClickSelection
                      toolPanelSuppressValues
-                     rowHeight="22"
-
+                     (rowClicked)="onRowClicked($event)"
                      (gridReady)="onReady($event)">
     </ag-grid-angular>
 </div>

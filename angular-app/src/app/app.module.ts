@@ -30,7 +30,7 @@ import {MenuListComponent} from "./menu/menu-list/menu-list.component";
         FormsModule,
         ReactiveFormsModule,
         DateTimePickerModule,
-        AgGridModule
+        AgGridModule.withComponents([])
     ],
     providers: [
         BaseComponentFactory,
