@@ -106,15 +106,15 @@ console.log('onDeleteClick', articleItem);
                 OK: () => {
                     this.popup.close();
 
-                    // this.articleService.deleteArticle(articleItem)
-                    //     .subscribe(
-                    //         (response) => {
-                    //             this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
-                    //         },
-                    //         (error) => {
-                    //             this.showErrorPopup(error);
-                    //         }
-                    //     );
+                    this.articleService.deleteArticle(articleItem)
+                        .subscribe(
+                            (response) => {
+                                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+                            },
+                            (error) => {
+                                this.showErrorPopup(error);
+                            }
+                        );
                 },
                 CANCEL: () => {
                     this.popup.close();
@@ -229,6 +229,8 @@ console.log('onDeleteClick', articleItem);
             {
                 headerName: 'Assigned to',
                 field: 'assignedMenuList',
+                tooltipField: 'HERE!!!!!',
+                headerTooltip: 'Header HERE!!!!!',
                 cellRenderer: function (params) {
                     let menuListSize = params.value.length;
                     let assignedItems = '';
@@ -241,7 +243,7 @@ console.log('onDeleteClick', articleItem);
                         }
                     }
 
-                    return assignedItems;
+                    return '<span title="' + assignedItems + '">' + assignedItems + '</span>';
                 }
             },
             {
