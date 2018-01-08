@@ -4058,3 +4058,9 @@ Gradient Background colors
   opacity: 1;
   filter: alpha(opacity=100);
 }
+.ag-theme-fresh .ag-cell-focus {
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: 1px solid darkgrey;
+}

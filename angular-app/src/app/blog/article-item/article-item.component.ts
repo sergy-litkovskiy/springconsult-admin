@@ -20,7 +20,7 @@ import {Subscription} from "rxjs/Subscription";
     templateUrl: './article-item.component.html'
 })
 
-export class AppArticleItemComponent implements OnInit {
+export class ArticleItemComponent implements OnInit {
     articleItem: ArticleItem;
     editMode = false;
     articleId: number;

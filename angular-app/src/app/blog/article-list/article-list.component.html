@@ -73,21 +73,17 @@
   <!--</ngx-datatable>-->
 <!--</div>-->
 
-<ngui-popup #popup></ngui-popup>
 <div>
-    <ag-grid-angular style="height: 525px;"
-                     class="ag-theme-fresh"
-                     [gridOptions]="gridOptions"
-                     [columnDefs]="columnDefs"
-                     [rowData]="rowData"
-                     pagination
-                     paginationAutoPageSize
-                     enableColResize
-                     enableSorting
-                     enableFilter
-                     suppressRowClickSelection
-                     toolPanelSuppressValues
-                     (rowClicked)="onRowClicked($event)"
-                     (gridReady)="onReady($event)">
+    <ag-grid-angular
+            #agGrid
+            style="height: 600px;"
+            class="ag-theme-fresh"
+            [gridOptions]="gridOptions"
+            [columnDefs]="columnDefs"
+            [rowData]="rowData"
+            (rowClicked)="onRowClicked($event)"
+            (gridReady)="onReady($event)">
     </ag-grid-angular>
 </div>
+
+<ngui-popup #popup></ngui-popup>

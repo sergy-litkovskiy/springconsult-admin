@@ -11,6 +11,7 @@ import {AppMainRoutingModule} from './app.routing.module';
 import {AgGridModule, BaseComponentFactory} from 'ag-grid-angular/main';
 import {ArticleService} from "./blog/article.service";
 import {ArticleListComponent} from "./blog/article-list/article-list.component";
+import {ArticleItemComponent} from "./blog/article-item/article-item.component";
 import {MenuService} from "./menu/menu.service";
 import {MenuListComponent} from "./menu/menu-list/menu-list.component";
 
@@ -19,6 +20,7 @@ import {MenuListComponent} from "./menu/menu-list/menu-list.component";
     declarations: [
         AppComponent,
         ArticleListComponent,
+        ArticleItemComponent,
         MenuListComponent
     ],
     imports: [

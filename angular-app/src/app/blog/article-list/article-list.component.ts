@@ -8,28 +8,19 @@ import {ColumnApi, GridApi, GridOptions} from "ag-grid";
 
 @Component({
     selector: 'article-list',
-    // styleUrls: [
-        // "../../../../node_modules/ag-grid/dist/styles/ag-grid.css",
-        // "../../../../node_modules/ag-grid/dist/styles/ag-theme-bootstrap.css",
-        // "./article-list.component.css"
-    // ],
-    styles: [
-        '.ag-theme-bootstrap .ag-body, .ag-theme-bootstrap .ag-header {padding: 10px !important;}',
-        '.ag-theme-bootstrap .ag-header {background: red !important;}'
-    ],
     templateUrl: './article-list.component.html'
 })
 
 export class ArticleListComponent implements OnInit {
     articleItemList: ArticleItem[];
     rowData: any[];
-    actionButtonClassName: string;
+    // actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
 
     private articleListSubscription: Subscription;
     private gridOptions: GridOptions;
     public columnDefs: any[];
-    public rowCount: string;
+    // public rowCount: string;
 
     private api: GridApi;
     private columnApi: ColumnApi;
@@ -39,8 +30,19 @@ export class ArticleListComponent implements OnInit {
     constructor(private articleService: ArticleService,
                 private router: Router,
                 private route: ActivatedRoute) {
-        this.gridOptions = <GridOptions>{};
-        this.gridOptions.rowHeight = 35;
+        this.gridOptions = <GridOptions> {
+            localeText: {
+                noRowsToShow: ' '//hook to hide message
+            },
+            rowHeight: 35,
+            pagination: true,
+            paginationAutoPageSize: true,
+            enableColResize: true,
+            enableSorting: true,
+            enableFilter: true,
+            suppressRowClickSelection: true,
+            toolPanelSuppressValues: true
+        };
     }
 
     private onReady(params) {
@@ -62,32 +64,18 @@ export class ArticleListComponent implements OnInit {
                         this.createColumnDefs();
                     },
                     (error) => {
-                       this.showErrorPopup(error);
+                        this.showErrorPopup(error);
                     }
                 );
         } else {
             this.createRowData();
             this.createColumnDefs();
         }
-
-        this.actionButtonClassName = "btn btn-";
     }
 
     // onNewMenuItem() {
     //     this.router.navigate(['menu-new'], {relativeTo: this.route});
     // }
-
-    getButtonClassForStatusOn(row: any): string {
-console.log('getButtonClassForStatusOn', row);
-        let currentStatus = +row.status == 1 ? "success disabled" : "default";
-        return this.actionButtonClassName + currentStatus;
-    }
-
-    getButtonClassForStatusOff(row: any): string {
-console.log('getButtonClassForStatusOff', row);
-        let currentStatus = +row.status == 1 ? "default" : "success disabled";
-        return this.actionButtonClassName + currentStatus;
-    }
 
     onStatusChangeClick(articleItem: ArticleItem): void {
 console.log('onStatusChangeClick', articleItem);
@@ -106,11 +94,12 @@ console.log('onStatusChangeClick', articleItem);
 
     onEditClick(articleItem: ArticleItem): void {
 console.log('onEditClick', articleItem);
-        // this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
+        this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
     }
 
     onDeleteClick(articleItem: ArticleItem): void {
 console.log('onDeleteClick', articleItem);
+
         this.popup.open(NguiMessagePopupComponent, {
             classNames: 'small',
             title: articleItem.title,
@@ -141,7 +130,7 @@ console.log('onDeleteClick', articleItem);
             let data = e.data;
             let actionType = e.event.target.getAttribute('data-action-type');
 
-            switch(actionType) {
+            switch (actionType) {
                 case "edit":
                     return this.onEditClick(data);
                 case "remove":
@@ -255,48 +244,61 @@ console.log('onDeleteClick', articleItem);
                 field: 'assignedMenuList',
                 cellRenderer: function (params) {
                     let menuListSize = params.value.length;
+                    let assignedItems = '';
 
                     for (let i = 0; i < menuListSize; i++) {
-                        return params.value[i].title + ' | ';
+                        assignedItems = assignedItems + params.value[i].title;
+
+                        if (i < (menuListSize - 1)) {
+                            assignedItems = assignedItems + ' | ';
+                        }
                     }
+
+                    return assignedItems;
                 }
             },
             {
                 headerName: 'Actions',
                 field: "actions",
-                width: 180,
+                width: 160,
                 pinned: 'right',
                 suppressMenu: true,
                 suppressSorting: true,
-                template:
-                    `
+                cellRenderer: function (params) {
+                    let activeStatusClass = "btn-default";
+                    let inactiveStatusClass = "btn-default";
+
+                    if (+params.value.status == 1) {
+                        activeStatusClass = "btn-success disabled";
+                    } else {
+                        inactiveStatusClass = "btn-success disabled";
+                    }
+
+                    return `
                         <div class="btn-group">
                             <button type="button"
                                     data-action-type="edit"
-                                    class="btn btn-sm btn-warning"
-                                    (click)="onEditClick(params.value)">
+                                    class="btn btn-sm btn-warning">
                                 <i class="glyphicon glyphicon-pencil" data-action-type="edit"></i>
                             </button>
                             <button type="button"
                                     data-action-type="remove"
-                                    class="btn btn-sm btn-danger"
-                                    (click)="onDeleteClick(params.value)">
+                                    class="btn btn-sm btn-danger">
                                 <i class="glyphicon glyphicon-remove" data-action-type="remove"></i>
                             </button>
                             <button type="button"
                                     data-action-type="status"
-                                    [ngClass]="getButtonClassForStatusOn(params.value)"
-                                    (click)="onStatusChangeClick(params.value)">
+                                    class="btn btn-sm ` + activeStatusClass + `">
                                 <i class="glyphicon glyphicon-eye-open" data-action-type="status"></i>
                             </button>
                             <button type="button"
                                     data-action-type="status"
-                                    [ngClass]="getButtonClassForStatusOff(params.value)"
-                                    (click)="onStatusChangeClick(params.value)">
+                                    class="btn btn-sm ` + inactiveStatusClass + `">
                                 <i class="glyphicon glyphicon-eye-close" data-action-type="status"></i>
                             </button>
                         </div>
-                    `
+                    `;
+                }
             }
         ];
     }
