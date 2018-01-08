@@ -14,13 +14,11 @@ import {ColumnApi, GridApi, GridOptions} from "ag-grid";
 export class ArticleListComponent implements OnInit {
     articleItemList: ArticleItem[];
     rowData: any[];
-    // actionButtonClassName: string;
     tempArticleList: ArticleItem[] = [];
 
     private articleListSubscription: Subscription;
     private gridOptions: GridOptions;
     public columnDefs: any[];
-    // public rowCount: string;
 
     private api: GridApi;
     private columnApi: ColumnApi;
@@ -81,15 +79,15 @@ export class ArticleListComponent implements OnInit {
 console.log('onStatusChangeClick', articleItem);
         articleItem.status = !articleItem.status;
 
-        // this.articleService.updateArticle(articleItem)
-        //     .subscribe(
-        //         (response: any) => console.log('response', response),
-        //         (error) => {
-        //             this.showErrorPopup(error);
-        //
-        //             articleItem.status = !articleItem.status;
-        //         }
-        //     );
+        this.articleService.updateArticle(articleItem)
+            .subscribe(
+                (response: any) => console.log('response', response),
+                (error) => {
+                    this.showErrorPopup(error);
+
+                    articleItem.status = !articleItem.status;
+                }
+            );
     }
 
     onEditClick(articleItem: ArticleItem): void {
@@ -141,18 +139,6 @@ console.log('onDeleteClick', articleItem);
         }
     }
 
-    searchArticle(event: any) {
-        const val = event.target.value.toLowerCase();
-
-        // filter our data
-        this.articleItemList = this.tempArticleList.filter(function (articleItem) {
-            return articleItem.title.toLowerCase().indexOf(val) !== -1 || !val;
-        });
-
-        // Whenever the filter changes, always go back to the first page
-        // this.articleListTable.offset = 0;
-    }
-
     showErrorPopup(error: string) {
         this.popup.open(NguiMessagePopupComponent, {
             classNames: 'small',
@@ -180,6 +166,7 @@ console.log('onDeleteClick', articleItem);
             let articleItem = this.articleItemList[index];
 
             this.rowData.push({
+                id: articleItem.id,
                 date: articleItem.date,
                 title: articleItem.title,
                 slug: articleItem.slug,

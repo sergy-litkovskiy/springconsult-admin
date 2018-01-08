@@ -28,7 +28,7 @@
                 <!-- Theme style -->
                 {#<link href="{{ getCurrentDomain() }}css/admin/AdminLTE.min.css" rel="stylesheet" type="text/css" />#}
                 <link href="{{ getCurrentDomain() }}css/AdminLTE.css" rel="stylesheet" type="text/css" />
-                {#<link href="{{ getCurrentDomain() }}css/ngx-datatable.css" rel="stylesheet" type="text/css" />#}
+
                 <!-- AdminLTE Skins. Choose a skin from the css/skins
                      folder instead of downloading all of them to reduce the load. -->
                 <link href="{{ getCurrentDomain() }}css/skins/skin-green.min.css" rel="stylesheet" type="text/css" />
@@ -42,6 +42,8 @@
 
                 {#<link rel="icon" href="{{ getCurrentDomain() }}favicon.ico" type="image/x-icon">#}
                 {#<link rel="shortcut icon" href="{{ getCurrentDomain() }}favicon.ico" type="image/x-icon">#}
+
+                <script src="https://cdn.ckeditor.com/4.6.1/full/ckeditor.js"></script>
             {% endblock %}
         </head>
         <body class="skin-green">

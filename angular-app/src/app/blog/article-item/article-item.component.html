@@ -1,40 +1,40 @@
-<!--<div class="content">-->
-  <!--<div class="row">-->
-    <!--<div class="col-xs-12">-->
-      <!--<div class="box box-success">-->
-        <!--<h2 *ngIf="articleItem.isActive()" class="label bg-green">Active</h2>-->
-        <!--<h2 *ngIf="!articleItem.isActive()" class="label bg-red">Inactive</h2>-->
-        <!--<form [formGroup]="articleForm" (ngSubmit)="onSubmit()">-->
-          <!--<div class="box-body">-->
-            <!--<div class="form-group">-->
-              <!--<label for="title">Title</label>-->
-              <!--<input-->
-                      <!--type="text"-->
-                      <!--id="title"-->
-                      <!--formControlName="title"-->
-                      <!--class="form-control">-->
-            <!--</div>-->
-            <!--<div class="row">-->
-              <!--<div class="col-xs-3">-->
-                <!--<div class="form-group">-->
-                  <!--<label for="image">Image for preview (165 x 165)</label>-->
-                  <!--<input-->
-                          <!--type="file"-->
-                          <!--id="image"-->
-                          <!--formControlName="image"-->
-                          <!--class="form-control"-->
-                          <!--(change)="imageUpload($event)"-->
-                          <!--#image>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label for="slug">Slug</label>-->
-                  <!--<input-->
-                          <!--type="text"-->
-                          <!--id="slug"-->
-                          <!--formControlName="slug"-->
-                          <!--class="form-control">-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
+<div class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-success">
+        <h2 *ngIf="articleItem.isActive()" class="label bg-green">Active</h2>
+        <h2 *ngIf="!articleItem.isActive()" class="label bg-red">Inactive</h2>
+        <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+          <div class="box-body">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input
+                      type="text"
+                      id="title"
+                      formControlName="title"
+                      class="form-control">
+            </div>
+            <div class="row">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="image">Image for preview (165 x 165)</label>
+                  <input
+                          type="file"
+                          id="image"
+                          formControlName="image"
+                          class="form-control"
+                          (change)="imageUpload($event)"
+                          #image>
+                </div>
+                <div class="form-group">
+                  <label for="slug">Slug</label>
+                  <input
+                          type="text"
+                          id="slug"
+                          formControlName="slug"
+                          class="form-control">
+                </div>
+                <div class="form-group">
                   <!--<label for="createdAt">Date</label>-->
                   <!--<input-->
                           <!--type="text"-->
@@ -49,87 +49,87 @@
                           <!--[autoClose]="true"-->
                           <!--(onChange)="onDatePickerChange($event)"-->
                   <!--&gt;-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="col-xs-3">-->
-                <!--<div class="form-group preview-image-container">-->
-                  <!--<img [src]="imagePath" class="img-responsive">-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="col-xs-6">-->
-                <!--<div class="form-group">-->
-                  <!--<label for="description">Description</label>-->
-                  <!--<textarea-->
-                          <!--type="text"-->
-                          <!--id="description"-->
-                          <!--class="form-control"-->
-                          <!--formControlName="description"-->
-                          <!--rows="6"></textarea>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row">-->
-              <!--<div class="col-xs-6">-->
-                <!--<div class="form-group">-->
-                  <!--<label for="metaDescription">Meta Description</label>-->
-                  <!--<textarea-->
-                          <!--type="text"-->
-                          <!--id="metaDescription"-->
-                          <!--class="form-control"-->
-                          <!--formControlName="metaDescription"-->
-                          <!--rows="6"></textarea>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="col-xs-6">-->
-                <!--<div class="form-group">-->
-                  <!--<label for="metaKeywords">Meta Keywords</label>-->
-                  <!--<textarea-->
-                          <!--type="text"-->
-                          <!--id="metaKeywords"-->
-                          <!--class="form-control"-->
-                          <!--formControlName="metaKeywords"-->
-                          <!--rows="6"></textarea>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<label for="text">Text</label>-->
-              <!--<ckeditor-->
-                      <!--id="ckeditorContainer"-->
-                      <!--class="form-control ckeditor"-->
-                      <!--formControlName="ckeditorContent"-->
-                      <!--[readonly]="false"-->
-                      <!--debounce="500"-->
-                      <!--[config]="ckeditorConfig"-->
-              <!--&gt;-->
-              <!--</ckeditor>-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<label for="assignedMenuList">Assigned menu list: </label>-->
-              <!--<span *ngFor="let menuItem of availableMenuList;">-->
-                                        <!--<input-->
-                                                <!--type="checkbox"-->
-                                                <!--[checked]="menuItem.isChecked"-->
-                                                <!--(change)="onChangeAssignment(menuItem)"-->
-                                        <!--&gt; {{ menuItem.title }} |-->
-                                    <!--</span>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="box-footer">-->
-            <!--<button-->
-                    <!--type="submit"-->
-                    <!--class="btn btn-success"-->
-                    <!--[disabled]="!articleForm.valid">Save-->
-            <!--</button>-->
-            <!--<button-->
-                    <!--type="button"-->
-                    <!--class="btn btn-danger"-->
-                    <!--(click)="onCancel()">Cancel-->
-            <!--</button>-->
-          <!--</div>-->
-        <!--</form>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
-<!--<ngui-popup #popup></ngui-popup>-->
+                </div>
+              </div>
+              <div class="col-xs-3">
+                <div class="form-group preview-image-container">
+                  <img [src]="imagePath" class="img-responsive">
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea
+                          type="text"
+                          id="description"
+                          class="form-control"
+                          formControlName="description"
+                          rows="6"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="metaDescription">Meta Description</label>
+                  <textarea
+                          type="text"
+                          id="metaDescription"
+                          class="form-control"
+                          formControlName="metaDescription"
+                          rows="6"></textarea>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div class="form-group">
+                  <label for="metaKeywords">Meta Keywords</label>
+                  <textarea
+                          type="text"
+                          id="metaKeywords"
+                          class="form-control"
+                          formControlName="metaKeywords"
+                          rows="6"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="text">Text</label>
+              <ckeditor
+                      id="ckeditorContainer"
+                      class="form-control ckeditor"
+                      formControlName="ckeditorContent"
+                      [readonly]="false"
+                      debounce="500"
+                      [config]="ckeditorConfig"
+              >
+              </ckeditor>
+            </div>
+            <div class="form-group">
+              <label for="assignedMenuList">Assigned menu list: </label>
+              <span *ngFor="let menuItem of availableMenuList;">
+                    <input
+                            type="checkbox"
+                            [checked]="menuItem.isChecked"
+                            (change)="onChangeAssignment(menuItem)"
+                    > {{ menuItem.title }} |
+                </span>
+            </div>
+          </div>
+          <div class="box-footer">
+            <button
+                    type="submit"
+                    class="btn btn-success"
+                    [disabled]="!articleForm.valid">Save
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="onCancel()">Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngui-popup #popup></ngui-popup>

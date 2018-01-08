@@ -6,10 +6,11 @@ import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DateTimePickerModule} from 'ng-pick-datetime';
 import {Subscription} from "rxjs/Subscription";
-// import {MenuItem} from "../../menu/menu-item.model";
-// import {MenuService} from "../../menu/menu.service";
-// import {CKEditorModule} from "ng2-ckeditor";
-// import {AppMainCkeditorHelper} from "../../app.main.ckeditor.helper";
+
+import {CKEditorModule} from "ng2-ckeditor";
+import {MenuService} from "../../menu/menu.service";
+import {AppComponentCkeditorHelper} from "../../app.component.ckeditor.helper";
+import {MenuItem} from "../../menu/menu-item.model";
 
 @Component({
     selector: 'article-edit',
@@ -32,25 +33,25 @@ export class ArticleItemComponent implements OnInit {
     originalImageName: string;
     dateTimePicker: DateTimePickerModule;
     createdAt: any;
-    // availableMenuList: MenuItem[];
-    // assignedMenuItemList: MenuItem[];
+    availableMenuList: MenuItem[];
+    assignedMenuItemList: MenuItem[];
 
     private articleItemSubscription: Subscription;
     private articleDataSubscription: Subscription;
     private menuListSubscription: Subscription;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
-    // @ViewChild(CKEditorModule) ckeditorContainer: CKEditorModule;
+    @ViewChild(CKEditorModule) ckeditorContainer: CKEditorModule;
 
     constructor(
         private articleService: ArticleService,
-        // private menuService: MenuService,
+        private menuService: MenuService,
         private router: Router,
         private route: ActivatedRoute,
-        // private appMainCkeditorHelper: AppMainCkeditorHelper
+        private appComponentCkeditorHelper: AppComponentCkeditorHelper
     ) {
         this.dateTimePicker = new DateTimePickerModule();
-        // this.ckeditorConfig = appMainCkeditorHelper.getCkeditorDefaultConfig();
+        this.ckeditorConfig = appComponentCkeditorHelper.getCkeditorDefaultConfig();
     }
 
     ngOnInit() {
@@ -112,36 +113,36 @@ export class ArticleItemComponent implements OnInit {
     }
 
     private setAvailableMenuList() {
-        // this.availableMenuList = this.menuService.getMenuItemList();
-        //
-        // if (!this.availableMenuList.length) {
-        //     this.menuListSubscription = this.menuService.getMenuItemListFromService()
-        //         .subscribe(
-        //             (menuItems: MenuItem[]) => {
-        //                 this.availableMenuList = menuItems;
-        //             },
-        //             (error) => {
-        //                 this.showErrorPopup(error);
-        //             }
-        //         );
-        // }
+        this.availableMenuList = this.menuService.getMenuItemList();
+
+        if (!this.availableMenuList.length) {
+            this.menuListSubscription = this.menuService.getMenuItemListFromService()
+                .subscribe(
+                    (menuItems: MenuItem[]) => {
+                        this.availableMenuList = menuItems;
+                    },
+                    (error) => {
+                        this.showErrorPopup(error);
+                    }
+                );
+        }
     }
 
     private initForm() {
-        // this.assignedMenuItemList = this.articleItem.assignedMenuList;
-        //
-        // this.availableMenuList = this.availableMenuList.map(
-        //     (menuItem: MenuItem) => {
-        //         if (
-        //             this.assignedMenuItemList
-        //                 .find((assignedMenuItem: MenuItem) => assignedMenuItem.id == menuItem.id)
-        //         ) {
-        //             menuItem.isChecked = true;
-        //         }
-        //
-        //         return menuItem;
-        //     }
-        // );
+        this.assignedMenuItemList = this.articleItem.assignedMenuList;
+
+        this.availableMenuList = this.availableMenuList.map(
+            (menuItem: MenuItem) => {
+                if (
+                    this.assignedMenuItemList
+                        .find((assignedMenuItem: MenuItem) => assignedMenuItem.id == menuItem.id)
+                ) {
+                    menuItem.isChecked = true;
+                }
+
+                return menuItem;
+            }
+        );
 
         this.createdAt = this.articleItem.date || Date.now();
         //set text for ckeditor replacement
@@ -188,7 +189,7 @@ export class ArticleItemComponent implements OnInit {
         if (this.editMode) {
             this.articleService.updateArticle(this.articleItem)
                 .subscribe(
-                    (response: any) => {
+                    (response) => {
                         this.articleItem.imageData = null;
                         this.articleService.updateArticleItemInList(this.articleItem);
                         this.redirectToArticleList();
@@ -200,7 +201,7 @@ export class ArticleItemComponent implements OnInit {
         } else {
             this.articleService.addArticle(this.articleItem)
                 .subscribe(
-                    (response: any) => {
+                    (response) => {
                         this.articleItem.imageData = null;
                         this.articleService.addArticleItemToList(this.articleItem);
                         this.redirectToArticleList();
@@ -222,7 +223,7 @@ export class ArticleItemComponent implements OnInit {
         this.articleItem.slug = this.articleForm.value.slug;
         this.articleItem.date = this.articleForm.value.createdAt;
         this.articleItem.image = this.file != null ? this.originalImageName : this.articleItem.image;
-        // this.articleItem.assignedMenuList = this.assignedMenuItemList;
+        this.articleItem.assignedMenuList = this.assignedMenuItemList;
     }
 
     onCancel() {
@@ -237,18 +238,18 @@ export class ArticleItemComponent implements OnInit {
         this.createdAt = moment;
     }
 
-    // onChangeAssignment(menuItem: MenuItem) {
-    //     let previousState = menuItem.isChecked;
-    //
-    //     if (previousState) {
-    //         this.assignedMenuItemList = this.assignedMenuItemList
-    //             .filter((assignedMenuItem: MenuItem) => assignedMenuItem.id !== menuItem.id);
-    //     } else {
-    //         this.assignedMenuItemList.push(menuItem)
-    //     }
-    //
-    //     menuItem.isChecked = !previousState;
-    // }
+    onChangeAssignment(menuItem: MenuItem) {
+        let previousState = menuItem.isChecked;
+
+        if (previousState) {
+            this.assignedMenuItemList = this.assignedMenuItemList
+                .filter((assignedMenuItem: MenuItem) => assignedMenuItem.id !== menuItem.id);
+        } else {
+            this.assignedMenuItemList.push(menuItem)
+        }
+
+        menuItem.isChecked = !previousState;
+    }
 
     showErrorPopup(error: string) {
         this.popup.open(NguiMessagePopupComponent, {

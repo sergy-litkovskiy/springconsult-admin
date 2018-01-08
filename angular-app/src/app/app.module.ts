@@ -14,6 +14,8 @@ import {ArticleListComponent} from "./blog/article-list/article-list.component";
 import {ArticleItemComponent} from "./blog/article-item/article-item.component";
 import {MenuService} from "./menu/menu.service";
 import {MenuListComponent} from "./menu/menu-list/menu-list.component";
+import {CKEditorComponent} from "ng2-ckeditor";
+import {AppComponentCkeditorHelper} from "./app.component.ckeditor.helper";
 
 
 @NgModule({
@@ -21,7 +23,11 @@ import {MenuListComponent} from "./menu/menu-list/menu-list.component";
         AppComponent,
         ArticleListComponent,
         ArticleItemComponent,
-        MenuListComponent
+        MenuListComponent,
+        CKEditorComponent
+    ],
+    exports: [
+        CKEditorComponent
     ],
     imports: [
         BrowserModule,
@@ -41,7 +47,8 @@ import {MenuListComponent} from "./menu/menu-list/menu-list.component";
         {
             provide: APP_BASE_HREF,
             useValue: '/'
-        }
+        },
+        AppComponentCkeditorHelper
     ],
     bootstrap: [AppComponent]
 })
