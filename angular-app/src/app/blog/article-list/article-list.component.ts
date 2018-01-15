@@ -5,6 +5,7 @@ import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {Subscription} from 'rxjs/Subscription';
 import {ColumnApi, GridApi, GridOptions} from "ag-grid";
+import {ArticleListActionToolRendererComponent} from "./article-list.action-tool-renderer.component";
 
 @Component({
     selector: 'article-list',
@@ -23,11 +24,17 @@ export class ArticleListComponent implements OnInit {
     private api: GridApi;
     private columnApi: ColumnApi;
 
+    private frameworkComponents;
+
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
     constructor(private articleService: ArticleService,
                 private router: Router,
                 private route: ActivatedRoute) {
+        this.frameworkComponents = {
+            articleListActionToolRenderer: ArticleListActionToolRendererComponent
+        };
+
         this.gridOptions = <GridOptions> {
             localeText: {
                 noRowsToShow: ' '//hook to hide message
@@ -39,7 +46,8 @@ export class ArticleListComponent implements OnInit {
             enableSorting: true,
             enableFilter: true,
             suppressRowClickSelection: true,
-            toolPanelSuppressValues: true
+            toolPanelSuppressValues: true,
+            frameworkComponents: this.frameworkComponents
         };
     }
 
@@ -75,69 +83,53 @@ export class ArticleListComponent implements OnInit {
     //     this.router.navigate(['menu-new'], {relativeTo: this.route});
     // }
 
-    onStatusChangeClick(articleItem: ArticleItem): void {
-console.log('onStatusChangeClick', articleItem);
-        articleItem.status = !articleItem.status;
+//     onStatusChangeClick(articleItem: ArticleItem): void {
+// console.log('onStatusChangeClick', articleItem);
+//         articleItem.status = !articleItem.status;
+//
+//         this.articleService.updateArticle(articleItem)
+//             .subscribe(
+//                 (response: any) => console.log('response', response),
+//                 (error) => {
+//                     this.showErrorPopup(error);
+//
+//                     articleItem.status = !articleItem.status;
+//                 }
+//             );
+//     }
 
-        this.articleService.updateArticle(articleItem)
-            .subscribe(
-                (response: any) => console.log('response', response),
-                (error) => {
-                    this.showErrorPopup(error);
+//     onEditClick(articleItem: ArticleItem): void {
+// console.log('onEditClick', articleItem);
+//         this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
+//     }
 
-                    articleItem.status = !articleItem.status;
-                }
-            );
-    }
-
-    onEditClick(articleItem: ArticleItem): void {
-console.log('onEditClick', articleItem);
-        this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
-    }
-
-    onDeleteClick(articleItem: ArticleItem): void {
-console.log('onDeleteClick', articleItem);
-
-        this.popup.open(NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: articleItem.title,
-            message: 'Are you sure you want to DELETE the article?',
-            buttons: {
-                OK: () => {
-                    this.popup.close();
-
-                    this.articleService.deleteArticle(articleItem)
-                        .subscribe(
-                            (response) => {
-                                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
-                            },
-                            (error) => {
-                                this.showErrorPopup(error);
-                            }
-                        );
-                },
-                CANCEL: () => {
-                    this.popup.close();
-                }
-            }
-        });
-    }
-
-    onRowClicked(e) {
-        if (e.event.target !== undefined) {
-            let data = e.data;
-            let actionType = e.event.target.getAttribute('data-action-type');
-
-            switch (actionType) {
-                case "edit":
-                    return this.onEditClick(data);
-                case "remove":
-                    return this.onDeleteClick(data);
-                case "status":
-                    return this.onStatusChangeClick(data);
-            }
-        }
-    }
+//     onDeleteClick(articleItem: ArticleItem): void {
+// console.log('onDeleteClick', articleItem);
+//
+//         this.popup.open(NguiMessagePopupComponent, {
+//             classNames: 'small',
+//             title: articleItem.title,
+//             message: 'Are you sure you want to DELETE the article?',
+//             buttons: {
+//                 OK: () => {
+//                     this.popup.close();
+//
+//                     this.articleService.deleteArticle(articleItem)
+//                         .subscribe(
+//                             (response) => {
+//                                 this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+//                             },
+//                             (error) => {
+//                                 this.showErrorPopup(error);
+//                             }
+//                         );
+//                 },
+//                 CANCEL: () => {
+//                     this.popup.close();
+//                 }
+//             }
+//         });
+//     }
 
     showErrorPopup(error: string) {
         this.popup.open(NguiMessagePopupComponent, {
@@ -253,41 +245,42 @@ console.log('onDeleteClick', articleItem);
                 pinned: 'right',
                 suppressMenu: true,
                 suppressSorting: true,
-                cellRenderer: function (params) {
-                    let activeStatusClass = "btn-default";
-                    let inactiveStatusClass = "btn-default";
-
-                    if (+params.value.status == 1) {
-                        activeStatusClass = "btn-success disabled";
-                    } else {
-                        inactiveStatusClass = "btn-success disabled";
-                    }
-
-                    return `
-                        <div class="btn-group">
-                            <button type="button"
-                                    data-action-type="edit"
-                                    class="btn btn-sm btn-warning">
-                                <i class="glyphicon glyphicon-pencil" data-action-type="edit"></i>
-                            </button>
-                            <button type="button"
-                                    data-action-type="remove"
-                                    class="btn btn-sm btn-danger">
-                                <i class="glyphicon glyphicon-remove" data-action-type="remove"></i>
-                            </button>
-                            <button type="button"
-                                    data-action-type="status"
-                                    class="btn btn-sm ` + activeStatusClass + `">
-                                <i class="glyphicon glyphicon-eye-open" data-action-type="status"></i>
-                            </button>
-                            <button type="button"
-                                    data-action-type="status"
-                                    class="btn btn-sm ` + inactiveStatusClass + `">
-                                <i class="glyphicon glyphicon-eye-close" data-action-type="status"></i>
-                            </button>
-                        </div>
-                    `;
-                }
+                // cellRenderer: function (params) {
+                //     let activeStatusClass = "btn-default";
+                //     let inactiveStatusClass = "btn-default";
+                //
+                //     if (+params.value.status == 1) {
+                //         activeStatusClass = "btn-success disabled";
+                //     } else {
+                //         inactiveStatusClass = "btn-success disabled";
+                //     }
+                //
+                //     return `
+                //         <div class="btn-group">
+                //             <button type="button"
+                //                     data-action-type="edit"
+                //                     class="btn btn-sm btn-warning">
+                //                 <i class="glyphicon glyphicon-pencil" data-action-type="edit"></i>
+                //             </button>
+                //             <button type="button"
+                //                     data-action-type="remove"
+                //                     class="btn btn-sm btn-danger">
+                //                 <i class="glyphicon glyphicon-remove" data-action-type="remove"></i>
+                //             </button>
+                //             <button type="button"
+                //                     data-action-type="status"
+                //                     class="btn btn-sm ` + activeStatusClass + `">
+                //                 <i class="glyphicon glyphicon-eye-open" data-action-type="status"></i>
+                //             </button>
+                //             <button type="button"
+                //                     data-action-type="status"
+                //                     class="btn btn-sm ` + inactiveStatusClass + `">
+                //                 <i class="glyphicon glyphicon-eye-close" data-action-type="status"></i>
+                //             </button>
+                //         </div>
+                //     `;
+                // }
+                cellRenderer: 'articleListActionToolRenderer'
             }
         ];
     }

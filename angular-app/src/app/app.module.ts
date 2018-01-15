@@ -16,6 +16,7 @@ import {MenuService} from "./menu/menu.service";
 import {MenuListComponent} from "./menu/menu-list/menu-list.component";
 import {CKEditorComponent} from "ng2-ckeditor";
 import {AppComponentCkeditorHelper} from "./app.component.ckeditor.helper";
+import {ArticleListActionToolRendererComponent} from "./blog/article-list/article-list.action-tool-renderer.component";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {AppComponentCkeditorHelper} from "./app.component.ckeditor.helper";
         ArticleListComponent,
         ArticleItemComponent,
         MenuListComponent,
-        CKEditorComponent
+        CKEditorComponent,
+        ArticleListActionToolRendererComponent
     ],
     exports: [
         CKEditorComponent
@@ -38,7 +40,7 @@ import {AppComponentCkeditorHelper} from "./app.component.ckeditor.helper";
         FormsModule,
         ReactiveFormsModule,
         DateTimePickerModule,
-        AgGridModule.withComponents([])
+        AgGridModule.withComponents([ArticleListActionToolRendererComponent])
     ],
     providers: [
         BaseComponentFactory,
