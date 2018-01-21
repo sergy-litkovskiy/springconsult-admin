@@ -106,6 +106,7 @@ export class ArticleService {
             .delete(this.urlToDelete + '/' + articleItem.id)
                 .map(
                     (response) => {
+                        this.removeArticleItemFromList(articleItem);
                         return response;
                     }
                 )
@@ -130,5 +131,9 @@ export class ArticleService {
         });
 
         return filteredArticleList[0];
+    }
+
+    removeArticleItemFromList(articleItem: ArticleItem) {
+        this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
     }
 }

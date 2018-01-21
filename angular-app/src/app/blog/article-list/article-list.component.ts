@@ -103,33 +103,33 @@ export class ArticleListComponent implements OnInit {
 //         this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
 //     }
 
-//     onDeleteClick(articleItem: ArticleItem): void {
-// console.log('onDeleteClick', articleItem);
-//
-//         this.popup.open(NguiMessagePopupComponent, {
-//             classNames: 'small',
-//             title: articleItem.title,
-//             message: 'Are you sure you want to DELETE the article?',
-//             buttons: {
-//                 OK: () => {
-//                     this.popup.close();
-//
-//                     this.articleService.deleteArticle(articleItem)
-//                         .subscribe(
-//                             (response) => {
-//                                 this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
-//                             },
-//                             (error) => {
-//                                 this.showErrorPopup(error);
-//                             }
-//                         );
-//                 },
-//                 CANCEL: () => {
-//                     this.popup.close();
-//                 }
-//             }
-//         });
-//     }
+    onDeleteClick(articleItem: any): void {
+console.log('onDeleteClick - main component', articleItem);
+
+        // this.popup.open(NguiMessagePopupComponent, {
+        //     classNames: 'small',
+        //     title: articleItem.title,
+        //     message: 'Are you sure you want to DELETE the article?',
+        //     buttons: {
+        //         OK: () => {
+        //             this.popup.close();
+        //
+        //             this.articleService.deleteArticle(articleItem)
+        //                 .subscribe(
+        //                     (response) => {
+        //                         this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+        //                     },
+        //                     (error) => {
+        //                         this.showErrorPopup(error);
+        //                     }
+        //                 );
+        //         },
+        //         CANCEL: () => {
+        //             this.popup.close();
+        //         }
+        //     }
+        // });
+    }
 
     showErrorPopup(error: string) {
         this.popup.open(NguiMessagePopupComponent, {
@@ -196,22 +196,7 @@ export class ArticleListComponent implements OnInit {
                 field: "metaDescription",
                 cellRenderer: function (params) {
                     return params.value;
-                },
-                // pinned: true
-                // ,
-                // filter: 'set',
-                // filterParams: {
-                //     cellRenderer: countryCellRenderer,
-                //     cellHeight: 20
-                // },
-                // cellEditor: 'agRichSelect',
-                // cellEditorParams: {
-                //     values: ["Argentina", "Brazil", "Colombia", "France", "Germany", "Greece", "Iceland", "Ireland",
-                //         "Italy", "Malta", "Portugal", "Norway", "Peru", "Spain", "Sweden", "United Kingdom",
-                //         "Uruguay", "Venezuela", "Belgium", "Luxembourg"],
-                //     cellRenderer: countryCellRenderer,
-                // },
-                // editable: true
+                }
             },
             {
                 headerName: 'Meta Keywords',
@@ -221,8 +206,8 @@ export class ArticleListComponent implements OnInit {
             {
                 headerName: 'Assigned to',
                 field: 'assignedMenuList',
-                tooltipField: 'HERE!!!!!',
-                headerTooltip: 'Header HERE!!!!!',
+                width: 120,
+                pinned: 'right',
                 cellRenderer: function (params) {
                     let menuListSize = params.value.length;
                     let assignedItems = '';
@@ -241,45 +226,10 @@ export class ArticleListComponent implements OnInit {
             {
                 headerName: 'Actions',
                 field: "actions",
-                width: 160,
+                width: 165,
                 pinned: 'right',
                 suppressMenu: true,
                 suppressSorting: true,
-                // cellRenderer: function (params) {
-                //     let activeStatusClass = "btn-default";
-                //     let inactiveStatusClass = "btn-default";
-                //
-                //     if (+params.value.status == 1) {
-                //         activeStatusClass = "btn-success disabled";
-                //     } else {
-                //         inactiveStatusClass = "btn-success disabled";
-                //     }
-                //
-                //     return `
-                //         <div class="btn-group">
-                //             <button type="button"
-                //                     data-action-type="edit"
-                //                     class="btn btn-sm btn-warning">
-                //                 <i class="glyphicon glyphicon-pencil" data-action-type="edit"></i>
-                //             </button>
-                //             <button type="button"
-                //                     data-action-type="remove"
-                //                     class="btn btn-sm btn-danger">
-                //                 <i class="glyphicon glyphicon-remove" data-action-type="remove"></i>
-                //             </button>
-                //             <button type="button"
-                //                     data-action-type="status"
-                //                     class="btn btn-sm ` + activeStatusClass + `">
-                //                 <i class="glyphicon glyphicon-eye-open" data-action-type="status"></i>
-                //             </button>
-                //             <button type="button"
-                //                     data-action-type="status"
-                //                     class="btn btn-sm ` + inactiveStatusClass + `">
-                //                 <i class="glyphicon glyphicon-eye-close" data-action-type="status"></i>
-                //             </button>
-                //         </div>
-                //     `;
-                // }
                 cellRenderer: 'articleListActionToolRenderer'
             }
         ];

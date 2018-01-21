@@ -4064,3 +4064,12 @@ Gradient Background colors
   border-bottom: none !important;
   border-left: 1px solid darkgrey;
 }
+
+.popover {
+  max-width: 150px !important;
+  text-align: center;
+}
+
+.ag-cell[col-id~="actions"] {
+  overflow: unset !important;
+}
