@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/map";
@@ -17,6 +17,9 @@ export class ArticleService {
     private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     private articleItemList: ArticleItem[] = [];
+
+    articleItemListDeleted = new EventEmitter<ArticleItem>();
+    errorMessage = new EventEmitter<string>();
 
     constructor(private http: HttpClient) {}
 
@@ -112,6 +115,7 @@ export class ArticleService {
                 )
                 .catch(
                     (error) => {
+                        this.errorMessage.emit(error);
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -134,6 +138,6 @@ export class ArticleService {
     }
 
     removeArticleItemFromList(articleItem: ArticleItem) {
-        this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+        this.articleItemListDeleted.emit(articleItem);
     }
 }

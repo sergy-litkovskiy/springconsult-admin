@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
@@ -49,6 +49,19 @@ export class ArticleListComponent implements OnInit {
             toolPanelSuppressValues: true,
             frameworkComponents: this.frameworkComponents
         };
+
+        this.articleService.articleItemListDeleted.subscribe(
+            (articleItem: ArticleItem) => {
+                this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+                this.renderGrid();
+            }
+        );
+
+        this.articleService.errorMessage.subscribe(
+            (error: string) => {
+                this.showErrorPopup(error);
+            }
+        );
     }
 
     private onReady(params) {
@@ -66,70 +79,46 @@ export class ArticleListComponent implements OnInit {
                         this.articleItemList = articleList;
                         this.tempArticleList = [...articleList];
 
-                        this.createRowData();
-                        this.createColumnDefs();
+                        this.renderGrid();
                     },
                     (error) => {
                         this.showErrorPopup(error);
                     }
                 );
         } else {
-            this.createRowData();
-            this.createColumnDefs();
+            this.renderGrid();
         }
     }
 
-    // onNewMenuItem() {
-    //     this.router.navigate(['menu-new'], {relativeTo: this.route});
-    // }
-
-//     onStatusChangeClick(articleItem: ArticleItem): void {
-// console.log('onStatusChangeClick', articleItem);
-//         articleItem.status = !articleItem.status;
-//
-//         this.articleService.updateArticle(articleItem)
-//             .subscribe(
-//                 (response: any) => console.log('response', response),
-//                 (error) => {
-//                     this.showErrorPopup(error);
-//
-//                     articleItem.status = !articleItem.status;
-//                 }
-//             );
-//     }
-
-//     onEditClick(articleItem: ArticleItem): void {
-// console.log('onEditClick', articleItem);
-//         this.router.navigate(['/article-edit', articleItem.id], {relativeTo: this.route});
-//     }
-
-    onDeleteClick(articleItem: any): void {
-console.log('onDeleteClick - main component', articleItem);
-
-        // this.popup.open(NguiMessagePopupComponent, {
-        //     classNames: 'small',
-        //     title: articleItem.title,
-        //     message: 'Are you sure you want to DELETE the article?',
-        //     buttons: {
-        //         OK: () => {
-        //             this.popup.close();
-        //
-        //             this.articleService.deleteArticle(articleItem)
-        //                 .subscribe(
-        //                     (response) => {
-        //                         this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
-        //                     },
-        //                     (error) => {
-        //                         this.showErrorPopup(error);
-        //                     }
-        //                 );
-        //         },
-        //         CANCEL: () => {
-        //             this.popup.close();
-        //         }
-        //     }
-        // });
+    private renderGrid()
+    {
+        this.createRowData();
+        this.createColumnDefs();
     }
+
+    // this.popup.open(NguiMessagePopupComponent, {
+    //     classNames: 'small',
+    //     title: articleItem.title,
+    //     message: 'Are you sure you want to DELETE the article?',
+    //     buttons: {
+    //         OK: () => {
+    //             this.popup.close();
+    //
+    //             this.articleService.deleteArticle(articleItem)
+    //                 .subscribe(
+    //                     (response) => {
+    //                         this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
+    //                     },
+    //                     (error) => {
+    //                         this.showErrorPopup(error);
+    //                     }
+    //                 );
+    //         },
+    //         CANCEL: () => {
+    //             this.popup.close();
+    //         }
+    //     }
+    // });
 
     showErrorPopup(error: string) {
         this.popup.open(NguiMessagePopupComponent, {

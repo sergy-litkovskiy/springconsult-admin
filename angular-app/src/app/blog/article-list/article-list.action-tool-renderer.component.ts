@@ -1,15 +1,13 @@
-import {Component, EventEmitter, Output, ViewChild} from "@angular/core";
+import {Component} from "@angular/core";
 
 import {ICellRendererAngularComp} from "ag-grid-angular";
 import {ArticleService} from "../article.service";
 import {ArticleItem} from "../article-item.model";
-import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'action-tool-cell',
-    template: `
-        <ngui-popup #popup></ngui-popup>
+    template: `        
         <div class="btn-group">
             <button type="button"
                     data-action-type="edit"
@@ -35,16 +33,18 @@ import {ActivatedRoute, Router} from "@angular/router";
                     (click)="onStatusChangeClick()">
                 <i class="glyphicon glyphicon-eye-close"></i>
             </button>
-            <popover-content 
-                    #articlePopover 
-                    title="Are you sure you want to DELETE the article?" 
+            <popover-content
+                    #articlePopover
+                    title="Are you sure you want to DELETE the article?"
                     placement="left"
                     [closeOnClickOutside]="true">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sml btn-success" title="Accept" (click)="onDeleteClick();articlePopover.hide()">
+                    <button type="button" class="btn btn-sml btn-success" title="Accept"
+                            (click)="onDeleteClick();articlePopover.hide()">
                         Yes
                     </button>
-                    <button type="button" class="btn btn-sml btn-default" title="Cancel" (click)="articlePopover.hide()">
+                    <button type="button" class="btn btn-sml btn-default" title="Cancel"
+                            (click)="articlePopover.hide()">
                         No
                     </button>
                 </div>
@@ -58,11 +58,10 @@ export class ArticleListActionToolRendererComponent implements ICellRendererAngu
     private actionButtonClassName: string;
     public articleItem: ArticleItem;
 
-    @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
-
     constructor(private articleService: ArticleService,
                 private router: Router,
-                private route: ActivatedRoute) {}
+                private route: ActivatedRoute) {
+    }
 
     agInit(params: any): void {
         this.params = params;
@@ -86,7 +85,7 @@ export class ArticleListActionToolRendererComponent implements ICellRendererAngu
             .subscribe(
                 (response: any) => console.log('response', response),
                 (error) => {
-                    this.showErrorPopup(error);
+                    this.articleService.errorMessage.emit(error);
 
                     this.articleItem.status = !+this.articleItem.status;
                 }
@@ -98,30 +97,7 @@ export class ArticleListActionToolRendererComponent implements ICellRendererAngu
     }
 
     onDeleteClick(): void {
-console.log('onDeleteClick - tool renderer');
-
-        this.articleService.deleteArticle(this.articleItem)
-            .subscribe(
-                (response) => {
-console.log('subscribe - response', response);
-                },
-                (error) => {
-                    this.showErrorPopup(error);
-                }
-            );
-    }
-
-    showErrorPopup(error: string) {
-        this.popup.open(NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: 'ERROR',
-            message: error,
-            buttons: {
-                CLOSE: () => {
-                    this.popup.close();
-                }
-            }
-        });
+        this.articleService.deleteArticle(this.articleItem);
     }
 
     refresh(): boolean {
