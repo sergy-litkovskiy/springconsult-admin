@@ -116,7 +116,7 @@ export class ArticleItemComponent implements OnInit {
         this.availableMenuList = this.menuService.getMenuItemList();
 
         if (!this.availableMenuList.length) {
-            this.menuListSubscription = this.menuService.getMenuItemListFromService()
+            this.menuListSubscription = this.menuService.getMenuItemListFromServer()
                 .subscribe(
                     (menuItems: MenuItem[]) => {
                         this.availableMenuList = menuItems;

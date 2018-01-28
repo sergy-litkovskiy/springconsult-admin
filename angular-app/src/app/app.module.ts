@@ -18,6 +18,7 @@ import {CKEditorComponent} from "ng2-ckeditor";
 import {AppComponentCkeditorHelper} from "./app.component.ckeditor.helper";
 import {ArticleListActionToolRendererComponent} from "./blog/article-list/article-list.action-tool-renderer.component";
 import {PopoverModule} from "ngx-popover";
+import {TreeModule} from "angular-tree-component";
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {PopoverModule} from "ngx-popover";
         ReactiveFormsModule,
         DateTimePickerModule,
         PopoverModule,
+        TreeModule,
         AgGridModule.withComponents([ArticleListActionToolRendererComponent])
     ],
     providers: [

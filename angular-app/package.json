@@ -25,6 +25,7 @@
     "@ngui/popup": "^0.5.1",
     "ag-grid": "^15.0.0",
     "ag-grid-angular": "^15.0.0",
+    "angular-tree-component": "^7.0.1",
     "core-js": "^2.4.1",
     "ng-pick-datetime": "^5.0.0-beta.15",
     "ng2-ckeditor": "^1.1.13",

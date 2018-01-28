@@ -19,7 +19,7 @@ export class MenuService {
         return this.menuItemList;
     }
 
-    getMenuItemListFromService() {
+    getMenuItemListFromServer() {
         return this.http.get<MenuItem[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
             .map(
                 (menuDataList) => {

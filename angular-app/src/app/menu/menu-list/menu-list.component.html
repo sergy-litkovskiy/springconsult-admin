@@ -1,16 +1,53 @@
-<div class="content-wrapper">
-    <div class="row">
-        <div class="col-xs-12">
-            <button class="btn btn-success" (click)="onNewMenuItem()">New Item</button>
+<tree-root
+        [nodes]="nodes"
+        [options]="options"
+        [focused]="true"
+        (moveNode)="onMoveNode($event)">
+    <ng-template #treeNodeTemplate let-node let-index="index">
+        <div class="draggable-menu-list">
+            <div class="col-md-1">
+                <span class="handle ui-sortable-handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                </span>
+            </div>
+            <div class="col-md-4">{{ node.data.name }}</div>
+            <div class="col-md-4">{{ node.data.description }}</div>
+            <div class="btn-group col-md-3">
+                <button type="button"
+                        data-action-type="edit"
+                        class="btn btn-sm btn-warning">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </button>
+                <button type="button"
+                        data-action-type="remove"
+                        class="btn btn-sm btn-danger"
+                        [popover]="articlePopover">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button type="button"
+                        data-action-type="status">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                </button>
+                <button type="button"
+                        data-action-type="status">
+                    <i class="glyphicon glyphicon-eye-close"></i>
+                </button>
+                <popover-content
+                        #articlePopover
+                        title="Are you sure you want to DELETE the article?"
+                        placement="left"
+                        [closeOnClickOutside]="true">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sml btn-success" title="Accept">
+                            Yes
+                        </button>
+                        <button type="button" class="btn btn-sml btn-default" title="Cancel">
+                            No
+                        </button>
+                    </div>
+                </popover-content>
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-xs-12">
-            <!--<app-menu-item-->
-                    <!--*ngFor="let menuItemarticleItemListList; let i = index"-->
-                    <!--[menuItem]="menuItem"-->
-                    <!--[index]="i"></app-menu-item>-->
-        </div>
-    </div>
-</div>
+    </ng-template>
+</tree-root>
