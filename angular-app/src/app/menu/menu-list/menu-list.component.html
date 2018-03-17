@@ -5,15 +5,10 @@
         (moveNode)="onMoveNode($event)">
     <ng-template #treeNodeTemplate let-node let-index="index">
         <div class="draggable-menu-list">
-            <div class="col-md-1">
-                <span class="handle ui-sortable-handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                </span>
-            </div>
-            <div class="col-md-4">{{ node.data.name }}</div>
-            <div class="col-md-4">{{ node.data.description }}</div>
-            <div class="btn-group col-md-3">
+            <div class="col-md-3"><p>{{ node.data.name }}</p></div>
+            <div class="col-md-2"><p>{{ node.data.color_icon }}</p></div>
+            <div class="col-md-5">{{ node.data.description }}</div>
+            <div class="btn-group col-md-2 pull-right">
                 <button type="button"
                         data-action-type="edit"
                         class="btn btn-sm btn-warning">
@@ -30,7 +25,7 @@
                     <i class="glyphicon glyphicon-eye-open"></i>
                 </button>
                 <button type="button"
-                        data-action-type="status">
+                        data-action-type="status" class="btn btn-sm btn-default">
                     <i class="glyphicon glyphicon-eye-close"></i>
                 </button>
                 <popover-content

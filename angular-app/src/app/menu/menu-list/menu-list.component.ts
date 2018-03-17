@@ -83,32 +83,55 @@ export class MenuListComponent implements OnInit {
         this.nodes = [
             {
                 id: 1,
-                name: 'root1',
-                description: 'some description',
+                name: 'Об авторе проекта',
+                description: 'Помощь в составлении эффективного резюме, подготовка к успешному прохождению собеседования',
+                color_icon: 'color1',
                 children: [
-                    { name: 'child1-1', id: 11, description: 'some description' },
-                    { name: 'child1-2', id: 22, description: 'some description' }
+                    {
+                        name: 'Об авторе проекта-1',
+                        id: 11,
+                        description: 'Помощь в составлении эффективного резюме, подготовка к успешному прохождению собеседования',
+                        color_icon: 'color1'
+                    },
+                    {
+                        name: 'Об авторе проекта-2',
+                        id: 22,
+                        description: 'Помощь в составлении эффективного резюме, подготовка к успешному прохождению собеседования',
+                        color_icon: 'color2'
+                    }
                 ]
             },
             {
                 id: 2,
-                name: 'root2',
-                description: 'some description',
+                name: 'Об авторе проекта2',
+                description: 'Помощь в составлении эффективного резюме, подготовка к успешному прохождению собеседования',
+                color_icon: 'color2',
                 children: [
-                    { name: 'child2-1', id: 111, description: 'some description' },
-                    { name: 'child2-2', id: 222, description: 'some description' }
+                    {
+                        name: 'child1-111',
+                        id: 111,
+                        description: 'Помощь в составлении эффективного резюме, подготовка к успешному прохождению собеседования',
+                        color_icon: 'color111'
+                    },
+                    {
+                        name: 'child1-222',
+                        id: 222,
+                        description: 'Помощь в составлении эффективного резюме, подготовка к успешному прохождению собеседования',
+                        color_icon: 'color222'
+                    }
                 ]
             }
         ];
 
         this.options = {
-            allowDrag: (node: ITreeNode) => node.isLeaf
+            allowDrag: (node: ITreeNode) => node.isLeaf,
+            allowDrop: (element, {parent, index}) => !parent.isLeaf//allow drop only inside parent element - NOT leaf
         };
     }
 
     onMoveNode($event) {
-        console.log('parent-children', $event.to.parent.children);
-        console.log('node', $event.node);
+console.log('parent-children', $event.to.parent.children);
+console.log('node', $event.node);
 
     }
 
@@ -126,7 +149,7 @@ export class MenuListComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        console.log('menu LIST - ON DESTROY');
+console.log('menu LIST - ON DESTROY');
         if (this.menuListSubscription != undefined) {
             this.menuListSubscription.unsubscribe();
         }
