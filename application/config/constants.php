@@ -164,3 +164,5 @@ define('DEFAULT_META_KEYWORDS', '');
 define('DEFAULT_FB_IMAGE', 'spring_logo_fb.png');
 
 define('IMAGE_UPLOAD_PATH_BLOG', '/img/blog');
+
+define('DEBUG_ANGULAR_MEDIA_HOST', 'http://192.168.50.77:4200/');//vagrant vm host

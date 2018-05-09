@@ -89,11 +89,19 @@
                     <!-- ChartJS 1.0.1 -->
                     <script src="{{ getCurrentDomain() }}js/admin/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
 
-                    <script src="{{ getCurrentDomain() }}angular-app/dist/inline.bundle.js" type="text/javascript"></script>
-                    <script src="{{ getCurrentDomain() }}angular-app/dist/polyfills.bundle.js" type="text/javascript"></script>
-                    <script src="{{ getCurrentDomain() }}angular-app/dist/styles.bundle.js" type="text/javascript"></script>
-                    <script src="{{ getCurrentDomain() }}angular-app/dist/vendor.bundle.js" type="text/javascript"></script>
-                    <script src="{{ getCurrentDomain() }}angular-app/dist/main.bundle.js" type="text/javascript"></script>
+                    {% if isTestingEnv() %}
+                        <script src="{{ getDebugAngularMediaDomain() }}runtime.js" type="text/javascript"></script>
+                        <script src="{{ getDebugAngularMediaDomain() }}polyfills.js" type="text/javascript"></script>
+                        <script src="{{ getDebugAngularMediaDomain() }}styles.js" type="text/javascript"></script>
+                        <script src="{{ getDebugAngularMediaDomain() }}vendor.js" type="text/javascript"></script>
+                        <script src="{{ getDebugAngularMediaDomain() }}main.js" type="text/javascript"></script>
+                    {% else %}
+                        <script src="{{ getCurrentDomain() }}angular-app/dist/runtime.js" type="text/javascript"></script>
+                        <script src="{{ getCurrentDomain() }}angular-app/dist/polyfills.js" type="text/javascript"></script>
+                        <script src="{{ getCurrentDomain() }}angular-app/dist/styles.js" type="text/javascript"></script>
+                        <script src="{{ getCurrentDomain() }}angular-app/dist/vendor.js" type="text/javascript"></script>
+                        <script src="{{ getCurrentDomain() }}angular-app/dist/main.js" type="text/javascript"></script>
+                    {% endif %}
                 {% endblock %}
             </div>
         </body>

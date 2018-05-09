@@ -20,6 +20,7 @@ Vagrant::configure("2") do |config|
       springadmin.vm.synced_folder ".", "/var/www/springconsult-admin.loc", :nfs => { :mount_options => ["dmode=777","fmode=777"] }
     end
     springadmin.vm.network :private_network, ip: "192.168.50.77"
+    springadmin.vm.network :forwarded_port, guest: 4200, host: 4200
 
     # Run this scripts after image was runned for the first time.
     springadmin.vm.provision :shell, path: "vagrant/shell/web.sh"
