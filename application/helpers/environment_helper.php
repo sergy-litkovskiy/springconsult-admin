@@ -14,5 +14,5 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
     function getDebugAngularMediaDomain()
     {
-        return 'http://192.168.50.77:4200/';
+        return DEBUG_ANGULAR_MEDIA_HOST;
     }

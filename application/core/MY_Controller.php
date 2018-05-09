@@ -28,15 +28,11 @@ abstract class MY_Controller extends CI_Controller
     public $saleProductImage_model;
     /** @var  Recipient_model */
     public $recipient_model;
-//    /** @var  Linkspacker_model */
-//    public $linkspacker_model;
     /** @var  ErrorLog_model */
     public $errorLog_model;
 
     /** @var  CI_Pagination */
     public $pagination;
-//    /** @var  Tags_model */
-//    public $tags_model;
     /** @var  CI_Form_validation */
     public $form_validation;
     /** @var  Twig */

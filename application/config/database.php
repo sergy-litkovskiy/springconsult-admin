@@ -81,7 +81,7 @@ $db['default'] = array(
     'username' => 'root',
     'password' => 'renault2004',
     'database' => 'spring_helenspringtmp',
-    'dbdriver' => 'mysql',
+    'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
     'db_debug' => (ENVIRONMENT !== 'production'),
