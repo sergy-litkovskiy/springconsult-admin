@@ -19,8 +19,16 @@ class Twig
     private $config = [];
 
     private $functions_asis = [
-        'base_url', 'site_url', 'current_url', 'uri_string', 'cdn_url', 'isTestingEnv', 'getCurrentDomain'
+        'base_url',
+        'site_url',
+        'current_url',
+        'uri_string',
+        'cdn_url',
+        'isTestingEnv',
+        'getCurrentDomain',
+        'getDebugAngularMediaDomain'
     ];
+
     private $functions_safe = [
         'form_open', 'form_close', 'form_error', 'set_value', 'form_hidden'
     ];

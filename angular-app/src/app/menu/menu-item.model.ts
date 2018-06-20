@@ -16,20 +16,23 @@ export class MenuItem {
 
 
     constructor(menuData: object) {
-        this.id = menuData['id'] !== undefined ? menuData['id'] : null;
-        this.title = menuData['title'] !== undefined ? menuData['title'] : null;
-        this.metaDescription = menuData['meta_description'] !== undefined ? menuData['meta_description'] : null;
-        this.metaKeywords = menuData['meta_keywords'] !== undefined ? menuData['meta_keywords'] : null;
-        this.text = menuData['text'] !== undefined ? menuData['text'] : null;
-        this.description = menuData['description'] !== undefined ? menuData['description'] : null;
-        this.slug = menuData['slug'] !== undefined ? menuData['slug'] : null;
-        this.status = (menuData['status'] == 1) !== undefined ? menuData['status'] : null;
-        this.numSequence = menuData['num_sequence'] !== undefined ? menuData['num_sequence'] : null;
-        this.articleId = menuData['article_id'] !== undefined ? menuData['article_id'] : null;
-        this.colorClass = menuData['color_class'] !== undefined ? menuData['color_class'] : null;
-        this.iconClass = menuData['icon_class'] !== undefined ? menuData['icon_class'] : null;
-        this.parent = menuData['parent'] !== undefined ? menuData['parent'] : null;
+        this.id = this.defineValue(menuData['id']);
+        this.title = this.defineValue(menuData['title']);
+        this.metaDescription = this.defineValue(menuData['meta_description']);
+        this.metaKeywords = this.defineValue(menuData['meta_keywords']);
+        this.text = this.defineValue(menuData['text']);
+        this.description = this.defineValue(menuData['description']);
+        this.slug = this.defineValue(menuData['slug']);
+        this.status = this.defineValue(menuData['status']);
+        this.numSequence = this.defineValue(menuData['num_sequence']);
+        this.articleId = this.defineValue(menuData['article_id']);
+        this.colorClass = this.defineValue(menuData['color_class']);
+        this.iconClass = this.defineValue(menuData['icon_class']);
+        this.parent = this.defineValue(menuData['parent']);
         this.isChecked = false;
     }
-}
 
+    defineValue(value) {
+        return value !== undefined ? value : null;
+    }
+}

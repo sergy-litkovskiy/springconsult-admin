@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-
 import {MenuItem} from "./menu-item.model";
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
-import 'rxjs/add/observable/throw';
+import 'rxjs/Rx';
 
 
 @Injectable()
 export class MenuService {
     private urlToGetList = '/menu/list';
-    private menuItemList: MenuItem[] = [];
+    private menuItemList: any[] = [];
 
     constructor(private http: HttpClient) {}
 
@@ -19,12 +16,30 @@ export class MenuService {
         return this.menuItemList;
     }
 
+    makeMenuChildList(menuChildList) {
+        let childList: MenuItem[] = [];
+
+        if (menuChildList == undefined || !menuChildList.length) {
+            return [];
+        }
+
+        for (let menuData of menuChildList) {
+            childList.push(new MenuItem(menuData));
+        }
+
+        return childList;
+    }
+
     getMenuItemListFromServer() {
-        return this.http.get<MenuItem[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
+        return this.http.get<any[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
             .map(
                 (menuDataList) => {
                     for (let menuData of menuDataList) {
-                        let menuItem = new MenuItem(menuData);
+                        let menuItem = {
+                            parent: new MenuItem(menuData['parent']),
+                            childList: this.makeMenuChildList(menuData['childList'])
+                        };
+
                         this.menuItemList.push(menuItem);
                     }
 

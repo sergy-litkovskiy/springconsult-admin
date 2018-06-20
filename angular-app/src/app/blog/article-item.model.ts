@@ -18,19 +18,21 @@ export class ArticleItem {
     public imageData: string;
 
     constructor(articleData: object) {
-        this.id = articleData['id'] !== undefined ? articleData['id'] : null;
-        this.title = articleData['title'] !== undefined ? articleData['title'] : null;
-        this.image = articleData['image'] !== undefined ? articleData['image'] : null;
-        this.metaDescription = articleData['meta_description'] !== undefined ? articleData['meta_description'] : null;
-        this.metaKeywords = articleData['meta_keywords'] !== undefined ? articleData['meta_keywords'] : null;
-        this.text = articleData['text'] !== undefined ? articleData['text'] : null;
-        this.description = articleData['description'] !== undefined ? articleData['description'] : null;
-        this.slug = articleData['slug'] !== undefined ? articleData['slug'] : null;
-        this.status = (articleData['status'] == '1') !== undefined ? articleData['status'] : null;
-        this.isSentMail = articleData['is_sent_mail'] !== undefined ? articleData['is_sent_mail'] : null;
-        this.numSequence = articleData['num_sequence'] !== undefined ? articleData['num_sequence'] : null;
-        this.date = articleData['date'] !== undefined ? articleData['date'] : null;
-        this.assignedMenuList = articleData['assignedMenuList'] !== undefined ? this.makeAssignedMenuList(articleData['assignedMenuList']) : [];
+        this.id = this.defineValue(articleData['id']);
+        this.title = this.defineValue(articleData['title']);
+        this.image = this.defineValue(articleData['image']);
+        this.metaDescription = this.defineValue(articleData['meta_description']);
+        this.metaKeywords = this.defineValue(articleData['meta_keywords']);
+        this.text = this.defineValue(articleData['text']);
+        this.description = this.defineValue(articleData['description']);
+        this.slug = this.defineValue(articleData['slug']);
+        this.status = this.defineValue(articleData['status']);
+        this.isSentMail = this.defineValue(articleData['is_sent_mail']);
+        this.numSequence = this.defineValue(articleData['num_sequence']);
+        this.date = this.defineValue(articleData['date']);
+        this.assignedMenuList = articleData['assignedMenuList'] !== undefined ?
+            this.makeAssignedMenuList(articleData['assignedMenuList']) :
+            [];
         this.imageData = null;//use only for new uploaded image to pass base64 data into server
     }
 
@@ -48,5 +50,9 @@ export class ArticleItem {
 
     isActive() {
         return (this.status == true);
+    }
+
+    defineValue(value) {
+        return value !== undefined ? value : null;
     }
 }
