@@ -10,7 +10,7 @@ import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'menu-list',
-    templateUrl: './menu-list-parent.component.html'
+    templateUrl: './menu-list.component.html'
 })
 export class MenuListComponent implements OnInit {
     menuItemList: any[];

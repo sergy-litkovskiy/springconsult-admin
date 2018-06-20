@@ -1,0 +1,78 @@
+<div class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline" role="grid">
+                        <table class="table table-bordered table-hover dataTable">
+                            <thead>
+                                <tr role="row">
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Parent section</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Child section</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Alias</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Color|Icon</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Short description</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Meta description</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Meta keywords</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody role="alert">
+                                <ng-container *ngFor="let menuItem of menuItemList;">
+                                    <tr class="odd">
+                                        <td>{{ menuItem.parent.title }}</td>
+                                        <td></td>
+                                        <td>{{ menuItem.parent.slug }}</td>
+                                        <td>
+                                            <div *ngIf="menuItem.parent.colorClass" class="serviceBox_2" [ngClass]="menuItem.parent.colorClass">
+                                                <div class="service-icon">
+                                                    <i class="fa" [ngClass]="menuItem.parent.iconClass"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ menuItem.parent.description }}</td>
+                                        <td *ngIf="menuItem.parent.metaDescription; then validValue else emptyValue"></td>
+                                        <td *ngIf="menuItem.parent.metaKeywords; then validValue else emptyValue"></td>
+                                        <td>some actions</td>
+                                    </tr>
+                                    <ng-container *ngIf="menuItem.childList.length">
+                                        <tr class="odd" *ngFor="let childItem of menuItem.childList;">
+                                            <td></td>
+                                            <td>{{ childItem.title }}</td>
+                                            <td>{{ childItem.slug }}</td>
+                                            <td>
+                                                <div *ngIf="childItem.colorClass" class="serviceBox_2" [ngClass]="childItem.colorClass">
+                                                    <div class="service-icon">
+                                                        <i class="fa" [ngClass]="childItem.iconClass"></i>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ childItem.description }}</td>
+                                            <td *ngIf="childItem.metaDescription; then validValue else emptyValue"></td>
+                                            <td *ngIf="childItem.metaKeywords; then validValue else emptyValue"></td>
+                                            <td>some actions</td>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-template #validValue>
+                                        <td>
+                                            <span class="label label-success">
+                                                <i class="glyphicon glyphicon-thumbs-up"></i>
+                                            </span>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template #emptyValue>
+                                        <td>
+                                            <span class="label label-warning">
+                                                <i class="glyphicon glyphicon-thumbs-down"></i>
+                                            </span>
+                                        </td>
+                                    </ng-template>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

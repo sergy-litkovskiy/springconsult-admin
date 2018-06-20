@@ -4178,3 +4178,68 @@ tree-node-checkbox {
   margin: 1em 0;
   padding: 0;
 }
+
+/* service Box 2
+====================================*/
+
+.serviceBox_2{
+  text-align: center;
+}
+.serviceBox_2 .service-icon{
+  background:grey;
+  height: 62px;
+  width: 62px;
+  border-radius:50%;
+  display: inline-block;
+  margin-bottom:20px;
+}
+.serviceBox_2.green .service-icon{
+  background:#58B25E;
+}
+.serviceBox_2.purple .service-icon{
+  background:#9F84C4;
+}
+.serviceBox_2.orange .service-icon{
+  background:#ec971f;
+}
+.serviceBox_2.red .service-icon{
+  background:#F35958;
+}
+.serviceBox_2.blue .service-icon{
+  background:#02A2DD;
+}
+.serviceBox_2 .service-icon i{
+  font-size:30px;
+  color: #fff;
+  line-height: 62px;
+}
+.serviceBox_2 .service-content h3{
+  color: hsl(0, 0%, 20%);
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0;
+}
+.serviceBox_2 .service-content h3 a{
+  color: hsl(0, 0%, 20%)!important;
+}
+.serviceBox_2 .service-content p{
+  color:hsl(0, 0%, 47%);
+  line-height: 2;
+  font-family: Open Sans,Helvetica, Arial, sans-serif;
+}
+.serviceBox_2 .read a{
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.serviceBox_2.green .read a{color:#58B25E;}
+.serviceBox_2.purple .read a{color:#9F84C4;}
+.serviceBox_2.orange .read a{color:#ec971f;}
+.serviceBox_2.red .read a{color:#F35958;}
+.serviceBox_2.blue .read a{color:#02A2DD;}
+
+.serviceBox_2.green .read a:hover{color:#2E9333;}
+.serviceBox_2.purple .read a:hover{color:#674A92;}
+.serviceBox_2.orange .read a:hover{color:#d58512;}
+.serviceBox_2.red .read a:hover{color:#AA2727;}
+.serviceBox_2.blue .read a:hover{color:#186A89;}
