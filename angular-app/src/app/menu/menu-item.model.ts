@@ -32,7 +32,7 @@ export class MenuItem {
         this.isChecked = false;
     }
 
-    defineValue(value) {
-        return value !== undefined ? value : null;
+    defineValue(value = null) {
+        return value;
     }
 }

@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
@@ -24,13 +23,11 @@ export class ArticleListComponent implements OnInit {
     private api: GridApi;
     private columnApi: ColumnApi;
 
-    private frameworkComponents;
+    readonly frameworkComponents;
 
     @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
 
-    constructor(private articleService: ArticleService,
-                private router: Router,
-                private route: ActivatedRoute) {
+    constructor(private articleService: ArticleService) {
         this.frameworkComponents = {
             articleListActionToolRenderer: ArticleListActionToolRendererComponent
         };
@@ -50,7 +47,7 @@ export class ArticleListComponent implements OnInit {
             frameworkComponents: this.frameworkComponents
         };
 
-        this.articleService.articleItemListDeleted.subscribe(
+        this.articleService.articleItemDeleted.subscribe(
             (articleItem: ArticleItem) => {
                 this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
                 this.renderGrid();
@@ -59,6 +56,7 @@ export class ArticleListComponent implements OnInit {
 
         this.articleService.errorMessage.subscribe(
             (error: string) => {
+console.log('this.articleService.errorMessage.subscribe!!!!!!!');
                 this.showErrorPopup(error);
             }
         );
@@ -71,7 +69,7 @@ export class ArticleListComponent implements OnInit {
 
     ngOnInit() {
         this.articleItemList = this.articleService.getArticleItemList();
-
+        this.showErrorPopup('!!!!!error!!!!');
         if (!this.articleItemList.length) {
             this.articleListSubscription = this.articleService.getArticleItemListFromServer()
                 .subscribe(
@@ -95,30 +93,6 @@ export class ArticleListComponent implements OnInit {
         this.createRowData();
         this.createColumnDefs();
     }
-
-    // this.popup.open(NguiMessagePopupComponent, {
-    //     classNames: 'small',
-    //     title: articleItem.title,
-    //     message: 'Are you sure you want to DELETE the article?',
-    //     buttons: {
-    //         OK: () => {
-    //             this.popup.close();
-    //
-    //             this.articleService.deleteArticle(articleItem)
-    //                 .subscribe(
-    //                     (response) => {
-    //                         this.articleItemList = this.articleItemList.filter(obj => obj !== articleItem);
-    //                     },
-    //                     (error) => {
-    //                         this.showErrorPopup(error);
-    //                     }
-    //                 );
-    //         },
-    //         CANCEL: () => {
-    //             this.popup.close();
-    //         }
-    //     }
-    // });
 
     showErrorPopup(error: string) {
         this.popup.open(NguiMessagePopupComponent, {

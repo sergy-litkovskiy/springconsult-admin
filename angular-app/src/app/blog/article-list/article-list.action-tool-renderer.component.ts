@@ -7,52 +7,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'action-tool-cell',
-    template: `        
-        <div class="btn-group">
-            <button type="button"
-                    data-action-type="edit"
-                    class="btn btn-sm btn-warning"
-                    (click)="onEditClick()">
-                <i class="glyphicon glyphicon-pencil"></i>
-            </button>
-            <button type="button"
-                    data-action-type="remove"
-                    class="btn btn-sm btn-danger"
-                    [popover]="articlePopover">
-                <i class="glyphicon glyphicon-remove"></i>
-            </button>
-            <button type="button"
-                    data-action-type="status"
-                    [ngClass]="getButtonClassForStatusOn()"
-                    (click)="onStatusChangeClick()">
-                <i class="glyphicon glyphicon-eye-open"></i>
-            </button>
-            <button type="button"
-                    data-action-type="status"
-                    [ngClass]="getButtonClassForStatusOff()"
-                    (click)="onStatusChangeClick()">
-                <i class="glyphicon glyphicon-eye-close"></i>
-            </button>
-            <popover-content
-                    #articlePopover
-                    title="Are you sure you want to DELETE the article?"
-                    placement="left"
-                    [closeOnClickOutside]="true">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sml btn-success" title="Accept"
-                            (click)="onDeleteClick();articlePopover.hide()">
-                        Yes
-                    </button>
-                    <button type="button" class="btn btn-sml btn-default" title="Cancel"
-                            (click)="articlePopover.hide()">
-                        No
-                    </button>
-                </div>
-            </popover-content>
-        </div>
-    `
+    templateUrl: '../../common/action-tools.html'
 })
-
 export class ArticleListActionToolRendererComponent implements ICellRendererAngularComp {
     public params: any;
     private actionButtonClassName: string;
@@ -83,7 +39,7 @@ export class ArticleListActionToolRendererComponent implements ICellRendererAngu
         this.articleItem.status = !+this.articleItem.status;
         this.articleService.updateArticle(this.articleItem)
             .subscribe(
-                (response: any) => console.log('response', response),
+                (response: any) => console.log('onStatusChangeClick response', response),
                 (error) => {
                     this.articleService.errorMessage.emit(error);
 
@@ -97,7 +53,16 @@ export class ArticleListActionToolRendererComponent implements ICellRendererAngu
     }
 
     onDeleteClick(): void {
-        this.articleService.deleteArticle(this.articleItem);
+        this.articleService.deleteArticle(this.articleItem)
+            .subscribe(
+                (articleItem: ArticleItem) => {
+                    this.articleService.articleItemDeleted.emit(articleItem);
+                    console.log('onDeleteClick articleItem', articleItem);
+                },
+                (error) => {
+                    this.articleService.errorMessage.emit(error);
+                }
+            );
     }
 
     refresh(): boolean {

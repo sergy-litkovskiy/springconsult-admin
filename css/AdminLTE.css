@@ -4243,3 +4243,7 @@ tree-node-checkbox {
 .serviceBox_2.orange .read a:hover{color:#d58512;}
 .serviceBox_2.red .read a:hover{color:#AA2727;}
 .serviceBox_2.blue .read a:hover{color:#186A89;}
+
+.parent-row {
+  background-color: #d2d6de;
+}

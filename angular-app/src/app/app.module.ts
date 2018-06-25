@@ -6,6 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppMainRoutingModule} from './app.routing.module';
 import {MenuModule} from "./menu/menu.module";
 import {BlogModule} from "./blog/blog.module";
+import {MatDialogModule} from "@angular/material";
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {BlogModule} from "./blog/blog.module";
     imports: [
         BrowserModule,
         HttpClientModule,
+        MatDialogModule,
         AppMainRoutingModule,
         BlogModule,
         MenuModule

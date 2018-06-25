@@ -52,7 +52,7 @@ export class ArticleItem {
         return (this.status == true);
     }
 
-    defineValue(value) {
-        return value !== undefined ? value : null;
+    defineValue(value = null) {
+        return value
     }
 }

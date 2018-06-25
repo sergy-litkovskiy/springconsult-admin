@@ -7,14 +7,14 @@
                         <table class="table table-bordered table-hover dataTable">
                             <thead>
                                 <tr role="row">
-                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Parent section</th>
-                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Child section</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1" class="col-md-2">Parent section</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1" class="col-md-2">Child section</th>
                                     <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Alias</th>
                                     <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Color|Icon</th>
                                     <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Short description</th>
                                     <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Meta description</th>
                                     <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Meta keywords</th>
-                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1">Actions</th>
+                                    <th role="columnheader" tabindex="0" rowspan="1" colspan="1" class="col-md-2">Actions</th>
                                 </tr>
                             </thead>
                             <tbody role="alert">
@@ -33,7 +33,9 @@
                                         <td>{{ menuItem.parent.description }}</td>
                                         <td *ngIf="menuItem.parent.metaDescription; then validValue else emptyValue"></td>
                                         <td *ngIf="menuItem.parent.metaKeywords; then validValue else emptyValue"></td>
-                                        <td>some actions</td>
+                                        <td>
+                                            <action-tools-component [menuItem]="menuItem"></action-tools-component>
+                                        </td>
                                     </tr>
                                     <ng-container *ngIf="menuItem.childList.length">
                                         <tr class="odd" *ngFor="let childItem of menuItem.childList;">
@@ -50,18 +52,20 @@
                                             <td>{{ childItem.description }}</td>
                                             <td *ngIf="childItem.metaDescription; then validValue else emptyValue"></td>
                                             <td *ngIf="childItem.metaKeywords; then validValue else emptyValue"></td>
-                                            <td>some actions</td>
+                                            <td>
+                                                <action-tools-component [menuItem]="childItem"></action-tools-component>
+                                            </td>
                                         </tr>
                                     </ng-container>
                                     <ng-template #validValue>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="label label-success">
                                                 <i class="glyphicon glyphicon-thumbs-up"></i>
                                             </span>
                                         </td>
                                     </ng-template>
                                     <ng-template #emptyValue>
-                                        <td>
+                                        <td class="text-center">
                                             <span class="label label-warning">
                                                 <i class="glyphicon glyphicon-thumbs-down"></i>
                                             </span>

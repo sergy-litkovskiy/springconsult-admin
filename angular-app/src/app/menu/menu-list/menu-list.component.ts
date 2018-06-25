@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {MenuItem} from "../menu-item.model";
 import {MenuService} from "../menu.service";
 import 'rxjs/Rx';
 import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
-import {Subscribable} from "rxjs/Observable";
 import {Subscription} from "rxjs/Subscription";
 
 
@@ -14,7 +12,6 @@ import {Subscription} from "rxjs/Subscription";
 })
 export class MenuListComponent implements OnInit {
     menuItemList: any[];
-    tempItemList: any[] = [];
     nodes;
 
     private menuListSubscription: Subscription;
@@ -33,23 +30,13 @@ export class MenuListComponent implements OnInit {
             this.menuListSubscription = this.menuService.getMenuItemListFromServer()
                 .subscribe(
                     (menuDataList: any[]) => {
-                        this.menuItemList = menuDataList;
-                        this.tempItemList = [...menuDataList];
-
-                        this.renderTree();
+                        this.menuItemList = [...menuDataList];
                     },
                     (error) => {
                         this.showErrorPopup(error);
                     }
                 );
-        } else {
-            this.renderTree();
         }
-    }
-
-    private renderTree()
-    {
-console.log('renderTree - this.menuItemList', this.menuItemList);
     }
 
     showErrorPopup(error: string) {

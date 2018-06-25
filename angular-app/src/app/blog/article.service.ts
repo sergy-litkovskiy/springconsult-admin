@@ -2,11 +2,6 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
-// import { map } from 'rxjs/operators';
-// import "rxjs/add/operator/map";
-// import "rxjs/add/operator/catch";
-// import 'rxjs/add/observable/throw';
-
 import {ArticleItem} from "./article-item.model";
 
 @Injectable()
@@ -20,7 +15,7 @@ export class ArticleService {
 
     private articleItemList: ArticleItem[] = [];
 
-    articleItemListDeleted = new EventEmitter<ArticleItem>();
+    articleItemDeleted = new EventEmitter<ArticleItem>();
     errorMessage = new EventEmitter<string>();
 
     constructor(private http: HttpClient) {}
@@ -111,13 +106,11 @@ export class ArticleService {
             .delete(this.urlToDelete + '/' + articleItem.id)
                 .map(
                     (response) => {
-                        this.removeArticleItemFromList(articleItem);
-                        return response;
+                        return articleItem;
                     }
                 )
                 .catch(
                     (error) => {
-                        this.errorMessage.emit(error);
                         return Observable.throw(error.statusText);
                     }
                 );
@@ -140,6 +133,6 @@ export class ArticleService {
     }
 
     removeArticleItemFromList(articleItem: ArticleItem) {
-        this.articleItemListDeleted.emit(articleItem);
+        this.articleItemDeleted.emit(articleItem);
     }
 }

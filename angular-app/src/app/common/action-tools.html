@@ -1,0 +1,42 @@
+<div class="btn-group">
+    <button type="button"
+            data-action-type="edit"
+            class="btn btn-sm btn-warning"
+            (click)="onEditClick()">
+        <i class="glyphicon glyphicon-pencil"></i>
+    </button>
+    <button type="button"
+            data-action-type="remove"
+            class="btn btn-sm btn-danger"
+            [popover]="itemPopover">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>
+    <button type="button"
+            data-action-type="status"
+            [ngClass]="getButtonClassForStatusOn()"
+            (click)="onStatusChangeClick()">
+        <i class="glyphicon glyphicon-eye-open"></i>
+    </button>
+    <button type="button"
+            data-action-type="status"
+            [ngClass]="getButtonClassForStatusOff()"
+            (click)="onStatusChangeClick()">
+        <i class="glyphicon glyphicon-eye-close"></i>
+    </button>
+    <popover-content
+            #itemPopover
+            title="Are you sure you want to DELETE the item?"
+            placement="left"
+            [closeOnClickOutside]="true">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sml btn-success" title="Accept"
+                    (click)="onDeleteClick();itemPopover.hide()">
+                Yes
+            </button>
+            <button type="button" class="btn btn-sml btn-default" title="Cancel"
+                    (click)="itemPopover.hide()">
+                No
+            </button>
+        </div>
+    </popover-content>
+</div>
