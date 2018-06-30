@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/Rx';
+import {throwError} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 import {ArticleItem} from "./article-item.model";
 
 @Injectable()
@@ -25,36 +25,42 @@ export class ArticleService {
     }
 
     getArticleItemListFromServer() {
-        return this.http.get<ArticleItem[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
-            .map(
-                (articleDataList) => {
-                    for (let articleData of articleDataList) {
-                        let articleItem = new ArticleItem(articleData);
-                        this.articleItemList.push(articleItem);
+        return this.http
+            .get<ArticleItem[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
+            .pipe(
+                map(
+                    (articleDataList) => {
+                        for (let articleData of articleDataList) {
+                            let articleItem = new ArticleItem(articleData);
+                            this.articleItemList.push(articleItem);
+                        }
+                        return this.articleItemList;
                     }
-                    return this.articleItemList;
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.toString());
-                }
+                ),
+                catchError(
+                    (error) => {
+                        return throwError(error.toString());
+                    }
+                )
             );
     }
 
     getArticleItemByIdFromServer(id: number) {
         let link = this.urlToGetArticleItem + id;
 
-        return this.http.get<ArticleItem>(link, {observe: 'body', responseType: 'json'})
-            .map(
-                (articleData) => {
-                    return new ArticleItem(articleData);
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.toString());
-                }
+        return this.http
+            .get<ArticleItem>(link, {observe: 'body', responseType: 'json'})
+            .pipe(
+                map(
+                    (articleData) => {
+                        return new ArticleItem(articleData);
+                    }
+                ),
+                catchError(
+                    (error) => {
+                        return throwError(error.toString());
+                    }
+                )
             );
     }
 
@@ -74,46 +80,52 @@ export class ArticleService {
     updateArticle(articleItem: ArticleItem) {
         return this.http
             .put(this.urlToUpdate, articleItem, {headers: this.headers})
-                .map(
+            .pipe(
+                map(
                     (response) => {
                         return response;
                     }
-                )
-                .catch(
+                ),
+                catchError(
                     (error) => {
-                        return Observable.throw(error.statusText);
+                        return throwError(error.statusText);
                     }
-                );
+                )
+            );
     }
 
     addArticle(articleItem: ArticleItem) {
         return this.http
             .post(this.urlToAdd, articleItem, {headers: this.headers})
-                .map(
+            .pipe(
+                map(
                     (response) => {
                         return response;
                     }
-                )
-                .catch(
+                ),
+                catchError(
                     (error) => {
-                        return Observable.throw(error.statusText);
+                        return throwError(error.statusText);
                     }
-                );
+                )
+            );
     }
 
     deleteArticle(articleItem: ArticleItem) {
         return this.http
             .delete(this.urlToDelete + '/' + articleItem.id)
-                .map(
+            .pipe(
+                map(
                     (response) => {
                         return articleItem;
                     }
-                )
-                .catch(
+                ),
+                catchError(
                     (error) => {
-                        return Observable.throw(error.statusText);
+                        return throwError(error.statusText);
                     }
-                );
+                )
+            );
     }
 
     getArticleById(id: number): ArticleItem|null {

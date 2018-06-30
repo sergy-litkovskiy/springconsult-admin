@@ -62,30 +62,28 @@ class Blog extends MY_Controller
     private function saveArticle(Closure $fn)
     {
         $errorCode = 409;
+
+        try {
+            if (!$data = json_decode(file_get_contents('php://input'), true)) {
+                $errorCode = 400;
+                throw new LogicException('Request data is empty');
+            }
+
+            $this->tryToUploadFile($data);
+
+            $articleData = $this->makeMainArticleData($data);
+
+            $id = $fn($articleData);
+            $this->processAssignedMenuList($id, $data);
+        } catch (Exception $e) {
+            return $this->output
+                ->set_content_type($this->contentTypeJson)
+                ->set_status_header($errorCode, $e->getMessage());
+        }
+
         return $this->output
             ->set_content_type($this->contentTypeJson)
-            ->set_status_header($errorCode, 'Some error during update!!!');
-//        try {
-//            if (!$data = json_decode(file_get_contents('php://input'), true)) {
-//                $errorCode = 400;
-//                throw new LogicException('Request data is empty');
-//            }
-//
-//            $this->tryToUploadFile($data);
-//
-//            $articleData = $this->makeMainArticleData($data);
-//
-//            $id = $fn($articleData);
-//            $this->processAssignedMenuList($id, $data);
-//        } catch (Exception $e) {
-//            return $this->output
-//                ->set_content_type($this->contentTypeJson)
-//                ->set_status_header($errorCode, $e->getMessage());
-//        }
-//
-//        return $this->output
-//            ->set_content_type($this->contentTypeJson)
-//            ->set_output(json_encode(['OK']));
+            ->set_output(json_encode(['OK']));
     }
 
     public function deleteArticle($id)

@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {PopoverModule} from "ngx-popover";
-import {ArticleListActionToolRendererComponent} from "./article-list/article-list.action-tool-renderer.component";
 import {ArticleService} from "./article.service";
 import {ArticleListComponent} from "./article-list/article-list.component";
 import {ArticleItemComponent} from "./article-item/article-item.component";
@@ -13,24 +12,25 @@ import {CKEditorComponent} from "ng2-ckeditor/lib/src/ckeditor.component";
 import {AppComponentCkeditorHelper} from "../app.component.ckeditor.helper";
 import {MenuService} from "../menu/menu.service";
 import {CommonModule} from "@angular/common";
+import {ArticleListActionToolsComponent} from "./article-list/article-list.action-tools.component";
 
 
 @NgModule({
     declarations: [
         ArticleListComponent,
         ArticleItemComponent,
-        ArticleListActionToolRendererComponent,
+        ArticleListActionToolsComponent,
         CKEditorComponent
     ],
     imports: [
         CommonModule,
         BlogRoutingModule,
-        NguiPopupModule,
+        NguiPopupModule,//TODO: remove
         FormsModule,
         PopoverModule,
         ReactiveFormsModule,
         DateTimePickerModule,
-        AgGridModule.withComponents([ArticleListActionToolRendererComponent])
+        AgGridModule.withComponents([ArticleListActionToolsComponent])
     ],
     providers: [
         BaseComponentFactory,

@@ -46,4 +46,49 @@ class Menu extends MY_Controller
 
         return $map;
     }
+
+    public function updateMenu()
+    {
+        return $this->output
+            ->set_content_type($this->contentTypeJson)
+            ->set_status_header(400, 'Some error occurred during processing');
+//        return $this->saveMenu(
+//            function ($articleData) {
+//                $articleId = ArrayHelper::arrayGet($articleData, 'id');
+//
+//                if (!$this->blog_model->update($articleId, $articleData)) {
+//                    throw new RuntimeException(sprintf('Article with ID#%s was not updated', $articleId));
+//                }
+//
+//                return $articleId;
+//            }
+//        );
+    }
+
+    private function saveMenu(Closure $fn)
+    {
+        $errorCode = 409;
+
+        try {
+            if (!$data = json_decode(file_get_contents('php://input'), true)) {
+                $errorCode = 400;
+                throw new LogicException('Request data is empty');
+            }
+
+//            $this->tryToUploadFile($data);
+//
+//            $articleData = $this->makeMainArticleData($data);
+//
+//            $id = $fn($articleData);
+//            $this->processAssignedMenuList($id, $data);
+        } catch (Exception $e) {
+            return $this->output
+                ->set_content_type($this->contentTypeJson)
+                ->set_status_header($errorCode, $e->getMessage());
+        }
+
+        return $this->output
+            ->set_content_type($this->contentTypeJson)
+            ->set_output(json_encode(['OK']));
+    }
 }

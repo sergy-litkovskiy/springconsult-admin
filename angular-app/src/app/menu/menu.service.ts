@@ -2,7 +2,8 @@ import {EventEmitter, Injectable} from '@angular/core';
 import {MenuItem} from "./menu-item.model";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/Rx';
+import {throwError} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 
 
 @Injectable()
@@ -39,25 +40,28 @@ export class MenuService {
     }
 
     getMenuItemListFromServer() {
-        return this.http.get<any[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
-            .map(
-                (menuDataList) => {
-                    for (let menuData of menuDataList) {
-                        let menuItem = {
-                            parent: new MenuItem(menuData['parent']),
-                            childList: this.makeMenuChildList(menuData['childList'])
-                        };
+        return this.http
+            .get<any[]>(this.urlToGetList, {observe: 'body', responseType: 'json'})
+            .pipe(
+                map(
+                    (menuDataList) => {
+                        for (let menuData of menuDataList) {
+                            let menuItem = {
+                                parent: new MenuItem(menuData['parent']),
+                                childList: this.makeMenuChildList(menuData['childList'])
+                            };
 
-                        this.menuItemList.push(menuItem);
+                            this.menuItemList.push(menuItem);
+                        }
+
+                        return this.menuItemList;
                     }
-
-                    return this.menuItemList;
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.toString());
-                }
+                ),
+                catchError(
+                    (error) => {
+                        return Observable.throw(error.toString());
+                    }
+                )
             );
     }
 
@@ -65,60 +69,68 @@ export class MenuService {
         let link = this.urlToGetMenuItem + id;
 
         return this.http.get<MenuItem>(link, {observe: 'body', responseType: 'json'})
-            .map(
-                (menuData) => {
-                    return new MenuItem(menuData);
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.toString());
-                }
-            );
+            .pipe(
+                map(
+                    (menuData) => {
+                        return new MenuItem(menuData);
+                    }
+                ),
+                catchError(
+                    (error) => {
+                        return throwError(error.toString());
+                    }
+                )
+        );
     }
 
     addArticle(menuItem: MenuItem) {
         return this.http
             .post(this.urlToAdd, menuItem, {headers: this.headers})
-            .map(
-                (response) => {
-                    return response;
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.statusText);
-                }
+            .pipe(
+                map(
+                    (response) => {
+                        return response;
+                    }
+                ),
+                catchError(
+                    (error) => {
+                        return throwError(error.statusText);
+                    }
+                )
             );
     }
 
     deleteArticle(menuItem: MenuItem) {
         return this.http
             .delete(this.urlToDelete + '/' + menuItem.id)
-            .map(
-                (response) => {
-                    return menuItem;
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.statusText);
-                }
+            .pipe(
+                map(
+                    (response) => {
+                        return menuItem;
+                    }
+                ),
+                catchError(
+                    (error) => {
+                        return throwError(error.statusText);
+                    }
+                )
             );
     }
 
     updateMenu(menuItem: MenuItem) {
         return this.http
             .put(this.urlToUpdate, menuItem, {headers: this.headers})
-            .map(
-                (response) => {
-                    return response;
-                }
-            )
-            .catch(
-                (error) => {
-                    return Observable.throw(error.statusText);
-                }
+            .pipe(
+                map(
+                    (response) => {
+                        return response;
+                    }
+                ),
+                catchError(
+                    (error) => {
+                        return throwError(error.statusText);
+                    }
+                )
             );
     }
 

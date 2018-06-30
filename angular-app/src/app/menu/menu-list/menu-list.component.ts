@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 import {MenuService} from "../menu.service";
-import 'rxjs/Rx';
-import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {Subscription} from "rxjs/Subscription";
-
+import {MatDialog} from "@angular/material";
+import {ModalErrorMessageComponent} from "../../common/modal-error-message.component";
+import 'rxjs/Rx';
 
 @Component({
     selector: 'menu-list',
@@ -16,11 +15,13 @@ export class MenuListComponent implements OnInit {
 
     private menuListSubscription: Subscription;
 
-    @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
-
-    constructor(private menuService: MenuService,
-                private router: Router,
-                private route: ActivatedRoute) {
+    constructor(private menuService: MenuService, public dialog: MatDialog) {
+        this.menuService.errorMessage.subscribe(
+            (error: string) => {
+console.log('this.menuService.errorMessage.subscribe!!!!!!!');
+                this.showErrorPopup(error);
+            }
+        );
     }
 
     ngOnInit() {
@@ -39,16 +40,14 @@ export class MenuListComponent implements OnInit {
         }
     }
 
-    showErrorPopup(error: string) {
-        this.popup.open(NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: 'ERROR',
-            message: error,
-            buttons: {
-                CLOSE: () => {
-                    this.popup.close();
-                }
-            }
+    private showErrorPopup(error: string) {
+        let dialogRef = this.dialog.open(ModalErrorMessageComponent, {
+            width: '250px',
+            data: { message: error }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+console.log('The dialog was closed - result', result);
         });
     }
 

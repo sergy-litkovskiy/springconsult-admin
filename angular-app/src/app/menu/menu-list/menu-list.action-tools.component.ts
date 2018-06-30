@@ -3,14 +3,13 @@ import {Router, ActivatedRoute} from '@angular/router';
 import 'rxjs/Rx';
 import {MenuService} from "../menu.service";
 import {MenuItem} from "../menu-item.model";
-import {ArticleItem} from "../../blog/article-item.model";
 
 
 @Component({
     selector: 'action-tools-component',
     templateUrl: '../../common/action-tools.html'
 })
-export class ActionToolsComponent implements OnInit {
+export class MenuListActionToolsComponent implements OnInit {
     public params: any;
     private actionButtonClassName: string;
 
@@ -57,7 +56,7 @@ export class ActionToolsComponent implements OnInit {
             .subscribe(
                 (menuItem: MenuItem) => {
                     this.serviceService.menuItemDeleted.emit(menuItem);
-                    console.log('onDeleteClick menuItem', menuItem);
+console.log('onDeleteClick menuItem', menuItem);
                 },
                 (error) => {
                     this.serviceService.errorMessage.emit(error);

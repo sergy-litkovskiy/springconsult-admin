@@ -1,16 +1,14 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ArticleItem} from "../article-item.model";
 import {ArticleService} from "../article.service";
-import {NguiMessagePopupComponent, NguiPopupComponent} from "@ngui/popup";
 import {Subscription} from 'rxjs/Subscription';
 import {ColumnApi, GridApi, GridOptions} from "ag-grid";
-import {ArticleListActionToolRendererComponent} from "./article-list.action-tool-renderer.component";
+import {ArticleListActionToolsComponent} from "./article-list.action-tools.component";
 
 @Component({
     selector: 'article-list',
     templateUrl: './article-list.component.html'
 })
-
 export class ArticleListComponent implements OnInit {
     articleItemList: ArticleItem[];
     rowData: any[];
@@ -25,11 +23,9 @@ export class ArticleListComponent implements OnInit {
 
     readonly frameworkComponents;
 
-    @ViewChild(NguiPopupComponent) popup: NguiPopupComponent;
-
     constructor(private articleService: ArticleService) {
         this.frameworkComponents = {
-            articleListActionToolRenderer: ArticleListActionToolRendererComponent
+            articleListActionToolsComponent: ArticleListActionToolsComponent
         };
 
         this.gridOptions = <GridOptions> {
@@ -69,7 +65,6 @@ console.log('this.articleService.errorMessage.subscribe!!!!!!!');
 
     ngOnInit() {
         this.articleItemList = this.articleService.getArticleItemList();
-        this.showErrorPopup('!!!!!error!!!!');
         if (!this.articleItemList.length) {
             this.articleListSubscription = this.articleService.getArticleItemListFromServer()
                 .subscribe(
@@ -80,6 +75,7 @@ console.log('this.articleService.errorMessage.subscribe!!!!!!!');
                         this.renderGrid();
                     },
                     (error) => {
+console.log('---ngOnInit: error');
                         this.showErrorPopup(error);
                     }
                 );
@@ -94,21 +90,19 @@ console.log('this.articleService.errorMessage.subscribe!!!!!!!');
         this.createColumnDefs();
     }
 
-    showErrorPopup(error: string) {
-        this.popup.open(NguiMessagePopupComponent, {
-            classNames: 'small',
-            title: 'ERROR',
-            message: error,
-            buttons: {
-                CLOSE: () => {
-                    this.popup.close();
-                }
-            }
-        });
+    private showErrorPopup(error: string) {
+//         let dialogRef = this.dialog.open(ModalErrorMessageComponent, {
+//             width: '250px',
+//             data: { message: error }
+//         });
+//
+//         dialogRef.afterClosed().subscribe(result => {
+// console.log('The dialog was closed - result', result);
+//         });
     }
 
     ngOnDestroy() {
-        console.log('article LIST - ON DESTROY');
+console.log('article LIST - ON DESTROY');
         if (this.articleListSubscription != undefined) {
             this.articleListSubscription.unsubscribe();
         }
@@ -193,7 +187,7 @@ console.log('this.articleService.errorMessage.subscribe!!!!!!!');
                 pinned: 'right',
                 suppressMenu: true,
                 suppressSorting: true,
-                cellRenderer: 'articleListActionToolRenderer'
+                cellRenderer: 'articleListActionToolsComponent'
             }
         ];
     }

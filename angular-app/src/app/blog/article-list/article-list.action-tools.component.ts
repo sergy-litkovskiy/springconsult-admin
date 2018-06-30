@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
     selector: 'action-tool-cell',
     templateUrl: '../../common/action-tools.html'
 })
-export class ArticleListActionToolRendererComponent implements ICellRendererAngularComp {
+export class ArticleListActionToolsComponent implements ICellRendererAngularComp {
     public params: any;
     private actionButtonClassName: string;
     public articleItem: ArticleItem;
@@ -57,7 +57,7 @@ export class ArticleListActionToolRendererComponent implements ICellRendererAngu
             .subscribe(
                 (articleItem: ArticleItem) => {
                     this.articleService.articleItemDeleted.emit(articleItem);
-                    console.log('onDeleteClick articleItem', articleItem);
+console.log('onDeleteClick articleItem', articleItem);
                 },
                 (error) => {
                     this.articleService.errorMessage.emit(error);

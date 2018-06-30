@@ -7,11 +7,13 @@ import {AppMainRoutingModule} from './app.routing.module';
 import {MenuModule} from "./menu/menu.module";
 import {BlogModule} from "./blog/blog.module";
 import {MatDialogModule} from "@angular/material";
-
+import {ModalErrorMessageComponent} from "./common/modal-error-message.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        ModalErrorMessageComponent
     ],
     imports: [
         BrowserModule,
@@ -19,7 +21,12 @@ import {MatDialogModule} from "@angular/material";
         MatDialogModule,
         AppMainRoutingModule,
         BlogModule,
-        MenuModule
+        MenuModule,
+        MatDialogModule,
+        BrowserAnimationsModule
+    ],
+    entryComponents: [
+        ModalErrorMessageComponent
     ],
     providers: [
         {
