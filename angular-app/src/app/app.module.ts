@@ -7,26 +7,27 @@ import {AppMainRoutingModule} from './app.routing.module';
 import {MenuModule} from "./menu/menu.module";
 import {BlogModule} from "./blog/blog.module";
 import {MatDialogModule} from "@angular/material";
-import {ModalErrorMessageComponent} from "./common/modal-error-message.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {OverlayModule} from "@angular/cdk/overlay";
+import {OverlayInfoComponent} from "./common/overlay.info.component";
 
 @NgModule({
     declarations: [
         AppComponent,
-        ModalErrorMessageComponent
+        OverlayInfoComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
-        MatDialogModule,
         AppMainRoutingModule,
         BlogModule,
         MenuModule,
         MatDialogModule,
+        OverlayModule,
         BrowserAnimationsModule
     ],
     entryComponents: [
-        ModalErrorMessageComponent
+        OverlayInfoComponent
     ],
     providers: [
         {
@@ -36,4 +37,5 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

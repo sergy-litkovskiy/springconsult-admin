@@ -36,6 +36,7 @@ export class MenuListActionToolsComponent implements OnInit {
 
     onStatusChangeClick(): void {
         this.menuItem.status = !+this.menuItem.status;
+console.log('onStatusChangeClick - this.menuItem', this.menuItem);
         this.serviceService.updateMenu(this.menuItem)
             .subscribe(
                 (response: any) => console.log('response', response),

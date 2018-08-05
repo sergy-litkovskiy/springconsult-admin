@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuService} from "../menu.service";
 import {Subscription} from "rxjs/Subscription";
-import {MatDialog} from "@angular/material";
-import {ModalErrorMessageComponent} from "../../common/modal-error-message.component";
 import 'rxjs/Rx';
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {OverlayInfoComponent} from "../../common/overlay.info.component";
 
 @Component({
     selector: 'menu-list',
@@ -14,11 +14,11 @@ export class MenuListComponent implements OnInit {
     nodes;
 
     private menuListSubscription: Subscription;
+    dialogRef: MatDialogRef<OverlayInfoComponent>;
 
-    constructor(private menuService: MenuService, public dialog: MatDialog) {
+    constructor(private menuService: MenuService, private dialog: MatDialog) {
         this.menuService.errorMessage.subscribe(
             (error: string) => {
-console.log('this.menuService.errorMessage.subscribe!!!!!!!');
                 this.showErrorPopup(error);
             }
         );
@@ -41,13 +41,9 @@ console.log('this.menuService.errorMessage.subscribe!!!!!!!');
     }
 
     private showErrorPopup(error: string) {
-        let dialogRef = this.dialog.open(ModalErrorMessageComponent, {
-            width: '250px',
+        this.dialogRef = this.dialog.open(OverlayInfoComponent, {
+            width: '400px',
             data: { message: error }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-console.log('The dialog was closed - result', result);
         });
     }
 

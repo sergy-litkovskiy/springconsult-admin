@@ -13,6 +13,7 @@ import {AppComponentCkeditorHelper} from "../app.component.ckeditor.helper";
 import {MenuService} from "../menu/menu.service";
 import {CommonModule} from "@angular/common";
 import {ArticleListActionToolsComponent} from "./article-list/article-list.action-tools.component";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {ArticleListActionToolsComponent} from "./article-list/article-list.actio
         NguiPopupModule,//TODO: remove
         FormsModule,
         PopoverModule,
+        OverlayModule,
         ReactiveFormsModule,
         DateTimePickerModule,
         AgGridModule.withComponents([ArticleListActionToolsComponent])

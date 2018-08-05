@@ -11,18 +11,6 @@
             [popover]="itemPopover">
         <i class="glyphicon glyphicon-remove"></i>
     </button>
-    <button type="button"
-            data-action-type="status"
-            [ngClass]="getButtonClassForStatusOn()"
-            (click)="onStatusChangeClick()">
-        <i class="glyphicon glyphicon-eye-open"></i>
-    </button>
-    <button type="button"
-            data-action-type="status"
-            [ngClass]="getButtonClassForStatusOff()"
-            (click)="onStatusChangeClick()">
-        <i class="glyphicon glyphicon-eye-close"></i>
-    </button>
     <popover-content
             #itemPopover
             title="Are you sure you want to DELETE the item?"
@@ -39,4 +27,16 @@
             </button>
         </div>
     </popover-content>
+    <button type="button"
+            data-action-type="status"
+            [ngClass]="getButtonClassForStatusOn()"
+            (click)="onStatusChangeClick()">
+        <i class="glyphicon glyphicon-eye-open"></i>
+    </button>
+    <button type="button"
+            data-action-type="status"
+            [ngClass]="getButtonClassForStatusOff()"
+            (click)="onStatusChangeClick()">
+        <i class="glyphicon glyphicon-eye-close"></i>
+    </button>
 </div>

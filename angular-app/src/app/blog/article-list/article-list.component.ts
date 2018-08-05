@@ -4,6 +4,8 @@ import {ArticleService} from "../article.service";
 import {Subscription} from 'rxjs/Subscription';
 import {ColumnApi, GridApi, GridOptions} from "ag-grid";
 import {ArticleListActionToolsComponent} from "./article-list.action-tools.component";
+import {OverlayInfoComponent} from "../../common/overlay.info.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
     selector: 'article-list',
@@ -23,7 +25,7 @@ export class ArticleListComponent implements OnInit {
 
     readonly frameworkComponents;
 
-    constructor(private articleService: ArticleService) {
+    constructor(private articleService: ArticleService, private dialog: MatDialog) {
         this.frameworkComponents = {
             articleListActionToolsComponent: ArticleListActionToolsComponent
         };
@@ -91,14 +93,10 @@ console.log('---ngOnInit: error');
     }
 
     private showErrorPopup(error: string) {
-//         let dialogRef = this.dialog.open(ModalErrorMessageComponent, {
-//             width: '250px',
-//             data: { message: error }
-//         });
-//
-//         dialogRef.afterClosed().subscribe(result => {
-// console.log('The dialog was closed - result', result);
-//         });
+        this.dialog.open(OverlayInfoComponent, {
+            width: '400px',
+            data: { message: error }
+        });
     }
 
     ngOnDestroy() {
@@ -115,7 +113,6 @@ console.log('article LIST - ON DESTROY');
             let articleItem = this.articleItemList[index];
 
             this.rowData.push({
-                id: articleItem.id,
                 date: articleItem.date,
                 title: articleItem.title,
                 slug: articleItem.slug,
@@ -128,6 +125,9 @@ console.log('article LIST - ON DESTROY');
     }
 
     private createColumnDefs() {
+        const validValueTmpl = `<span class="label label-success"><i class="glyphicon glyphicon-thumbs-up"></i></span>`;
+        const emptyValueTmpl = `<span class="label label-success"><i class="glyphicon glyphicon-thumbs-down"></i></span>`;
+
         this.columnDefs = [
             {
                 headerName: "Date",
@@ -138,12 +138,12 @@ console.log('article LIST - ON DESTROY');
             {
                 headerName: "Title",
                 field: "title",
-                width: 250
+                width: 300
             },
             {
                 headerName: "Slug",
                 field: "slug",
-                width: 150,
+                width: 200,
                 cellRenderer: function (params) {
                     return params.value;
                 }
@@ -152,18 +152,20 @@ console.log('article LIST - ON DESTROY');
                 headerName: "Meta Description",
                 field: "metaDescription",
                 cellRenderer: function (params) {
-                    return params.value;
+                    return params.value.length ? validValueTmpl : emptyValueTmpl;
                 }
             },
             {
                 headerName: 'Meta Keywords',
                 field: 'metaKeywords',
-                filter: 'metaKeywords'
+                cellRenderer: function (params) {
+                    return params.value.length ? validValueTmpl : emptyValueTmpl;
+                }
             },
             {
                 headerName: 'Assigned to',
                 field: 'assignedMenuList',
-                width: 120,
+                width: 150,
                 pinned: 'right',
                 cellRenderer: function (params) {
                     let menuListSize = params.value.length;

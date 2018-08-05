@@ -6,6 +6,7 @@ import {CommonModule} from "@angular/common";
 import {PopoverModule} from "ngx-popover";
 import {NguiPopupModule} from "@ngui/popup";
 import {MenuListActionToolsComponent} from "./menu-list/menu-list.action-tools.component";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {MenuListActionToolsComponent} from "./menu-list/menu-list.action-tools.c
         MenuRoutingModule,
         PopoverModule,
         NguiPopupModule,
+        OverlayModule
     ],
     providers: [
         MenuService
